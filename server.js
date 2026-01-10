@@ -347,6 +347,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// RUTA SECRETA PARA VER CORREOS Y USUARIOS
+app.get('/usuarios-registrados-secret', (req, res) => {
+  let html = '<h2>Lista de Usuarios Registrados</h2><ul>';
+  Object.keys(users).forEach(u => {
+    html += `<li><b>Usuario:</b> ${u} | <b>Email:</b> ${users[u].email || 'No tiene'}</li>`;
+  });
+  html += '</ul>';
+  if (Object.keys(users).length === 0) html = '<h2>No hay usuarios registrados todavía.</h2>';
+  res.send(html);
+});
+
 const PORT = process.env.PORT || 3000;
 
 // Manejo de errores globales para evitar "Status 1" sin info
