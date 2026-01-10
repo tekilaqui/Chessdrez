@@ -1,0 +1,19 @@
+{
+    "name": "chessdrez-render",
+    "version": "1.0.0",
+    "description": "Ajedrez Pro para Render",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "build": "echo 'No build step needed'"
+    },
+    "dependencies": {
+        "express": "^4.19.2",
+        "socket.io": "^4.7.5",
+        "cors": "^2.8.5",
+        "helmet": "^7.1.0",
+        "dotenv": "^16.4.5",
+        "jsonwebtoken": "^9.0.2",
+        "express-rate-limit": "^7.2.3"
+    }
+}
