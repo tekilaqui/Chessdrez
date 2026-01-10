@@ -108,6 +108,18 @@ app.use(helmet({
   crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
 }));
 app.use(express.json({ limit: '10kb' }));
+
+// RUTA SECRETA - MOVIDA AL PRINCIPIO PARA EVITAR CACHÉ O CONFLICTOS
+app.get('/usuarios-registrados-secret', (req, res) => {
+  console.log("🔍 Acceso a ruta secreta solicitado");
+  let html = '<h2>Lista de Usuarios Registrados</h2><ul>';
+  Object.keys(users).forEach(u => {
+    html += `<li><b>Usuario:</b> ${u} | <b>Email:</b> ${users[u].email || 'No tiene'}</li>`;
+  });
+  html += '</ul>';
+  if (Object.keys(users).length === 0) html = '<h2>No hay usuarios registrados todavía.</h2>';
+  res.send(html);
+});
 app.get('/*', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
@@ -345,17 +357,6 @@ app.get('/puzzles', (req, res) => {
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// RUTA SECRETA PARA VER CORREOS Y USUARIOS
-app.get('/usuarios-registrados-secret', (req, res) => {
-  let html = '<h2>Lista de Usuarios Registrados</h2><ul>';
-  Object.keys(users).forEach(u => {
-    html += `<li><b>Usuario:</b> ${u} | <b>Email:</b> ${users[u].email || 'No tiene'}</li>`;
-  });
-  html += '</ul>';
-  if (Object.keys(users).length === 0) html = '<h2>No hay usuarios registrados todavía.</h2>';
-  res.send(html);
 });
 
 const PORT = process.env.PORT || 3000;
