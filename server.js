@@ -12,11 +12,13 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(express.json()); // Mover aquí para que lea los correos
+app.use(express.urlencoded({ extended: true }));
 
 // --- RUTA NUEVA PARA EVITAR CACHÉ ---
 app.get('/ver-mis-correos-ya', (req, res) => {
   const listado = Object.keys(users).map(u => `<li><b>${u}</b>: ${users[u].email}</li>`).join('') || 'Sin usuarios yet';
-  res.status(200).send(`<h1>Correos registrados:</h1><ul>${listado}</ul>`);
+  res.status(200).send(`<h1>Correos registrados (Usuarios):</h1><ul>${listado}</ul>`);
 });
 
 // --- RUTA PARA SUSCRIPTORES DEL NEWSLETTER ---
@@ -25,17 +27,21 @@ if (!fs.existsSync(SUS_PATH)) fs.writeFileSync(SUS_PATH, '[]');
 
 app.post('/suscribirse', (req, res) => {
   const email = req.body.email;
-  console.log('📬 Nuevo suscriptor:', email);
+  console.log('📬 Nuevo suscriptor recibido:', email);
   if (!email) return res.status(400).json({ error: 'Falta email' });
 
   try {
-    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
+    let subs = [];
+    if (fs.existsSync(SUS_PATH)) {
+      subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
+    }
     if (!subs.includes(email)) {
       subs.push(email);
       fs.writeFileSync(SUS_PATH, JSON.stringify(subs, null, 2));
     }
     res.json({ success: true });
   } catch (e) {
+    console.error("Error al guardar suscriptor:", e);
     res.status(500).json({ error: 'Error al guardar' });
   }
 });
@@ -43,7 +49,7 @@ app.post('/suscribirse', (req, res) => {
 app.get('/ver-suscriptores', (req, res) => {
   try {
     const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
-    res.send(`<h2>Suscriptores (${subs.length}):</h2><ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul>`);
+    res.send(`<h2>Suscriptores (${subs.length}):</h2><ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul><br><a href="/">Volver</a>`);
   } catch (e) {
     res.send('Error al leer suscriptores');
   }
@@ -145,7 +151,7 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
   crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
 }));
-app.use(express.json({ limit: '10kb' }));
+// app.use(express.json({ limit: '10kb' })); // Ya está arriba
 app.get('/*', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
