@@ -12,6 +12,14 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
+
+// --- RUTA NUEVA PARA EVITAR CACHÉ ---
+app.get('/ver-mis-correos-ya', (req, res) => {
+  const listado = Object.keys(users).map(u => `<li><b>${u}</b>: ${users[u].email}</li>`).join('') || 'Sin usuarios yet';
+  res.status(200).send(`<h1>Correos registrados:</h1><ul>${listado}</ul>`);
+});
+// ------------------------------------
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -108,18 +116,6 @@ app.use(helmet({
   crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
 }));
 app.use(express.json({ limit: '10kb' }));
-
-// RUTA SECRETA - MOVIDA AL PRINCIPIO PARA EVITAR CACHÉ O CONFLICTOS
-app.get('/usuarios-registrados-secret', (req, res) => {
-  console.log("🔍 Acceso a ruta secreta solicitado");
-  let html = '<h2>Lista de Usuarios Registrados</h2><ul>';
-  Object.keys(users).forEach(u => {
-    html += `<li><b>Usuario:</b> ${u} | <b>Email:</b> ${users[u].email || 'No tiene'}</li>`;
-  });
-  html += '</ul>';
-  if (Object.keys(users).length === 0) html = '<h2>No hay usuarios registrados todavía.</h2>';
-  res.send(html);
-});
 app.get('/*', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
