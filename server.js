@@ -18,6 +18,36 @@ app.get('/ver-mis-correos-ya', (req, res) => {
   const listado = Object.keys(users).map(u => `<li><b>${u}</b>: ${users[u].email}</li>`).join('') || 'Sin usuarios yet';
   res.status(200).send(`<h1>Correos registrados:</h1><ul>${listado}</ul>`);
 });
+
+// --- RUTA PARA SUSCRIPTORES DEL NEWSLETTER ---
+const SUS_PATH = path.join(__dirname, 'suscriptores.json');
+if (!fs.existsSync(SUS_PATH)) fs.writeFileSync(SUS_PATH, '[]');
+
+app.post('/suscribirse', (req, res) => {
+  const email = req.body.email;
+  console.log('📬 Nuevo suscriptor:', email);
+  if (!email) return res.status(400).json({ error: 'Falta email' });
+
+  try {
+    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
+    if (!subs.includes(email)) {
+      subs.push(email);
+      fs.writeFileSync(SUS_PATH, JSON.stringify(subs, null, 2));
+    }
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Error al guardar' });
+  }
+});
+
+app.get('/ver-suscriptores', (req, res) => {
+  try {
+    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
+    res.send(`<h2>Suscriptores (${subs.length}):</h2><ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul>`);
+  } catch (e) {
+    res.send('Error al leer suscriptores');
+  }
+});
 // ------------------------------------
 
 const server = http.createServer(app);
@@ -254,11 +284,20 @@ io.on('connection', (socket) => {
   }
 
   socket.on('register', (data) => {
+    console.log('📝 Intento de registro recibido:', data);
     try {
-      if (!validateUsername(data.user)) return socket.emit('auth_error', 'Usuario inválido');
-      if (!validatePassword(data.pass)) return socket.emit('auth_error', 'Contraseña inválida');
-      if (!validateEmail(data.email)) return socket.emit('auth_error', 'Email inválido');
-      if (users[data.user]) return socket.emit('auth_error', 'El usuario ya existe');
+      if (!data.user || !data.pass || !data.email) {
+        console.log('❌ Datos incompletos');
+        return socket.emit('auth_error', 'Faltan datos');
+      }
+      if (!validateUsername(data.user)) {
+        console.log('❌ Usuario inválido:', data.user);
+        return socket.emit('auth_error', 'Usuario inválido (3-20 caracteres)');
+      }
+      if (users[data.user]) {
+        console.log('❌ El usuario ya existe:', data.user);
+        return socket.emit('auth_error', 'El usuario ya existe');
+      }
 
       const salt = crypto.randomBytes(32).toString('hex');
       const hash = hashPassword(data.pass, salt);
@@ -270,11 +309,12 @@ io.on('connection', (socket) => {
         stats: { wins: 0, losses: 0, draws: 0 }
       };
 
+      console.log('✅ Usuario guardado en memoria:', data.user);
       saveUsers();
       const token = generateToken(data.user);
       socket.emit('auth_success', { user: data.user, elo: 500, puzElo: 500, token });
     } catch (error) {
-      console.error('Error en registro:', error);
+      console.error('🔥 Error en registro:', error);
       socket.emit('auth_error', 'Error en el servidor');
     }
   });

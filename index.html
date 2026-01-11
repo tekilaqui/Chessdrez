@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +35,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -44,7 +46,7 @@
             font-size: 3.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
@@ -95,7 +97,7 @@
         button:hover {
             background: #ff5252;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .social-links {
@@ -128,21 +130,26 @@
 
         .particle {
             position: absolute;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             animation: float 15s infinite ease-in-out;
         }
 
         @keyframes float {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0) translateX(0);
             }
+
             25% {
                 transform: translateY(-100px) translateX(50px);
             }
+
             50% {
                 transform: translateY(-200px) translateX(-50px);
             }
+
             75% {
                 transform: translateY(-100px) translateX(100px);
             }
@@ -179,25 +186,21 @@
         }
     </style>
 </head>
+
 <body>
     <div class="particles" id="particles"></div>
-    
+
     <div class="container">
         <h1>Próximamente</h1>
         <p class="subtitle">Algo increíble está en camino</p>
         <p class="description">
-            Estamos trabajando duro para traerte algo especial. 
+            Estamos trabajando duro para traerte algo especial.
             Suscríbete para ser el primero en enterarte cuando lancemos.
         </p>
 
         <div class="newsletter">
             <form id="newsletterForm" class="input-group">
-                <input 
-                    type="email" 
-                    placeholder="Tu correo electrónico" 
-                    required
-                    id="emailInput"
-                >
+                <input type="email" placeholder="Tu correo electrónico" required id="emailInput">
                 <button type="submit">Notificarme</button>
             </form>
             <div class="message" id="message">
@@ -229,21 +232,32 @@
         }
 
         // Manejar el formulario
-        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        document.getElementById('newsletterForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
             const message = document.getElementById('message');
-            
-            // Aquí podrías conectar con un servicio real de newsletter
-            console.log('Email suscrito:', email);
-            
-            message.classList.add('success');
-            document.getElementById('emailInput').value = '';
-            
-            setTimeout(() => {
-                message.classList.remove('success');
-            }, 5000);
+
+            // Enviamos el correo al servidor
+            fetch('/suscribirse', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Servidor respondió:', data);
+                    message.textContent = "¡Gracias! Te notificaremos cuando estemos listos.";
+                    message.classList.add('success');
+                    document.getElementById('emailInput').value = '';
+                    setTimeout(() => { message.classList.remove('success'); }, 5000);
+                })
+                .catch(err => {
+                    console.error('Error al suscribir:', err);
+                    message.textContent = "Hubo un error, inténtalo de nuevo.";
+                    message.style.display = "block";
+                });
         });
     </script>
 </body>
+
 </html>
