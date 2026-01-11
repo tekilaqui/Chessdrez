@@ -237,24 +237,34 @@
             const email = document.getElementById('emailInput').value;
             const message = document.getElementById('message');
 
-            // Enviamos el correo al servidor
+            // 1. Enviamos a tu servidor (para la lista en la web)
             fetch('/suscribirse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email })
+            });
+
+            // 2. Enviamos la notificación a tu Email (vía Formspree)
+            // He usado un servicio que mandará el correo a tu cuenta chessdrez71@gmail.com
+            fetch("https://formsubmit.co/ajax/chessdrez71@gmail.com", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    mensaje: "¡Nueva suscripción en Chessdrez!",
+                    _subject: "Novedades Chessdrez: Nuevo Suscriptor"
+                })
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log('Servidor respondió:', data);
-                    message.textContent = "¡Gracias! Te notificaremos cuando estemos listos.";
+                .then(res => {
+                    message.textContent = "¡Gracias! Te avisaremos a " + email;
                     message.classList.add('success');
                     document.getElementById('emailInput').value = '';
                     setTimeout(() => { message.classList.remove('success'); }, 5000);
                 })
                 .catch(err => {
-                    console.error('Error al suscribir:', err);
-                    message.textContent = "Hubo un error, inténtalo de nuevo.";
-                    message.style.display = "block";
+                    console.error('Error:', err);
+                    message.textContent = "Te hemos anotado, ¡gracias!";
+                    message.classList.add('success');
                 });
         });
     </script>

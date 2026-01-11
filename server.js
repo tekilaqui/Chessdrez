@@ -49,9 +49,28 @@ app.post('/suscribirse', (req, res) => {
 app.get('/ver-suscriptores', (req, res) => {
   try {
     const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
-    res.send(`<h2>Suscriptores (${subs.length}):</h2><ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul><br><a href="/">Volver</a>`);
+    res.send(`
+      <h2>Suscriptores (${subs.length}):</h2>
+      <ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul>
+      <br>
+      <a href="/descargar-suscriptores" style="padding:10px; background:green; color:white; text-decoration:none; border-radius:5px;">Descargar como TXT</a>
+      <br><br>
+      <a href="/">Volver</a>
+    `);
   } catch (e) {
     res.send('Error al leer suscriptores');
+  }
+});
+
+app.get('/descargar-suscriptores', (req, res) => {
+  try {
+    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
+    res.setHeader('Content-disposition', 'attachment; filename=suscriptores.txt');
+    res.setHeader('Content-type', 'text/plain');
+    res.write(subs.join('\n'));
+    res.end();
+  } catch (e) {
+    res.status(500).send('Error');
   }
 });
 // ------------------------------------
