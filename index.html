@@ -3,269 +3,137 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Próximamente</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chess Drez | Próximamente</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 600px;
-            animation: fadeIn 1s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.85;
-        }
-
-        .newsletter {
-            margin-top: 2rem;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        input[type="email"] {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        button {
-            padding: 1rem 2rem;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .social-links {
-            margin-top: 3rem;
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            transform: scale(1.2);
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0) translateX(0);
-            }
-
-            25% {
-                transform: translateY(-100px) translateX(50px);
-            }
-
-            50% {
-                transform: translateY(-200px) translateX(-50px);
-            }
-
-            75% {
-                transform: translateY(-100px) translateX(100px);
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .input-group {
-                flex-direction: column;
-            }
-
-            button {
-                width: 100%;
-            }
-        }
-
-        .message {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .message.success {
-            background: rgba(76, 175, 80, 0.3);
-            display: block;
-        }
-    </style>
+    <!-- LIBRERÍAS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="particles" id="particles"></div>
-
-    <div class="container">
-        <h1>Próximamente</h1>
-        <p class="subtitle">Algo increíble está en camino</p>
-        <p class="description">
-            Estamos trabajando duro para traerte algo especial.
-            Suscríbete para ser el primero en enterarte cuando lancemos.
-        </p>
-
-        <div class="newsletter">
-            <form id="newsletterForm" class="input-group">
-                <input type="email" placeholder="Tu correo electrónico" required id="emailInput">
-                <button type="submit">Notificarme</button>
-            </form>
-            <div class="message" id="message">
-                ¡Gracias! Te notificaremos cuando estemos listos.
+    <header class="app-header">
+        <div class="header-left">
+            <div id="hamburger-menu">☰</div>
+            <div class="logo-area">
+                <img src="logo.jpg" alt="Logo" class="logo-img">
+                <span class="logo-text">Chess <span class="accent-text">Drez</span></span>
             </div>
         </div>
 
-        <div class="social-links">
-            <a href="#" title="Facebook">📘</a>
-            <a href="#" title="Twitter">🐦</a>
-            <a href="#" title="Instagram">📷</a>
-            <a href="#" title="LinkedIn">💼</a>
+        <nav class="header-center desktop-only">
+            <div class="nav-center-link active">Inicio</div>
+            <div class="nav-center-link">Jugar</div>
+            <div class="nav-center-link">Aprender</div>
+            <div class="nav-center-link">Tácticas</div>
+        </nav>
+
+        <div class="header-right">
+            <div class="user-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Estado</span>
+                    <span class="stat-val" style="color:var(--warning)">BETA</span>
+                </div>
+            </div>
+            <div class="auth-btn">👤 Acceder</div>
         </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- SIDEBAR IZQUIERDA -->
+        <nav class="sidebar">
+            <div class="nav-links">
+                <div class="nav-item active" id="nav-home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Inicio</span>
+                </div>
+                <div class="nav-item" id="nav-jugar">
+                    <span class="nav-icon">⚔️</span>
+                    <span class="nav-text">Jugar</span>
+                </div>
+                <div class="nav-item" id="nav-aprender">
+                    <span class="nav-icon">🎓</span>
+                    <span class="nav-text">Aprender</span>
+                </div>
+                <div class="nav-item" id="nav-tacticas">
+                    <span class="nav-icon">🧩</span>
+                    <span class="nav-text">Tácticas</span>
+                </div>
+                <div class="nav-item" id="nav-aperturas">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">Aperturas</span>
+                </div>
+                <div class="nav-item" id="nav-analisis">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Análisis</span>
+                </div>
+            </div>
+
+            <div class="sidebar-bottom">
+                <!-- Settings placeholder -->
+            </div>
+        </nav>
+
+        <!-- ZONA DE JUEGO (CENTRO) -->
+        <main class="game-zone">
+            <!-- Menús Emergentes / Submenús -->
+            <div id="submenus-container" style="display:block; width:100%; max-width:None;">
+                <div class="menu-step active" id="menu-home" style="display:block;">
+                    <div class="hero-section">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Domina el Tablero con <span class="accent-text">Chess Drez</span>
+                            </h1>
+                            <p class="hero-subtitle">La plataforma de ajedrez definitiva para aprender, entrenar y
+                                competir con tecnología de vanguardia.</p>
+
+                            <ul class="hero-features-list">
+                                <li>✨ Motor Stockfish 16 Core</li>
+                                <li>📊 Análisis Multi-línea en tiempo real</li>
+                                <li>🧩 +2,800 Puzzles Tácticos</li>
+                                <li>⚔️ Partidas Online y Locales</li>
+                            </ul>
+
+                            <div class="hero-actions">
+                                <button class="btn-hero-primary">Coming Soon</button>
+                                <button class="btn-hero-secondary">Próximamente</button>
+                            </div>
+
+                            <div class="quick-stats-row">
+                                <div class="q-stat-card">
+                                    <span class="q-val">2.8k+</span>
+                                    <span class="q-lab">Puzzles</span>
+                                </div>
+                                <div class="q-stat-card">
+                                    <span class="q-val">100%</span>
+                                    <span class="q-lab">Gratis</span>
+                                </div>
+                                <div class="q-stat-card">
+                                    <span class="q-val">Stockfish 16</span>
+                                    <span class="q-lab">Motor IA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="hero-board-preview forming">
+                                <img src="chess_hero_preview_1768212300481.png" alt="Preview" class="hero-img-preview">
+                                <div class="hero-scanner-line"></div>
+                                <div class="hero-glass-badge">Powered by AI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
+    <!-- Script simple para activar la animación al cargar -->
     <script>
-        // Crear partículas animadas
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.width = Math.random() * 100 + 50 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // Manejar el formulario
-        document.getElementById('newsletterForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value;
-            const message = document.getElementById('message');
-
-            // 1. Enviamos a tu servidor (para la lista en la web)
-            fetch('/suscribirse', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email })
-            });
-
-            // 2. Enviamos la notificación a tu Email (vía Formspree)
-            // He usado un servicio que mandará el correo a tu cuenta chessdrez71@gmail.com
-            fetch("https://formsubmit.co/ajax/chessdrez71@gmail.com", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({
-                    email: email,
-                    mensaje: "¡Nueva suscripción en Chessdrez!",
-                    _subject: "Novedades Chessdrez: Nuevo Suscriptor"
-                })
-            })
-                .then(res => {
-                    message.textContent = "¡Gracias! Te avisaremos a " + email;
-                    message.classList.add('success');
-                    document.getElementById('emailInput').value = '';
-                    setTimeout(() => { message.classList.remove('success'); }, 5000);
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                    message.textContent = "Te hemos anotado, ¡gracias!";
-                    message.classList.add('success');
-                });
+        $(document).ready(function () {
+            // Trigger animation on load
+            setTimeout(function () {
+                $('.hero-board-preview').addClass('forming');
+            }, 100);
         });
     </script>
 </body>
