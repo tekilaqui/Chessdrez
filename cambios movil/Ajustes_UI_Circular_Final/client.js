@@ -20,19 +20,44 @@ var openingSubMode = null; // 'theory', 'training', 'exercises'
 var game = new Chess();
 var board = null;
 
-// Socket logic handled by auth.js
-var socket = window.socket; // Reference global socket
+// Auto-detect server URL
+var socketUrl = (window.location.protocol === 'file:')
+    ? 'http://localhost:3000'
+    : window.location.origin;
 
-if (!socket) {
-    console.warn("Socket not initialized by auth.js, using dummy.");
-    socket = { on: () => { }, emit: () => { }, connected: false };
-}
+var storedToken = localStorage.getItem('chess_token');
+var socket = null;
+try {
+    if (typeof io !== 'undefined') {
+        socket = io(socketUrl, {
+            auth: { token: storedToken },
+            transports: ['websocket', 'polling']
+        });
+    } else {
+        console.warn("Socket.io not loaded. Offline mode forced.");
+        // Dummy socket to prevent crashes
+        socket = {
+            on: function () { },
+            emit: function () { },
+            connected: false
+        };
+    }
+} catch (e) { console.error(e); }
 
 socket.on('connect', () => {
-    console.log("✅ Socket (Client) Connected");
+    console.log("✅ Socket conectado:", socket.id);
 });
 
+socket.on('connect_error', (err) => {
+    console.error("❌ Error de conexión socket:", err.message);
+});
 
+const openAuth = () => {
+    console.log("Opening auth modal...");
+    $('#auth-modal').css('display', 'flex');
+    $('#side-drawer').removeClass('open');
+    $('#side-drawer-overlay').fadeOut();
+};
 
 const showToast = (msg, icon = '✅', type = 'default') => {
     // Redirección para Tácticas: si estamos en modo ejercicios, enviamos el aviso al panel lateral
@@ -90,8 +115,12 @@ var puzTimerInterval = null;
 
 var currentPuzzle = null;
 var puzzleStep = 0;
-// SISTEMA ELO & AUTH (Handled by auth.js)
-// window.userElo, window.userName etc are used.
+var userPuzzleElo = parseInt(localStorage.getItem('chess_puz_elo')) || 500;
+
+// SISTEMA ELO & AUTH
+var userElo = parseInt(localStorage.getItem('chess_user_elo')) || 500;
+var userName = localStorage.getItem('chess_username') || "Invitado";
+var isAuth = localStorage.getItem('chess_is_auth') === 'true';
 
 // SOUND SYSTEM
 var lastAIProcessedMove = null; // Para evitar repetir peticiones de IA en la misma jugada
@@ -870,14 +899,7 @@ function handleStockfishAnalysis(l) {
             }
 
             if (!window.topMoves) window.topMoves = [];
-
-            // Convertir LAN a SAN para mejor visualización
-            let sanMove = firstMove;
-            const tempG = new Chess(game.fen());
-            const mObj = tempG.move({ from: firstMove.substring(0, 2), to: firstMove.substring(2, 4), promotion: firstMove[4] || 'q' });
-            if (mObj) sanMove = mObj.san;
-
-            window.topMoves[idx - 1] = { move: sanMove, lan: firstMove, score: scoreStr };
+            window.topMoves[idx - 1] = { move: firstMove, score: scoreStr };
 
             // Asynchronous rendering of top moves
             updateBestMovesAsync();
@@ -893,8 +915,8 @@ function handleStockfishAnalysis(l) {
             const theoryMove = moves[historyLen];
             const m = game.move(theoryMove);
             if (m) {
-                recordHistoryState(m); // Sincronizar historial
                 board.position(game.fen());
+                playSnd('move');
                 updateUI(true);
                 return;
             }
@@ -935,7 +957,6 @@ function handleStockfishAnalysis(l) {
         setTimeout(() => {
             const moveObj = game.move({ from: bestMove.substring(0, 2), to: bestMove.substring(2, 4), promotion: 'q' });
             if (moveObj) {
-                recordHistoryState(moveObj); // Sincronizar historial
                 board.position(game.fen());
                 updateUI(true);
                 updateMaestroInsight(detectOpeningTheory());
@@ -1192,7 +1213,7 @@ function updateCoachDashboard(quality, theory, tactical, bestMove, ev, isMate, m
 }
 
 // VISUAL SETTINGS
-window.showBestMoves = false;
+window.showBestMoves = true;
 
 window.toggleBestMoves = function (val) {
     window.showBestMoves = val;
@@ -1263,30 +1284,21 @@ window.applySuggestedMove = function (lan) {
 
     // Only allow if it's player's turn or we are in analysis/study mode
     const isPlayerTurn = game.turn() === myColor;
-    const isFreeMode = currentMode === 'study' || currentMode === 'pass-and-play' || (currentMode === 'local' && !gameId);
+    const isFreeMode = currentMode === 'study' || currentMode === 'pass-and-play' || currentMode === 'local' && !gameId;
 
     if (currentMode === 'ai' && !isPlayerTurn) {
         showToast('Espera tu turno', 'clock');
         return;
     }
 
-    // Soporte para SAN y LAN
-    let m;
-    if (lan.length === 4 || (lan.length === 5 && !isNaN(lan[4]))) {
-        // Probablemente LAN (e2e4)
-        const from = lan.substring(0, 2);
-        const to = lan.substring(2, 4);
-        const promo = lan.length > 4 ? lan[4] : 'q';
-        m = game.move({ from: from, to: to, promotion: promo });
-    } else {
-        // Probablemente SAN (Nf3)
-        m = game.move(lan);
-    }
+    const from = lan.substring(0, 2);
+    const to = lan.substring(2, 4);
+    const promo = lan.length > 4 ? lan[4] : 'q';
 
+    const m = game.move({ from: from, to: to, promotion: promo });
     if (m) {
-        recordHistoryState(m); // Nuevo helper para sincronizar flechas
         board.position(game.fen());
-        // El sonido lo gestionará updateUI(true)
+        playSnd('move');
         updateUI(true);
 
         // If vs AI, trigger response
@@ -1296,31 +1308,14 @@ window.applySuggestedMove = function (lan) {
     }
 };
 
-// HELPER CENTRAL PARA HISTORIAL (Navegación con flechas)
-function recordHistoryState(move) {
-    if (!window.historyPositions) window.historyPositions = ['start'];
-    if (!window.moveHistoryGlobal) window.moveHistoryGlobal = [];
-
-    // Si estamos en medio del historial, truncar el futuro antes de añadir nueva rama
-    if (currentHistoryIndex < historyPositions.length - 1) {
-        historyPositions = historyPositions.slice(0, currentHistoryIndex + 1);
-        moveHistoryGlobal = moveHistoryGlobal.slice(0, currentHistoryIndex);
-    }
-
-    historyPositions.push(game.fen());
-    if (move) moveHistoryGlobal.push(move.san || move);
-    currentHistoryIndex = historyPositions.length - 1;
-}
-
 function updateTopMovesUI() {
     if (!window.showBestMoves) return; // Respect toggle
     if (!window.topMoves) return;
     let html = '';
     window.topMoves.forEach((m, i) => {
         if (!m) return;
-        const mToExecute = m.lan || m.move; // Usar LAN si está disponible para ejecución precisa
         html += `
-            <div class="move-item" onclick="applySuggestedMove('${mToExecute}')" style="cursor:pointer;" title="Haz clic para jugar este movimiento">
+            <div class="move-item" onclick="applySuggestedMove('${m.move}')" style="cursor:pointer;" title="Haz clic para jugar este movimiento">
                 <span><b style="color:var(--text-dim)">${i + 1}.</b> <span class="move-san">${m.move}</span></span>
                 <span class="move-eval" style="color:var(--primary); font-weight:800">${m.score > 0 ? '+' : ''}${m.score}</span>
             </div>
@@ -2055,9 +2050,6 @@ function onDrop(source, target) {
     var move = game.move({ from: source, to: target, promotion: 'q' });
     if (!move) return 'snapback';
 
-    // Sincronizar historial para navegación con flechas
-    recordHistoryState(move);
-
     // AVISOS Y LÓGICA DE APERTURA (MODO ENTRENAMIENTO)
     if (openingSubMode === 'training' && currentOpening) {
         const moves = currentOpening.moves || currentOpening.m;
@@ -2316,18 +2308,6 @@ $(document).ready(() => {
     $('#btn-nav-prev').click(() => navigateHistory('prev'));
     $('#btn-nav-next').click(() => navigateHistory('next'));
     $('#btn-nav-last').click(() => navigateHistory('last'));
-
-    // Event Listeners for Sidebar
-    // Bind openAuth to user profile if not logged in
-    $('#drawer-user-card, #btn-auth-trigger').click(() => {
-        if (!isAuth) {
-            openAuth();
-        }
-    });
-
-    $('#sidebar-toggle-sound').change(function () {
-        window.createOnlineChallenge(true); // true means from sidebar
-    });
 
     // Online / Local Logic
     $('#btn-create').click(function () {
@@ -3098,8 +3078,8 @@ window.makeAIMove = function () {
                 const nextBookMove = movesArr[currentMIndices];
                 const m = game.move(nextBookMove);
                 if (m) {
-                    recordHistoryState(m); // Sincronizar historial
                     board.position(game.fen());
+                    playSnd(m.flags.includes('c') ? 'capture' : 'move');
                     updateUI(true);
                     syncOpeningSubModeUI(); // Update comments after AI book move
                 }
@@ -3218,7 +3198,27 @@ $('#btn-next-puz').click(() => loadRandomPuzzle());
 $('#puz-cat-sel').change(() => loadRandomPuzzle());
 $('#header-elo-puz, #puz-elo-display').text(userPuzzleElo + "🧩");
 
-// AUTH LOGIC moved to auth.js
+// AUTH LOGIC
+$('#btn-auth-trigger, #btn-auth-drawer').click(openAuth);
+$('#btn-auth-close').click(() => $('#auth-modal').hide());
+$('#auth-switch').click(function () {
+    const currentTitle = $('#auth-title').text();
+    const isLogin = currentTitle === "INICIAR SESIÓN";
+
+    if (isLogin) {
+        // Switch to Register
+        $('#auth-title').text("REGISTRARSE");
+        $('#btn-auth-submit').text("REGISTRAR");
+        $('#reg-group').css('display', 'block'); // Force show
+        $(this).html("¿Ya tienes cuenta? <span style='color:var(--accent)'>Entra</span>");
+    } else {
+        // Switch to Login
+        $('#auth-title').text("INICIAR SESIÓN");
+        $('#btn-auth-submit').text("ENTRAR");
+        $('#reg-group').css('display', 'none'); // Force hide
+        $(this).html("¿No tienes cuenta? <span style='color:var(--accent)'>Regístrate</span>");
+    }
+});
 
 // GAME CONFIG STATE
 let gameConfig = {
@@ -3308,7 +3308,99 @@ $(document).ready(() => {
 });
 
 // AUTH HELPERS
-// Auth functions moved to auth.js to prevent interference
+window.switchAuthMode = function (mode) {
+    $('.auth-tab-btn').removeClass('active');
+
+    if (mode === 'login') {
+        $('.auth-tab-btn:first-child').addClass('active');
+        $('#group-email').slideUp();
+        $('#btn-auth-submit').text("ENTRAR");
+        $('#remember-me-row').slideDown();
+    } else {
+        $('.auth-tab-btn:last-child').addClass('active');
+        $('#group-email').slideDown();
+        $('#btn-auth-submit').text("CREAR CUENTA");
+        $('#remember-me-row').slideUp();
+    }
+};
+
+window.togglePasswordVisibility = function (id) {
+    const input = document.getElementById(id);
+    if (input.type === "password") {
+        input.type = "text";
+        $(input).next('.password-toggle').text("🙈"); // Monkey covering eyes or crossed eye
+    } else {
+        input.type = "password";
+        $(input).next('.password-toggle').text("👁️");
+    }
+};
+
+const updateAuthUI = () => {
+    // Check Remember Me persistence first
+    const rememberedUser = localStorage.getItem('chess_remembered_user');
+    if (rememberedUser && !localStorage.getItem('chess_is_auth')) {
+        $('#auth-user').val(rememberedUser);
+        $('#auth-remember').prop('checked', true);
+    }
+
+    if (localStorage.getItem('chess_is_auth') === 'true') {
+        isAuth = true;
+        userName = localStorage.getItem('chess_username');
+        userElo = parseInt(localStorage.getItem('chess_user_elo')) || 500;
+        userPuzzleElo = parseInt(localStorage.getItem('chess_puz_elo')) || 500;
+
+        $('#btn-auth-trigger').text("👤 " + userName);
+        $('#my-name-display').text(userName);
+        $('#btn-auth-drawer').text("CERRAR SESIÓN").off('click').click(() => {
+            // Only clear critical auth flags, maybe keep remembered user if checked? 
+            // For now standard logout
+            localStorage.removeItem('chess_token');
+            localStorage.removeItem('chess_is_auth');
+            location.reload();
+        });
+        $('#drawer-user-name').text(userName);
+        $('#drawer-user-elo, #header-elo').text(userElo + " ELO");
+        $('#header-elo-puz, #puz-elo-display').text(userPuzzleElo + "🧩");
+    }
+};
+
+$('.mode-pill').on('click', function () {
+    const mode = $(this).data('mode');
+    if (mode === 'ai') $('#opp-name').text('Stockfish');
+    else if (mode === 'local') $('#opp-name').text('Oponente Online');
+    else $('#opp-name').text('Oponente');
+});
+
+// Unified Auth Handler
+$('#btn-auth-submit').click(() => {
+    const name = $('#auth-user').val().trim();
+    const pass = $('#auth-pass').val().trim();
+    const email = $('#auth-email').val().trim();
+    // Check mode based on visibility of email field
+    const isRegister = $('#group-email').is(':visible');
+
+    if (!name || !pass) return alert("Por favor introduce usuario y contraseña.");
+    if (isRegister && !email) return alert("Por favor introduce tu email.");
+
+    if (isRegister) {
+        // Registration Logic
+        // Validate Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) return alert("Email no válido.");
+
+        if (socket) socket.emit('register', { user: name, pass: pass, email: email });
+    } else {
+        // Login Logic
+        if (socket) socket.emit('login', { user: name, pass: pass });
+
+        // Handle Remember Me (Optimistic save, ideally should be after success response)
+        if ($('#auth-remember').is(':checked')) {
+            localStorage.setItem('chess_remembered_user', name);
+        } else {
+            localStorage.removeItem('chess_remembered_user');
+        }
+    }
+});
 
 
 socket.on('auth_success', (data) => {
@@ -3446,9 +3538,6 @@ $(document).ready(() => {
     // Sync initial state for best moves pill
     if (window.showBestMoves) $('#mobile-pill-best-move').addClass('active');
     else $('#mobile-pill-best-move').removeClass('active');
-
-    // Auth UI Init
-    if (window.updateAuthUI) window.updateAuthUI();
 });
 
 var studyMoves = [];
@@ -4448,7 +4537,13 @@ if (typeof originalUpdatePuzzleStats === 'function') {
 // --- PERFORMANCE MONITOR (Solución #1) ---
 // --- ACADEMY LOGIC ---
 window.renderAcademy = function () {
-    // Eliminada restricción de registro para permitir acceso a invitados
+    if (!isAuth) {
+        $('#academy-auth-notice').show();
+        $('#academy-lessons-grid').html('<div style="text-align:center; padding:40px; color:var(--text-dim); width:100%;">Registrate para desbloquear la academia.</div>');
+        $('#academy-placement-box').hide();
+        return;
+    }
+
     $('#academy-auth-notice').hide();
     $('#academy-placement-box').show();
 

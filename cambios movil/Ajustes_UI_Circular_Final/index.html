@@ -24,12 +24,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="components.css">
-    <link rel="stylesheet" href="mobile-nav.css">
+    <link rel="stylesheet" href="src/styles/components.css">
+    <link rel="stylesheet" href="src/styles/mobile-nav.css">
     <link rel="stylesheet" href="board_stability.css">
     <link rel="stylesheet" href="academy.css">
     <link rel="stylesheet" href="mobile_tabs.css">
-    <link rel="stylesheet" href="auth_styles.css">
 </head>
 
 <body>
@@ -535,10 +534,6 @@
                 </div>
 
                 <div class="menu-step" id="menu-academy">
-                    <div class="menu-header-mobile">
-                        <button class="btn-back-arrow" onclick="goBackToMenu()">←</button>
-                        <h3 class="menu-title">Academia de Campeones</h3>
-                    </div>
                     <div class="academy-container">
                         <div class="academy-hero">
                             <h1 class="academy-title">Academia de Campeones</h1>
@@ -1135,17 +1130,6 @@
                     <div id="opp-timer" class="timer-display">10:00</div>
                 </div>
 
-                <div class="drawer-user-card" id="drawer-user-card" onclick="handleProfileClick()">
-                    <div class="drawer-user-avatar">
-                        <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Avatar">
-                    </div>
-                    <div class="drawer-user-info">
-                        <span id="drawer-user-name">Invitado</span>
-                        <div class="drawer-user-stats">
-                            <span id="drawer-user-elo">500 ELO</span> · <span id="puz-elo-display">500🧩</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="board-container">
                     <div class="eval-bar-vertical">
                         <div id="eval-fill-master" class="eval-fill"></div>
@@ -1538,74 +1522,45 @@
 
     <!-- MODALES AUTH -->
     <div class="modal-overlay" id="auth-modal">
-        <div class="modal-card auth-card">
-            <div class="auth-header">
-                <h2 id="auth-title">Bienvenido a Chess Tricks</h2>
-                <p id="auth-subtitle">Inicia sesión para guardar tu progreso</p>
-            </div>
-
+        <div class="modal-card">
             <div class="auth-tabs">
-                <button class="auth-tab-btn active" onclick="switchAuthMode('login')">ENTRAR</button>
-                <button class="auth-tab-btn" onclick="switchAuthMode('register')">UNIRSE</button>
+                <button class="auth-tab-btn active" onclick="switchAuthMode('login')">INICIAR SESIÓN</button>
+                <button class="auth-tab-btn" onclick="switchAuthMode('register')">REGISTRARSE</button>
             </div>
 
             <div id="auth-form-content">
-                <!-- Social Login Section -->
-                <div class="social-auth">
-                    <button class="btn-google-auth" onclick="handleGoogleLogin()">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                        Continuar con Google
-                    </button>
-                    <div class="auth-divider">
-                        <span>o accede con</span>
-                    </div>
-                </div>
-
                 <div class="input-group">
-                    <label id="label-user">USUARIO O EMAIL</label>
+                    <label>USUARIO</label>
                     <div class="input-container">
-                        <i class="input-icon">👤</i>
-                        <input type="text" id="auth-user" placeholder="Nombre o email">
+                        <input type="text" id="auth-user" placeholder="Tu nombre de usuario">
                     </div>
                 </div>
 
                 <div class="input-group" id="group-email" style="display:none;">
                     <label>EMAIL</label>
                     <div class="input-container">
-                        <i class="input-icon">📧</i>
                         <input type="email" id="auth-email" placeholder="ejemplo@email.com">
-                    </div>
-                </div>
-
-                <div class="input-group" id="group-phone" style="display:none;">
-                    <label>TELÉFONO (Opcional)</label>
-                    <div class="input-container">
-                        <i class="input-icon">📱</i>
-                        <input type="tel" id="auth-phone" placeholder="+34 600 000 000">
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>CONTRASEÑA</label>
                     <div class="input-container">
-                        <i class="input-icon">🔒</i>
                         <input type="password" id="auth-pass" placeholder="******">
                         <span class="password-toggle" onclick="togglePasswordVisibility('auth-pass')">👁️</span>
                     </div>
                 </div>
 
                 <div class="remember-me-container" id="remember-me-row">
-                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size: 0.85rem;">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
                         <input type="checkbox" id="auth-remember">
-                        Recordarme en este dispositivo
+                        Recordarme
                     </label>
                 </div>
             </div>
 
-            <div class="auth-actions">
-                <button class="btn-primary-auth" id="btn-auth-submit" onclick="submitAuth()">ENTRAR AHORA</button>
-                <button class="btn-ghost" onclick="$('#auth-modal').fadeOut()">Cerrar</button>
-            </div>
+            <button class="btn-primary-auth" id="btn-auth-submit">ENTRAR</button>
+            <button class="btn-secondary" onclick="$('#auth-modal').fadeOut()">CANCELAR</button>
         </div>
     </div>
 
@@ -1677,10 +1632,10 @@
             <span class="nav-label">Análisis</span>
         </div>
     </nav>
+
     <script src="academy_data.js"></script>
     <script src="ai_module.js"></script>
-    <script src="auth.js"></script>
-    <script src="client.js?v=3"></script>
+    <script src="client.js?v=2"></script>
     <!-- MODAL DE INFORME DE PARTIDA -->
     <div id="game-report-modal" class="modal-overlay">
         <div class="modal-card report-card">

@@ -155,5 +155,46 @@ window.updateAuthUI = function () {
     }
 };
 
+// Initialize Auth Events Safe Mode
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("🔗 Auth Module: DOM Content Loaded - Initializing Events");
+
+    const submitBtn = document.getElementById('btn-auth-submit');
+    if (submitBtn) {
+        // Remove old listeners to be safe (clone node trick or just add new one)
+        // We will just add a new robust one.
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("🖱️ CLICK DETECTED on Native Listener");
+            window.submitAuth();
+        });
+        console.log("✅ Submit Button Listener Attached via Native JS");
+    } else {
+        console.error("❌ CRTICAL: Submit Button NOT FOUND in DOM");
+    }
+
+    // Attach User Profile Click Logic
+    const profileCard = document.getElementById('drawer-user-card');
+    if (profileCard) {
+        profileCard.addEventListener('click', (e) => {
+            console.log("👤 Profile Card Clicked");
+            window.handleProfileClick();
+        });
+    }
+
+    // Attach Header Auth Button
+    const headerAuthBtn = document.getElementById('btn-auth-trigger');
+    if (headerAuthBtn) {
+        headerAuthBtn.addEventListener('click', () => {
+            console.log("🔓 Header Button Clicked");
+            window.openAuth();
+        });
+    }
+
+    // Auth UI Init
+    if (window.updateAuthUI) window.updateAuthUI();
+});
+
 // Auto-run on load to verify
-console.log("✅ Auth Module Loaded");
+console.log("✅ Auth Module Loaded (v2 - Event Listeners)");
