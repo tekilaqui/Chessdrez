@@ -43,14 +43,16 @@ const authLimiter = rateLimit({
   },
   crossOriginResourcePolicy: { policy: "cross-origin" }
 })); */
+app.use(express.static(__dirname, { dotfiles: 'allow' })); // Static files first
+
 app.use(express.json({ limit: '10kb' }));
-app.get('/*', (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+// Custom cache headers mainly for API/Dynamic routes, avoid blocking static
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html') || req.path === '/') {
+    res.setHeader('Cache-Control', 'no-cache');
+  }
   next();
 });
-app.use(express.static(__dirname, { dotfiles: 'allow' }));
 app.use('/login', authLimiter);
 app.use('/register', authLimiter);
 
