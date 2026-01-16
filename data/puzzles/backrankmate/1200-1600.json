@@ -1,0 +1,43 @@
+[
+  {
+    "id": "003Tx",
+    "fen": "2r5/pR5p/5p1k/4p3/4r3/B4nPP/PP3P2/1K2R3 w - - 0 27",
+    "solution": [
+      "e1e4",
+      "f3d2",
+      "b1a1",
+      "c8c1"
+    ],
+    "rating": 1529,
+    "themes": "backRankMate endgame fork mate mateIn2 short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00Bg4",
+    "fen": "3r2k1/1q3ppp/p2rp3/Qp1B4/7P/P4P2/1PP3P1/1K1R3R b - - 0 21",
+    "solution": [
+      "d6d5",
+      "a5d8",
+      "d5d8",
+      "d1d8"
+    ],
+    "rating": 1370,
+    "themes": "backRankMate endgame mate mateIn2 short xRayAttack",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00Aq4",
+    "fen": "2k1r3/pppn1pp1/3b2b1/3p2Pp/2B2P2/3P3P/PPPR4/2K3NR w - - 0 18",
+    "solution": [
+      "c4d5",
+      "e8e1",
+      "d2d1",
+      "d6f4",
+      "c1b1",
+      "e1d1"
+    ],
+    "rating": 1577,
+    "themes": "backRankMate deflection long mate mateIn3 middlegame",
+    "category": "backrankmate"
+  }
+]

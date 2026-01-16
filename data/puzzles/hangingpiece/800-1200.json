@@ -1,0 +1,15 @@
+[
+  {
+    "id": "00i7t",
+    "fen": "4r2k/p4r1p/2pp1Q2/2p5/3b1P2/3P2R1/PqPB2PP/4RK2 b - - 0 21",
+    "solution": [
+      "d4f6",
+      "e1e8",
+      "f7f8",
+      "e8f8"
+    ],
+    "rating": 927,
+    "themes": "hangingPiece kingsideAttack mate mateIn2 middlegame short",
+    "category": "hangingpiece"
+  }
+]

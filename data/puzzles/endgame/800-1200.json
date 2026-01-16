@@ -1,0 +1,458 @@
+[
+  {
+    "id": "002CP",
+    "fen": "r5k1/pp4pp/4p1q1/4p3/3n4/P5P1/1PP2Q1P/2KR1R2 w - - 4 24",
+    "solution": [
+      "f2e3",
+      "g6c2"
+    ],
+    "rating": 929,
+    "themes": "endgame mate mateIn1 oneMove queensideAttack",
+    "category": "endgame"
+  },
+  {
+    "id": "00Bm8",
+    "fen": "8/6kp/4b1q1/1p6/1PpPp2Q/2P1P3/r2N2P1/5RK1 w - - 7 34",
+    "solution": [
+      "d2e4",
+      "g6g2"
+    ],
+    "rating": 1126,
+    "themes": "endgame master mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00H9n",
+    "fen": "7k/6p1/8/4p3/Pp1b4/1P3b1q/3Q2P1/5RK1 w - - 0 45",
+    "solution": [
+      "d2d4",
+      "h3g2"
+    ],
+    "rating": 878,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00Hxb",
+    "fen": "1rbr1k2/p4ppp/2B5/2pR1NP1/2P5/P7/7P/4R1K1 b - - 0 27",
+    "solution": [
+      "d8d5",
+      "e1e8"
+    ],
+    "rating": 1126,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00IaZ",
+    "fen": "4R3/1k2R3/3K2p1/1P6/1P6/2rp3r/8/8 b - - 3 45",
+    "solution": [
+      "b7b6",
+      "e8b8"
+    ],
+    "rating": 925,
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame",
+    "category": "endgame"
+  },
+  {
+    "id": "00J7i",
+    "fen": "3r2k1/pQ3ppp/4R1n1/2q5/2P5/2B3P1/P4PBP/6K1 b - - 0 24",
+    "solution": [
+      "f7e6",
+      "b7g7"
+    ],
+    "rating": 1002,
+    "themes": "endgame master masterVsMaster mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00JO7",
+    "fen": "5rk1/ppq3pR/4p1r1/3p4/8/2P4Q/PP3RPP/6K1 b - - 0 22",
+    "solution": [
+      "c7c5",
+      "h7h8"
+    ],
+    "rating": 989,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00KgR",
+    "fen": "5r1k/1pq3p1/2p2P1p/3pPQ2/1p1P4/7P/1rB4K/5R2 b - - 1 35",
+    "solution": [
+      "f8f6",
+      "f5h7"
+    ],
+    "rating": 1124,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00Ozz",
+    "fen": "3kRr2/3n1B1p/2pP4/p1n5/Ppp5/8/1P3PPP/4R1K1 b - - 8 32",
+    "solution": [
+      "f8e8",
+      "e1e8"
+    ],
+    "rating": 868,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00QY3",
+    "fen": "2k3r1/pp5p/4p3/2p2p2/2P5/P4P1q/1PQ1RR1b/7K w - - 0 32",
+    "solution": [
+      "f2h2",
+      "h3f1"
+    ],
+    "rating": 1055,
+    "themes": "endgame master mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00SeK",
+    "fen": "7k/pp5p/4r1pP/5pP1/3Q1n2/P1P5/KP6/5q2 b - - 1 35",
+    "solution": [
+      "h8g8",
+      "d4g7"
+    ],
+    "rating": 1005,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00T85",
+    "fen": "8/8/8/8/8/4K3/1k3Q2/1q6 b - - 5 53",
+    "solution": [
+      "b2c1",
+      "f2d2"
+    ],
+    "rating": 922,
+    "themes": "endgame master mate mateIn1 oneMove queenEndgame",
+    "category": "endgame"
+  },
+  {
+    "id": "00UkB",
+    "fen": "8/8/n1R4p/P5p1/r4p1k/7P/5PK1/8 b - - 5 50",
+    "solution": [
+      "a4a5",
+      "c6h6"
+    ],
+    "rating": 962,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00X1l",
+    "fen": "5r1k/Q6p/1pb3p1/4q3/4p3/1BP2p1P/PP4P1/5RK1 b - - 0 30",
+    "solution": [
+      "f3g2",
+      "f1f8"
+    ],
+    "rating": 852,
+    "themes": "endgame hangingPiece mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00X2S",
+    "fen": "2kr4/1p4pp/p1p1b3/Q3Bq2/8/4PB2/1PP2PPP/1K6 b - - 2 24",
+    "solution": [
+      "g7g5",
+      "a5c7"
+    ],
+    "rating": 1134,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00YqR",
+    "fen": "5k2/p1p4p/1pPpBp2/2qP3b/8/2PQ4/P6P/7K w - - 0 33",
+    "solution": [
+      "d3h7",
+      "h5f3"
+    ],
+    "rating": 894,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00bZ2",
+    "fen": "4b1k1/1r2P2p/p1p3pP/6q1/3Q4/PB6/1PP3P1/1K6 b - - 0 36",
+    "solution": [
+      "b7b3",
+      "d4g7"
+    ],
+    "rating": 1056,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00cZ4",
+    "fen": "8/2R5/6pk/p3p2p/4Nq2/5n1P/P2R2P1/7K w - - 0 41",
+    "solution": [
+      "d2f2",
+      "f4h2"
+    ],
+    "rating": 1059,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "00fZM",
+    "fen": "5rk1/1q3r1p/3p2RQ/3p4/3B4/2P2P2/P5PP/6K1 b - - 0 30",
+    "solution": [
+      "h7g6",
+      "h6h8"
+    ],
+    "rating": 861,
+    "themes": "endgame mate mateIn1 oneMove",
+    "category": "endgame"
+  },
+  {
+    "id": "004X6",
+    "fen": "1r4k1/p4ppp/2Q5/3pq3/8/P6P/2PR1PP1/Rr4K1 w - - 1 26",
+    "solution": [
+      "a1b1",
+      "b8b1",
+      "d2d1",
+      "b1d1"
+    ],
+    "rating": 1176,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "0061g",
+    "fen": "6k1/pp3pp1/2p1q1Pp/3b4/8/6Q1/PB3Pp1/3RrNK1 b - - 2 27",
+    "solution": [
+      "e1d1",
+      "g3b8",
+      "e6e8",
+      "b8e8"
+    ],
+    "rating": 803,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "007Rn",
+    "fen": "4r1k1/p4p1p/1p6/6q1/3P2n1/P4Q2/1P1B2P1/7K w - - 0 34",
+    "solution": [
+      "d2g5",
+      "e8e1",
+      "f3f1",
+      "e1f1"
+    ],
+    "rating": 992,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "008oX",
+    "fen": "4r1k1/2R3pp/2p4q/1p1p4/3P4/P7/1PP2R2/1K1N4 b - - 3 32",
+    "solution": [
+      "e8e1",
+      "c7c8",
+      "e1e8",
+      "c8e8"
+    ],
+    "rating": 978,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "0092z",
+    "fen": "2r3k1/2qR1ppp/p7/2p2Q2/P7/7P/5PP1/6K1 b - - 3 26",
+    "solution": [
+      "c7c6",
+      "f5f7",
+      "g8h8",
+      "f7g7"
+    ],
+    "rating": 949,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "009bR",
+    "fen": "4r2k/3q2r1/1p4pQ/p1pP4/2P4P/1N4p1/PP3RK1/8 b - - 1 37",
+    "solution": [
+      "g7h7",
+      "f2f8",
+      "e8f8",
+      "h6f8"
+    ],
+    "rating": 1069,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "009f8",
+    "fen": "8/1p4p1/pb2ppkp/3n4/3P4/P3BN1P/1P2KPP1/8 b - - 0 26",
+    "solution": [
+      "g6f5",
+      "f3h4",
+      "f5e4",
+      "f2f3"
+    ],
+    "rating": 1171,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "009oc",
+    "fen": "5Q2/pbp3np/1p1pB1pk/1P6/P3q2P/6K1/8/8 b - - 1 32",
+    "solution": [
+      "e4e6",
+      "f8f4",
+      "g6g5",
+      "f4g5"
+    ],
+    "rating": 961,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00CtS",
+    "fen": "Q5k1/5q2/p2p4/b1p1pr2/P7/6P1/4KP1R/8 b - - 3 38",
+    "solution": [
+      "g8g7",
+      "a8h8",
+      "g7g6",
+      "h8h6"
+    ],
+    "rating": 960,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00F2o",
+    "fen": "6k1/4qpp1/3p3p/8/2BP4/1Pn5/2Qn1PPP/6K1 w - - 0 29",
+    "solution": [
+      "c2c3",
+      "e7e1",
+      "c4f1",
+      "e1f1"
+    ],
+    "rating": 980,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00HzH",
+    "fen": "2r2Qk1/p2q2p1/1p2p1Np/3p3P/3Pb1P1/2P5/PP3R2/6K1 b - - 4 33",
+    "solution": [
+      "c8f8",
+      "f2f8",
+      "g8h7",
+      "f8h8"
+    ],
+    "rating": 800,
+    "themes": "endgame hookMate mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00Keu",
+    "fen": "R7/1p3kp1/2pK3p/3p1PP1/1r1B2nP/8/1P6/8 b - - 2 39",
+    "solution": [
+      "b4d4",
+      "g5g6",
+      "f7f6",
+      "a8f8"
+    ],
+    "rating": 904,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00LNB",
+    "fen": "kr6/1pR4p/p4R2/n2r4/P3p3/4B3/6PP/6K1 b - - 0 38",
+    "solution": [
+      "d5d3",
+      "f6a6",
+      "b7a6",
+      "c7a7"
+    ],
+    "rating": 1057,
+    "themes": "endgame mate mateIn2 sacrifice short",
+    "category": "endgame"
+  },
+  {
+    "id": "00NAM",
+    "fen": "r5k1/pp3ppp/8/3p4/3P4/4R2P/q1P1QPPK/8 b - - 1 21",
+    "solution": [
+      "a2c4",
+      "e3e8",
+      "a8e8",
+      "e2e8"
+    ],
+    "rating": 936,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00O14",
+    "fen": "6k1/3P1pp1/4p3/p7/Q3R3/3q1PP1/1P3PK1/2r5 w - - 0 37",
+    "solution": [
+      "a4d4",
+      "d3f1",
+      "g2h2",
+      "f1h1"
+    ],
+    "rating": 1033,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00OOp",
+    "fen": "5rk1/1bR3q1/pQ6/8/6r1/4R2P/P7/6K1 w - - 0 28",
+    "solution": [
+      "h3g4",
+      "g7g4",
+      "e3g3",
+      "g4g3"
+    ],
+    "rating": 1053,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00V0G",
+    "fen": "8/6P1/5k1K/8/8/3p4/PR6/6r1 w - - 1 49",
+    "solution": [
+      "b2d2",
+      "g1h1",
+      "d2h2",
+      "h1h2"
+    ],
+    "rating": 1133,
+    "themes": "endgame mate mateIn2 rookEndgame short",
+    "category": "endgame"
+  },
+  {
+    "id": "00Y1c",
+    "fen": "5rk1/Q4p2/5p1p/2q5/8/8/P1r2PPP/3RR1K1 w - - 4 23",
+    "solution": [
+      "a7d7",
+      "c5f2",
+      "g1h1",
+      "f2g2"
+    ],
+    "rating": 839,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  },
+  {
+    "id": "00ZN7",
+    "fen": "3q2k1/8/Q2p2p1/3P1p1p/1p2P1nP/1Pp5/2P3P1/5R1K w - - 0 36",
+    "solution": [
+      "e4f5",
+      "d8h4",
+      "h1g1",
+      "h4h2"
+    ],
+    "rating": 1009,
+    "themes": "endgame mate mateIn2 short",
+    "category": "endgame"
+  }
+]
