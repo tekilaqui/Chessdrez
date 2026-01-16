@@ -1,38 +1,40 @@
-const CACHE_NAME = 'chess-v2'; // CAMBIADO A V2
+const CACHE_NAME = 'chess-pro-v3-neon';
 const ASSETS = [
     '/',
     '/index.html',
-    '/style.css',
     '/client.js',
+    '/style.css',
+    '/src/styles/components.css',
+    '/src/styles/mobile-nav.css',
+    '/board_stability.css',
+    '/mobile_tabs.css',
+    '/academy.css',
     '/puzzles_data.js',
-    '/stockfish.js'
+    '/openings_enhanced.js',
+    '/knowledge_base.js',
+    'https://code.jquery.com/jquery-3.7.1.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.0/stockfish.js'
 ];
 
 self.addEventListener('install', (e) => {
-    // Forzar que el nuevo SW tome el control inmediatamente
     self.skipWaiting();
-    e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
+    e.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    );
 });
 
 self.addEventListener('activate', (e) => {
-    // Borrar versiones antiguas de la caché
     e.waitUntil(
-        caches.keys().then(keys => Promise.all(
-            keys.map(k => {
-                if (k !== CACHE_NAME) return caches.delete(k);
-            })
-        ))
+        caches.keys().then((keys) => {
+            return Promise.all(
+                keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+            );
+        })
     );
 });
 
 self.addEventListener('fetch', (e) => {
-    const url = new URL(e.request.url);
-    // SI LA RUTA ES LA SECRETA, NO USAR CACHÉ, IR DIRECTO A INTERNET
-    if (url.pathname.includes('ver-mis-correos-ya') || url.pathname.includes('secret')) {
-        return;
-    }
-
     e.respondWith(
-        caches.match(e.request).then(res => res || fetch(e.request))
+        fetch(e.request).catch(() => caches.match(e.request))
     );
 });

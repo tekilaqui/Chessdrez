@@ -12,81 +12,8 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Mover aquí para que lea los correos
-app.use(express.urlencoded({ extended: true }));
-
-// --- RUTA NUEVA PARA EVITAR CACHÉ ---
-app.get('/ver-mis-correos-ya', (req, res) => {
-  const listado = Object.keys(users).map(u => `<li><b>${u}</b>: ${users[u].email}</li>`).join('') || 'Sin usuarios yet';
-  res.status(200).send(`<h1>Correos registrados (Usuarios):</h1><ul>${listado}</ul>`);
-});
-
-// --- RUTA PARA SUSCRIPTORES DEL NEWSLETTER ---
-const SUS_PATH = path.join(__dirname, 'suscriptores.json');
-if (!fs.existsSync(SUS_PATH)) fs.writeFileSync(SUS_PATH, '[]');
-
-app.post('/suscribirse', (req, res) => {
-  const email = req.body.email;
-  console.log('📬 Nuevo suscriptor recibido:', email);
-  if (!email) return res.status(400).json({ error: 'Falta email' });
-
-  try {
-    let subs = [];
-    if (fs.existsSync(SUS_PATH)) {
-      subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
-    }
-    if (!subs.includes(email)) {
-      subs.push(email);
-      fs.writeFileSync(SUS_PATH, JSON.stringify(subs, null, 2));
-    }
-    res.json({ success: true });
-  } catch (e) {
-    console.error("Error al guardar suscriptor:", e);
-    res.status(500).json({ error: 'Error al guardar' });
-  }
-});
-
-app.get('/ver-suscriptores', (req, res) => {
-  try {
-    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
-    res.send(`
-      <h2>Suscriptores (${subs.length}):</h2>
-      <ul>${subs.map(s => `<li>${s}</li>`).join('')}</ul>
-      <br>
-      <a href="/descargar-suscriptores" style="padding:10px; background:green; color:white; text-decoration:none; border-radius:5px;">Descargar como TXT</a>
-      <br><br>
-      <a href="/">Volver</a>
-    `);
-  } catch (e) {
-    res.send('Error al leer suscriptores');
-  }
-});
-
-app.get('/descargar-suscriptores', (req, res) => {
-  try {
-    const subs = JSON.parse(fs.readFileSync(SUS_PATH, 'utf8'));
-    res.setHeader('Content-disposition', 'attachment; filename=suscriptores.txt');
-    res.setHeader('Content-type', 'text/plain');
-    res.write(subs.join('\n'));
-    res.end();
-  } catch (e) {
-    res.status(500).send('Error');
-  }
-});
-// ------------------------------------
-
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
-});
-
-// Log de inicio para depuración en Render
-console.log("🚀 Iniciando servidor...");
-console.log("📁 Directorio actual:", __dirname);
-console.log("🌍 Entorno:", process.env.NODE_ENV || 'development');
+const io = new Server(server);
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -100,85 +27,27 @@ const authLimiter = rateLimit({
   message: { error: "Demasiados intentos de acceso, intente de nuevo en una hora" }
 });
 
-app.use(helmet({
+/* app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "'unsafe-eval'",
-        "https://unpkg.com",
-        "https://cdn.jsdelivr.net",
-        "https://cdnjs.cloudflare.com",
-        "https://code.jquery.com",
-        "https://cdn.socket.io",
-        "blob:"
-      ],
-      scriptSrcAttr: ["'unsafe-inline'"], // Permitir event handlers inline
-      styleSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://fonts.googleapis.com",
-        "https://cdnjs.cloudflare.com"
-      ],
-      imgSrc: [
-        "'self'",
-        "data:",
-        "https:",
-        "http:",
-        "https://raw.githubusercontent.com"
-      ],
-      connectSrc: [
-        "'self'",
-        "wss:",
-        "ws:",
-        "https:",
-        "http:",
-        "https://explorer.lichess.ovh",
-        "https://unpkg.com"
-      ],
-      mediaSrc: [
-        "'self'",
-        "https:",
-        "http:",
-        "https://github.com"
-      ],
-      fontSrc: [
-        "'self'",
-        "https://fonts.gstatic.com",
-        "https://cdnjs.cloudflare.com"
-      ],
-      workerSrc: [
-        "'self'",
-        "blob:",
-        "https://unpkg.com",
-        "https:"
-      ],
-      childSrc: [
-        "'self'",
-        "blob:",
-        "https://unpkg.com",
-        "https:"
-      ],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "http:", "blob:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https:", "http:"],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
+      connectSrc: ["'self'", "wss:", "https:", "http:"],
+      mediaSrc: ["'self'", "https:", "http:"],
+      fontSrc: ["'self'", "https:", "http:"],
+      workerSrc: ["'self'", "blob:"],
       objectSrc: ["'none'"],
-      baseUri: ["'self'"],
-      formAction: ["'self'"]
     },
   },
-  crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
-}));
-// app.use(express.json({ limit: '10kb' })); // Ya está arriba
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+})); */
+app.use(express.json({ limit: '10kb' }));
 app.get('/*', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
-  // Permitir que el navegador cargue recursos de otros orígenes
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
@@ -253,6 +122,11 @@ function validateEmail(email) {
   return email && typeof email === 'string' && emailRegex.test(email);
 }
 
+function validatePhone(phone) {
+  if (!phone) return true; // Opcional
+  return typeof phone === 'string' && /^\+?[\d\s-]{7,20}$/.test(phone);
+}
+
 const activeChallenges = new Map();
 const connectedUsers = new Map();
 
@@ -280,9 +154,6 @@ function saveGames() {
 
 loadGames();
 
-// El servidor ahora solo maneja Autenticación, ELO y un Proxy para Puzzles.
-// Se ha eliminado toda la lógica de partidas online (Socket.IO multiplayer).
-
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (token) {
@@ -298,30 +169,31 @@ io.use((socket, next) => {
 io.on('connection', (socket) => {
   console.log('Usuario conectado:', socket.id);
 
+  // Auto-login if token was valid
   if (socket.authenticated && users[socket.username]) {
     const u = users[socket.username];
     socket.emit('auth_success', {
       user: socket.username,
-      elo: u.elo || 500,
+      elo: u.elo || 500, // Ensure updated to 500 default
       puzElo: u.puzElo || 500,
-      token: socket.handshake.auth.token
+      token: socket.handshake.auth.token // Echo back
     });
+    connectedUsers.set(socket.id, socket.username);
   }
 
+  socket.emit('lobby_update', Array.from(activeChallenges.values()));
+
   socket.on('register', (data) => {
-    console.log('📝 Intento de registro recibido:', data);
     try {
-      if (!data.user || !data.pass || !data.email) {
-        console.log('❌ Datos incompletos');
-        return socket.emit('auth_error', 'Faltan datos');
-      }
-      if (!validateUsername(data.user)) {
-        console.log('❌ Usuario inválido:', data.user);
-        return socket.emit('auth_error', 'Usuario inválido (3-20 caracteres)');
-      }
-      if (users[data.user]) {
-        console.log('❌ El usuario ya existe:', data.user);
-        return socket.emit('auth_error', 'El usuario ya existe');
+      if (!validateUsername(data.user)) return socket.emit('auth_error', 'Usuario inválido');
+      if (!validatePassword(data.pass)) return socket.emit('auth_error', 'Contraseña inválida');
+      if (!validateEmail(data.email)) return socket.emit('auth_error', 'Email inválido');
+      if (!validatePhone(data.phone)) return socket.emit('auth_error', 'Teléfono inválido');
+      if (users[data.user]) return socket.emit('auth_error', 'El usuario ya existe');
+
+      // Verificar si el email ya está en uso
+      if (Object.values(users).some(u => u.email === data.email)) {
+        return socket.emit('auth_error', 'El email ya está registrado');
       }
 
       const salt = crypto.randomBytes(32).toString('hex');
@@ -329,35 +201,55 @@ io.on('connection', (socket) => {
 
       users[data.user] = {
         hash, salt, email: data.email,
+        phone: data.phone || '',
         elo: 500, puzElo: 500,
         createdAt: new Date().toISOString(),
         stats: { wins: 0, losses: 0, draws: 0 }
       };
 
-      console.log('✅ Usuario guardado en memoria:', data.user);
       saveUsers();
       const token = generateToken(data.user);
-      socket.emit('auth_success', { user: data.user, elo: 500, puzElo: 500, token });
+      socket.username = data.user;
+      socket.authenticated = true;
+      connectedUsers.set(socket.id, data.user);
+
+      socket.emit('auth_success', { user: data.user, elo: 1200, puzElo: 1200, token });
     } catch (error) {
-      console.error('🔥 Error en registro:', error);
+      console.error('Error en registro:', error);
       socket.emit('auth_error', 'Error en el servidor');
     }
   });
 
   socket.on('login', (data) => {
     try {
-      if (!validateUsername(data.user) || !validatePassword(data.pass)) return socket.emit('auth_error', 'Credenciales inválidas');
-      const u = users[data.user];
-      if (!u) return socket.emit('auth_error', 'Usuario no encontrado');
+      if (!data.user || !validatePassword(data.pass)) return socket.emit('auth_error', 'Credenciales inválidas');
 
-      const inputHash = hashPassword(data.pass, u.salt);
-      if (inputHash === u.hash) {
-        const token = generateToken(data.user);
+      // Buscar usuario por nombre o por email
+      let userEntry = users[data.user];
+      let finalUsername = data.user;
+
+      if (!userEntry) {
+        const found = Object.entries(users).find(([name, u]) => u.email === data.user);
+        if (found) {
+          finalUsername = found[0];
+          userEntry = found[1];
+        }
+      }
+
+      if (!userEntry) return socket.emit('auth_error', 'Usuario no encontrado');
+
+      const inputHash = hashPassword(data.pass, userEntry.salt);
+      if (inputHash === userEntry.hash) {
+        const token = generateToken(finalUsername);
+        socket.username = finalUsername;
+        socket.authenticated = true;
+        connectedUsers.set(socket.id, finalUsername);
         socket.emit('auth_success', {
-          user: data.user,
-          elo: u.elo || 500,
-          puzElo: u.puzElo || 500,
-          token, stats: u.stats || {}
+          user: finalUsername,
+          elo: userEntry.elo,
+          puzElo: userEntry.puzElo,
+          token,
+          stats: userEntry.stats || {}
         });
       } else {
         socket.emit('auth_error', 'Credenciales incorrectas');
@@ -371,22 +263,200 @@ io.on('connection', (socket) => {
   socket.on('update_elo', (data) => {
     if (!socket.authenticated || socket.username !== data.user) return;
     if (users[data.user]) {
-      users[data.user].elo = Math.max(0, Math.min(3000, data.elo || 500));
-      users[data.user].puzElo = Math.max(0, Math.min(3000, data.puzElo || 500));
+      users[data.user].elo = Math.max(0, Math.min(3000, data.elo));
+      users[data.user].puzElo = Math.max(0, Math.min(3000, data.puzElo));
       saveUsers();
+    }
+  });
+
+  socket.on('create_challenge', (data) => {
+    if (!socket.authenticated) return socket.emit('error', 'Debes iniciar sesión');
+    // Use the ID provided by the client to ensure sync
+    const challengeId = data.id || crypto.randomBytes(16).toString('hex');
+    const challenge = {
+      id: challengeId,
+      user: socket.username, // Changed from creator to user to match client expectation
+      creatorElo: users[socket.username]?.elo || 1200, // Keep this for backend logic if needed
+      elo: users[socket.username]?.elo || 1200, // Add this for client display consistency
+      timeControl: data.timeControl || '10+0',
+      time: data.time || 10, // Ensure 'time' property exists as client expects
+      createdAt: Date.now()
+    };
+    activeChallenges.set(challengeId, challenge);
+    socket.join(`game_${challengeId}`);
+    socket.broadcast.emit('new_challenge', challenge);
+  });
+
+  socket.on('get_lobby', () => {
+    socket.emit('lobby_update', Array.from(activeChallenges.values()));
+    if (socket.username) {
+      const userGames = Object.values(activeGames).filter(g => g.white === socket.username || g.black === socket.username);
+      socket.emit('active_games_update', userGames);
+    }
+  });
+
+  socket.on('join_game', (data) => {
+    const game = activeGames[data.gameId];
+    if (game && (game.white === socket.username || game.black === socket.username)) {
+      socket.join(`game_${data.gameId}`);
+      socket.emit('game_resume', {
+        id: game.id,
+        fen: game.fen,
+        white: game.white,
+        black: game.black,
+        whiteTime: game.whiteTime,
+        blackTime: game.blackTime,
+        turn: game.turn,
+        moves: game.moves
+      });
+    }
+  });
+
+  socket.on('join_challenge', (data) => {
+    if (!socket.authenticated) return socket.emit('error', 'Debes iniciar sesión');
+    const challenge = activeChallenges.get(data.id);
+    if (!challenge) return socket.emit('error', 'Reto no encontrado');
+    if (challenge.user === socket.username) return socket.emit('error', 'No puedes unirte a tu propio reto');
+
+    activeChallenges.delete(data.id);
+    socket.join(`game_${data.id}`);
+
+    const isWhite = Math.random() > 0.5;
+    const gameTime = (challenge.time || 10) * 60;
+
+    activeGames[data.id] = {
+      id: data.id,
+      white: isWhite ? challenge.user : socket.username,
+      black: isWhite ? socket.username : challenge.user,
+      startTime: Date.now(),
+      moves: [],
+      fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+      turn: 'w',
+      whiteTime: gameTime,
+      blackTime: gameTime,
+      lastUpdate: Date.now()
+    };
+
+    saveGames();
+    io.emit('lobby_update', Array.from(activeChallenges.values()));
+
+    // Notificar a ambos jugadores el inicio y sus colores
+    io.to(`game_${data.id}`).emit('game_start', {
+      gameId: data.id,
+      white: activeGames[data.id].white,
+      black: activeGames[data.id].black,
+      time: challenge.time || 10
+    });
+  });
+
+  socket.on('get_my_games', () => {
+    if (!socket.authenticated) return;
+    const myGames = Object.values(activeGames).filter(g =>
+      g.white === socket.username || g.black === socket.username
+    );
+    socket.emit('my_games_list', myGames);
+  });
+
+  socket.on('move', (data) => {
+    if (!socket.authenticated) return;
+    const game = activeGames[data.gameId];
+    if (game) {
+      const now = Date.now();
+      const elapsed = Math.floor((now - game.lastUpdate) / 1000);
+
+      // Update time of the player who just moved
+      if (game.turn === 'w') {
+        game.whiteTime = Math.max(0, game.whiteTime - elapsed);
+      } else {
+        game.blackTime = Math.max(0, game.blackTime - elapsed);
+      }
+
+      game.moves.push(data.move);
+      game.fen = data.fen || game.fen;
+      game.turn = game.turn === 'w' ? 'b' : 'w';
+      game.lastUpdate = now;
+      saveGames();
+
+      // Emit with updated server times to keep clients in sync
+      const moveData = {
+        ...data,
+        whiteTime: game.whiteTime,
+        blackTime: game.blackTime,
+        turn: game.turn
+      };
+      socket.to(`game_${data.gameId}`).emit('move', moveData);
+      socket.emit('move_ack', moveData); // Confirm to the sender too
+    }
+  });
+
+  socket.on('chat_message', (data) => {
+    if (!socket.authenticated) return;
+    const sanitizedMessage = {
+      user: socket.username,
+      message: sanitize(data.message).substring(0, 500),
+      gameId: data.gameId,
+      timestamp: Date.now()
+    };
+    if (data.gameId) {
+      io.to(`game_${data.gameId}`).emit('chat_message', sanitizedMessage);
+    } else {
+      io.emit('chat_message', sanitizedMessage);
+    }
+  });
+
+  socket.on('resign_game', (data) => {
+    if (!socket.authenticated) return;
+    const game = activeGames[data.gameId];
+    if (game) {
+      if (users[game.white]) users[game.white].stats.wins++;
+      if (users[game.black]) users[game.black].stats.losses++;
+      saveUsers();
+      delete activeGames[data.gameId];
+      saveGames();
+    }
+    socket.to(`game_${data.gameId}`).emit('player_resigned', { user: socket.username });
+  });
+
+  socket.on('abort_online_game', (data) => {
+    if (!socket.authenticated) return;
+
+    let wasChallenge = false;
+    if (activeChallenges.has(data.gameId)) {
+      activeChallenges.delete(data.gameId);
+      io.emit('lobby_update', Array.from(activeChallenges.values()));
+      wasChallenge = true;
+    }
+
+    if (activeGames[data.gameId]) {
+      delete activeGames[data.gameId];
+      saveGames();
+      socket.to(`game_${data.gameId}`).emit('game_aborted', { user: socket.username });
     }
   });
 
   socket.on('get_leaderboard', () => {
     const top10 = Object.keys(users)
-      .map(u => ({ user: u, elo: users[u].elo || 500, puzElo: users[u].puzElo || 500 }))
+      .map(u => ({ user: u, elo: users[u].elo, stats: users[u].stats || {} }))
       .sort((a, b) => b.elo - a.elo)
       .slice(0, 10);
     socket.emit('leaderboard_data', top10);
   });
 
+  // AI GATEWAY VIA SOCKETS (CORS-FREE)
+  socket.on('ai_request', async (data) => {
+    const { provider, apiKey, prompt } = data;
+    if (!provider || !apiKey || !prompt) {
+      return socket.emit('ai_response', { error: 'Missing data' });
+    }
+
+    console.log(`🤖 AI Request received from ${socket.username || 'Guest'} via Socket`);
+    const result = await processAIRequest(provider, apiKey, prompt);
+    socket.emit('ai_response', result);
+  });
+
   socket.on('disconnect', () => {
     console.log('Usuario desconectado:', socket.id);
+    connectedUsers.delete(socket.id);
   });
 });
 
@@ -416,23 +486,147 @@ app.get('/puzzles', (req, res) => {
   });
 });
 
+// AI PROXY ENDPOINT - Resolve CORS issues
+app.post('/api/ai-proxy', express.json(), async (req, res) => {
+  try {
+    const { provider, apiKey, prompt } = req.body;
+
+    if (!provider || !apiKey || !prompt) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    let response;
+    const aiData = await processAIRequest(provider, apiKey, prompt);
+
+    if (aiData.error) {
+      return res.status(aiData.status || 500).json({ error: aiData.error });
+    }
+
+    return res.json({ text: aiData.text });
+
+  } catch (error) {
+    console.error('AI Proxy Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Función centralizada para procesar IA (compartida por HTTP y Sockets)
+async function processAIRequest(provider, apiKey, prompt) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 segundos máximo
+
+  try {
+    console.log(`📡 Llamando a ${provider}...`);
+    let response;
+
+    switch (provider) {
+      case 'openai':
+        response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o-mini',
+            messages: [
+              { role: 'system', content: 'Eres un maestro de ajedrez experto y didáctico. Explica la posición de forma muy breve (2 frases).' },
+              { role: 'user', content: prompt }
+            ],
+            max_tokens: 150,
+            temperature: 0.7
+          })
+        });
+
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`❌ OpenAI Error: ${response.status}`, errorText);
+          return { error: `OpenAI: ${response.status} - Verifica tu clave y saldo.` };
+        }
+
+        const openaiData = await response.json();
+        return { text: openaiData.choices[0].message.content };
+
+      case 'claude':
+        response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01'
+          },
+          body: JSON.stringify({
+            model: 'claude-3-haiku-20240307',
+            max_tokens: 150,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`❌ Claude Error: ${response.status}`, errorText);
+          return { error: `Claude: ${response.status} - Verifica tu configuración.` };
+        }
+
+        const claudeData = await response.json();
+        return { text: claudeData.content[0].text };
+
+      case 'perplexity':
+        response = await fetch('https://api.perplexity.ai/chat/completions', {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'sonar', // Modelo más estable y actual
+            messages: [
+              { role: 'system', content: 'Eres un maestro de ajedrez experto.' },
+              { role: 'user', content: prompt }
+            ],
+            max_tokens: 150
+          })
+        });
+
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+          const errorMsg = await response.text();
+          let parsedError;
+          try { parsedError = JSON.parse(errorMsg); } catch (e) { parsedError = { error: { message: errorMsg } }; }
+
+          const detail = parsedError.error?.message || errorMsg;
+          console.error(`❌ Perplexity Error Detail:`, detail);
+          return { error: `Perplexity: ${detail}` };
+        }
+
+        const perplexityData = await response.json();
+        return { text: perplexityData.choices[0].message.content };
+
+      default:
+        clearTimeout(timeoutId);
+        return { error: 'Proveedor no reconocido' };
+    }
+  } catch (e) {
+    clearTimeout(timeoutId);
+    console.error(`❌ Error en el proceso de IA:`, e.message);
+    if (e.name === 'AbortError') return { error: 'La IA tardó demasiado en responder (Timeout).' };
+    return { error: `Error de conexión: ${e.message}` };
+  }
+}
+
+
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-
-// Manejo de errores globales para evitar "Status 1" sin info
-process.on('uncaughtException', (err) => {
-  console.error('❌ ERROR NO CAPTURADO:', err.message);
-  console.error(err.stack);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ PROMESA RECHAZADA NO MANEJADA:', reason);
-});
-
 server.listen(PORT, () => {
   console.log(`🔥 Servidor corriendo en puerto ${PORT}`);
-  console.log(`🔗 URL: http://localhost:${PORT}`);
+  console.log(`🔒 Modo: ${process.env.NODE_ENV || 'development'}`);
 });
