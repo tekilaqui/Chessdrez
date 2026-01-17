@@ -72,18 +72,93 @@ const MAESTRO_KNOWLEDGE = {
         }
     },
 
-    // 3. ECO CODES (Simplificado para detección básica)
+    // 3. ECO CODES (Base de datos expandida para detección profunda)
     eco: {
+        // --- JUEGOS ABIERTOS (1.e4 e5) ---
         "e4": "Juego Abierto",
-        "e4 e5": "Inicio de Aperturas de Rey",
+        "e4 e5": "Apertura Doble de Peón de Rey",
+        "e4 e5 Nf3": "Apertura de Peón de Rey (Variante del Caballo)",
+        "e4 e5 Nf3 Nc6": "Apertura de los Caballos",
+        "e4 e5 Nf3 Nc6 Bb5": "Apertura Española (Ruy Lopez)",
+        "e4 e5 Nf3 Nc6 Bb5 a6": "Española: Variante Morphy",
+        "e4 e5 Nf3 Nc6 Bb5 Nf6": "Española: Defensa Berlín",
+        "e4 e5 Nf3 Nc6 Bc4": "Apertura Italiana",
+        "e4 e5 Nf3 Nc6 Bc4 Bc5": "Giuoco Piano",
+        "e4 e5 Nf3 Nc6 Bc4 Nf6": "Defensa de los Dos Caballos",
+        "e4 e5 Nf3 Nc6 d4": "Apertura Escocesa",
+        "e4 e5 Nf3 d6": "Defensa Philidor",
+        "e4 e5 Nf3 Nf6": "Defensa Petrov",
+        "e4 e5 f4": "Gambito de Rey",
+        "e4 e5 Nc3": "Apertura Vienesa",
+        "e4 e5 d4": "Apertura de Centro",
+        "e4 e5 Bc4": "Apertura de Alfil",
+
+        // --- DEFENSAS CONTRA 1.e4 ---
         "e4 c5": "Defensa Siciliana",
+        "e4 c5 Nf3": "Siciliana Abierta (Desarrollo)",
+        "e4 c5 Nf3 d6": "Siciliana: Variante Paulsen/Najdorf prep",
+        "e4 c5 Nf3 Nc6": "Siciliana: Variante Nimzowitsch",
+        "e4 c5 c3": "Siciliana: Variante Alapin",
+        "e4 c5 d4": "Siciliana: Gambito Smith-Morra",
+        "e4 c5 Nc3": "Siciliana Cerrada",
         "e4 e6": "Defensa Francesa",
+        "e4 e6 d4 d5": "Francesa: Variante Central",
+        "e4 e6 d4 d5 e5": "Francesa: Variante de Avance",
+        "e4 e6 d4 d5 Nc3": "Francesa: Variante Winawer/Classical",
         "e4 c6": "Defensa Caro-Kann",
+        "e4 c6 d4 d5": "Caro-Kann: Variante Principal",
+        "e4 c6 d4 d5 e5": "Caro-Kann: Variante de Avance",
+        "e4 d6": "Defensa Pirc",
+        "e4 d6 d4 Nf6": "Pirc: Sistema Clásico",
+        "e4 g6": "Defensa Robatsch (Moderna)",
+        "e4 d5": "Defensa Escandinava",
+        "e4 d5 exd5 Qxd5": "Escandinava: Variante de la Dama",
+        "e4 Nf6": "Defensa Alekhine",
+        "e4 b6": "Defensa Owen",
+
+        // --- JUEGOS CERRADOS Y SEMICERRADOS (1.d4) ---
         "d4": "Juego Cerrado",
-        "d4 d5": "Gambito de Dama / Otros",
-        "d4 Nf6": "Defensas Indias",
+        "d4 d5": "Apertura Cerrada de Peón de Dama",
+        "d4 d5 c4": "Gambito de Dama",
+        "d4 d5 c4 e6": "Gambito de Dama Rehusado",
+        "d4 d5 c4 c6": "Defensa Eslava",
+        "d4 d5 c4 dxc4": "Gambito de Dama Aceptado",
+        "d4 d5 Nf3": "Apertura de Peón de Dama (Desarrollo)",
+        "d4 d5 Bf4": "Sistema Londres",
+        "d4 d5 Nc3": "Apertura Richter-Veresov",
+        "d4 Nf6": "Defensas Indias (Semicerrado)",
+        "d4 Nf6 c4": "Defensas Indias (Línea Principal)",
+        "d4 Nf6 c4 g6": "Defensa India de Rey / Gruenfeld prep",
+        "d4 Nf6 c4 g6 Nc3 d5": "Defensa Gruenfeld",
+        "d4 Nf6 c4 e6": "India de Dama / Nimzo-India prep",
+        "d4 Nf6 c4 e6 Nc3 Bb4": "Defensa Nimzo-India",
+        "d4 Nf6 c4 e6 Nf3 b6": "Defensa India de Dama",
+        "d4 Nf6 c4 c5": "Defensa Benoni",
+        "d4 Nf6 c4 c5 d5": "Benoni Moderna",
+        "d4 f5": "Defensa Holandesa",
+        "d4 d6": "Defensa Rat",
+
+        // --- OTRAS APERTURAS ---
         "c4": "Apertura Inglesa",
-        "Nf3": "Apertura Real"
+        "c4 e5": "Inglesa: Variante Siciliana Invertida",
+        "c4 c5": "Inglesa: Variante Simétrica",
+        "Nf3": "Apertura Reti",
+        "Nf3 d5": "Reti: Variante King's Indian Attack prep",
+        "f4": "Apertura Bird",
+        "b3": "Apertura Larsen",
+        "g3": "Apertura Benko (Fianchetto)",
+        "b4": "Apertura Sokolsky (Orangután)",
+        "g4": "Ataque Grob",
+        "Nc3": "Apertura Dunst",
+
+        // --- CONTINUACIONES COMUNES ---
+        "e4 e5 Nf3 Nc6 Bc4 Bc5 c3": "Giuoco Piano: Variante Italiana",
+        "e4 e5 Nf3 Nc6 Bc4 Bc5 d3": "Giuoco Pianissimo",
+        "d4 d5 Bf4 Nf6 e3": "Sistema Londres: Estructura Estándar",
+        "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6": "Siciliana Najdorf",
+        "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 g6": "Siciliana Dragón",
+        "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4": "Siciliana: Variante de los Cuatro Caballos",
+        "d4 d5 c4 e6 Nc3 Nf6 Bg5": "Gambito de Dama: Variante Ortodoxa"
     }
 };
 

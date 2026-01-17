@@ -343,29 +343,23 @@ window.logout = function () {
 
 // ===== INICIALIZACIÓN DOM =====
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("🎬 Auth Module: DOM Ready - Inicializando...");
-
-    // ✅ DELEGACIÓN DE EVENTOS PARA EL MODAL (Más robusto)
+    // ✅ DELEGACIÓN DE EVENTOS PARA EL MODAL
     $(document).on('click', '#btn-auth-submit', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("🖱️ CLICK DETECTADO en Submit Button (Delegado)");
         window.submitAuth();
     });
 
     $(document).on('click', '.auth-tab-btn', function (e) {
         e.preventDefault();
         const isLogin = $(this).text().includes('ENTRAR');
-        console.log("🖱️ CLICK DETECTADO en Tab:", isLogin ? "LOGIN" : "REGISTER");
         window.switchAuthMode(isLogin ? 'login' : 'register');
     });
-
 
     // ✅ ATTACH PROFILE CLICK
     const profileCard = document.getElementById('drawer-user-card');
     if (profileCard) {
         profileCard.addEventListener('click', () => {
-            console.log("👤 Profile card clicked");
             window.handleProfileClick();
         });
     }
@@ -375,7 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (headerAuthBtn) {
         headerAuthBtn.onclick = (e) => {
             e.preventDefault();
-            console.log("🔐 Header auth button clicked");
             window.openAuth();
         };
     }
@@ -384,19 +377,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashProfileCard = document.getElementById('btn-profile-dash');
     if (dashProfileCard) {
         dashProfileCard.onclick = (e) => {
-            console.log("📱 Dashboard Profile card clicked");
             if (typeof window.showSubMenu === 'function') {
                 window.showSubMenu('perfil');
             }
         };
     }
 
-    // ✅ ATTACH PROFILE AUTH BUTTON (IF IN PERFIL TAB)
+    // ✅ ATTACH PROFILE AUTH BUTTON
     const profileLoginBtn = document.getElementById('btn-login-perfil');
     if (profileLoginBtn) {
         profileLoginBtn.onclick = (e) => {
             e.preventDefault();
-            console.log("🔐 Profile login button clicked");
             window.openAuth();
         };
     }
@@ -406,32 +397,14 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#auth-modal').fadeOut();
     });
 
-    // ✅ EVITAR QUE LOS CLICS EN EL MODAL PASEN AL FONDO
+    // ✅ EVITAR PROPAGACIÓN
     $(document).on('click', '#auth-modal .modal-card', function (e) {
         e.stopPropagation();
-        console.log("📦 Click dentro de la tarjeta de auth (bloqueado propagación)");
     });
-
-    // Delegación de eventos para el modal
-    $(document).on('click', '#btn-auth-submit', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("🚀 BOTÓN SUBMIT PULSADO");
-        window.submitAuth();
-    });
-
-    $(document).on('click', '.auth-tab-btn', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const isLogin = $(this).text().includes('ENTRAR');
-        console.log("📑 PESTAÑA PULSADA:", isLogin ? "LOGIN" : "REGISTER");
-        window.switchAuthMode(isLogin ? 'login' : 'register');
-    });
-
 
     // ✅ ENTER KEY SUBMIT
     $('#auth-pass').on('keypress', function (e) {
-        if (e.which === 13) { // Enter key
+        if (e.which === 13) {
             e.preventDefault();
             window.submitAuth();
         }
@@ -443,9 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.updateAuthUI();
         }
     }, 100);
-
-    console.log("✅ Auth Module completamente inicializado");
 });
 
-// Auto-log on load
-console.log("✅ Auth Module Loaded (v3 - Fixed Submit)");
+console.log("✅ Auth Module Ready");

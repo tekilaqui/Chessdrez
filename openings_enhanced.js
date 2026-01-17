@@ -124,35 +124,6 @@ const OPENINGS_ENHANCED = [
                 comments: ["Las blancas creen ganar un peón clavado.", "Las negras recuperan con jaque y ganan pieza."]
             }
         ]
-    },
-    {
-        group: "Mates Típicos", items: [
-            {
-                name: "Mate del Pasillo",
-                moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6", "O-O", "Nxe4", "Re1", "Nd6", "Nxe5", "Nxb5", "Nxc6+", "Be7", "Nxe7", "Qxe7", "Rxe7+", "Kxe7"],
-                comments: ["Suele ocurrir cuando el rey no tiene 'aire'.", "La torre o dama atacan la última fila."]
-            },
-            {
-                name: "Mate de la Coz (Smothered Mate)",
-                moves: ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "d6", "Bg5", "e6", "Qd2", "Be7", "O-O-O", "O-O", "f4", "Nxd4", "Qxd4", "Qa5", "Bc4", "Bd7", "e5", "dxe5", "fxe5", "Bc6", "exf6", "Qxg5+", "Kb1", "Bxf6", "Qd3", "Rad8", "Qh3", "Rxd1+", "Rxd1", "Rd8", "Bd3", "h6", "Re1", "Qxg2", "Qe3", "Bg5", "Qxa7", "Qxh2", "a4", "Qd2", "Re2", "Qc1+", "Ka2", "Bf6", "Qa5", "Bd5+", "Nxd5", "Qxb2#"],
-                comments: ["El rey está encerrado por sus propias piezas.", "Sólo el caballo puede dar este mate."]
-            },
-            {
-                name: "Mate de Anastasia",
-                moves: [],
-                comments: ["Combina caballo y torre.", "El caballo controla g1 y g5 (o simétricos).", "La torre da mate en la columna h."]
-            },
-            {
-                name: "Mate Árabe",
-                moves: [],
-                comments: ["Caballo y Torre colaboran en la esquina.", "Una de las formas de mate más antiguas."]
-            },
-            {
-                name: "Mate de Bodén",
-                moves: [],
-                comments: ["Dos alfiles cruzados cortan al rey.", "Típico contra el enroque largo."]
-            }
-        ]
     }
 ];
 
