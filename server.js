@@ -27,22 +27,22 @@ const authLimiter = rateLimit({
   message: { error: "Demasiados intentos de acceso, intente de nuevo en una hora" }
 });
 
-/* app.use(helmet({
+app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "http:", "blob:"],
       styleSrc: ["'self'", "'unsafe-inline'", "https:", "http:"],
-      imgSrc: ["'self'", "data:", "https:", "http:"],
+      imgSrc: ["'self'", "data:", "https:", "http:", "ui-avatars.com", "cdn-icons-png.flaticon.com"],
       connectSrc: ["'self'", "wss:", "https:", "http:"],
       mediaSrc: ["'self'", "https:", "http:"],
-      fontSrc: ["'self'", "https:", "http:"],
+      fontSrc: ["'self'", "https:", "http:", "fonts.gstatic.com", "fonts.googleapis.com"],
       workerSrc: ["'self'", "blob:"],
       objectSrc: ["'none'"],
     },
   },
   crossOriginResourcePolicy: { policy: "cross-origin" }
-})); */
+}));
 app.use(express.static(__dirname, { dotfiles: 'allow' })); // Static files first
 
 app.use(express.json({ limit: '10kb' }));
@@ -57,7 +57,17 @@ app.use('/login', authLimiter);
 app.use('/register', authLimiter);
 
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: process.env.NODE_ENV === 'production' ? ['error'] : ['query', 'error', 'warn'],
+});
+
+// Verificar conexión a la base de datos al iniciar
+prisma.$connect()
+  .then(() => console.log('✅ Prisma conectado correctamente'))
+  .catch((err) => {
+    console.error('❌ Error conectando Prisma:', err);
+    process.exit(1);
+  });
 
 function sanitize(str) {
   if (typeof str !== 'string') return '';
@@ -204,8 +214,12 @@ io.on('connection', (socket) => {
 
       socket.emit('register_success', { username: data.user, elo: 500, puzzleElo: 500, token });
     } catch (error) {
-      console.error('Error en registro:', error);
-      socket.emit('register_error', { message: 'Error en el servidor' });
+      console.error('❌ Error en registro:', error.message);
+      console.error('Stack:', error.stack);
+      socket.emit('register_error', {
+        message: 'Error en el servidor',
+        details: process.env.NODE_ENV !== 'production' ? error.message : undefined
+      });
     }
   });
 
@@ -236,8 +250,12 @@ io.on('connection', (socket) => {
         socket.emit('login_error', { message: 'Credenciales incorrectas' });
       }
     } catch (error) {
-      console.error('Error en login:', error);
-      socket.emit('login_error', { message: 'Error en el servidor' });
+      console.error('❌ Error en login:', error.message);
+      console.error('Stack:', error.stack);
+      socket.emit('login_error', {
+        message: 'Error en el servidor',
+        details: process.env.NODE_ENV !== 'production' ? error.message : undefined
+      });
     }
   });
 

@@ -4,7 +4,7 @@
   "description": "Ajedrez Pro con Maestro IA - Versión Render",
   "main": "server.js",
   "scripts": {
-    "start": "npx prisma migrate deploy && node server.js",
+    "start": "npx prisma db push --accept-data-loss && node server.js",
     "build": "npx prisma generate",
     "dev": "nodemon server.js"
   },
