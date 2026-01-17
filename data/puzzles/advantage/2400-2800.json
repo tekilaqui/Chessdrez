@@ -1,0 +1,130 @@
+[
+  {
+    "id": "0018S",
+    "fen": "2kr3r/pp3p2/4p2p/1N1p2p1/3Q4/1P1P4/2q2PPP/5RK1 b - - 1 20",
+    "solution": [
+      "b7b6",
+      "d4a1",
+      "a7a5",
+      "f1c1"
+    ],
+    "rating": 2581,
+    "themes": "advantage endgame pin short",
+    "category": "advantage"
+  },
+  {
+    "id": "002LW",
+    "fen": "3r1rk1/1b1n1pp1/3p4/p4PPQ/4P3/3q1BN1/8/2R2RK1 b - - 1 28",
+    "solution": [
+      "d7e5",
+      "f5f6",
+      "e5f3",
+      "f1f3"
+    ],
+    "rating": 2464,
+    "themes": "advantage middlegame short",
+    "category": "advantage"
+  },
+  {
+    "id": "005yO",
+    "fen": "r1r3k1/ppq3bQ/4p2p/4n3/3p4/2P5/PBB2PPP/4R1K1 b - - 2 24",
+    "solution": [
+      "g8f8",
+      "b2a3",
+      "f8f7",
+      "c2d1",
+      "c8h8",
+      "d1h5",
+      "f7f6",
+      "h7e4"
+    ],
+    "rating": 2795,
+    "themes": "advantage exposedKing middlegame quietMove veryLong",
+    "category": "advantage"
+  },
+  {
+    "id": "006of",
+    "fen": "r2qr2k/1pp2pp1/1b4np/pP2P3/P4n2/BQN2N1P/5PP1/R3R1K1 w - - 3 20",
+    "solution": [
+      "b3f7",
+      "d8d3",
+      "c3e2",
+      "f4e2",
+      "e1e2",
+      "d3e2"
+    ],
+    "rating": 2520,
+    "themes": "advantage kingsideAttack long middlegame",
+    "category": "advantage"
+  },
+  {
+    "id": "00BKa",
+    "fen": "5rk1/p1Rb1ppp/2n1pn2/8/8/2P3P1/q4PBP/1rNQK2R b K - 2 16",
+    "solution": [
+      "f8c8",
+      "c7c8",
+      "d7c8",
+      "c1a2",
+      "b1d1",
+      "e1d1"
+    ],
+    "rating": 2502,
+    "themes": "advantage long middlegame",
+    "category": "advantage"
+  },
+  {
+    "id": "00GHw",
+    "fen": "r1bq1r2/1p4kp/4p1p1/1NpPp1P1/2P1P3/pPQ4B/P4n2/2KR3R b - - 1 21",
+    "solution": [
+      "f2h1",
+      "c3e5",
+      "g7g8",
+      "d5e6",
+      "d8e7",
+      "d1h1",
+      "e7g7",
+      "e5g7"
+    ],
+    "rating": 2496,
+    "themes": "advantage middlegame veryLong",
+    "category": "advantage"
+  },
+  {
+    "id": "00H5n",
+    "fen": "8/5Rpk/3p3p/p1qPp3/P3n3/5N1P/1Q3PPK/2r5 b - - 0 35",
+    "solution": [
+      "e4f2",
+      "b2b7",
+      "c1h1",
+      "h2g3",
+      "f2e4",
+      "g3g4",
+      "e4f6",
+      "f7f6",
+      "c5b4",
+      "b7b4"
+    ],
+    "rating": 2463,
+    "themes": "advantage endgame pin quietMove veryLong",
+    "category": "advantage"
+  },
+  {
+    "id": "00bmj",
+    "fen": "r2q1k1r/p1p2ppp/1p6/8/3n2b1/1Q3NP1/PP1N1PP1/3RKB1R w K - 2 15",
+    "solution": [
+      "b3b4",
+      "c7c5",
+      "b4c4",
+      "d8e7",
+      "f1e2",
+      "b6b5",
+      "c4d3",
+      "g4f5",
+      "d3d4",
+      "c5d4"
+    ],
+    "rating": 2446,
+    "themes": "advantage defensiveMove opening pin veryLong",
+    "category": "advantage"
+  }
+]

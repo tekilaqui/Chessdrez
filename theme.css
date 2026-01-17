@@ -1,0 +1,93 @@
+:root {
+    /* PRIMARY */
+    --primary: #2E8B9E;
+    /* Teal - acciones, botones, highlights */
+    --primary-dark: #1A5F6B;
+    /* Teal oscuro - estados pressed */
+    --primary-light: #4DBCD1;
+
+    --bg-main: #1F1D19;
+    --bg-surface: #2A2824;
+    --bg-hover: #333230;
+    --bg-overlay: rgba(31, 29, 25, 0.95);
+
+    --text-primary: #F5F5F5;
+    --text-secondary: #A9A9A9;
+    --text-muted: #707070;
+
+    --board-light: #F0D9B5;
+    --board-dark: #BACA44;
+
+    --success: #4CAF50;
+    /* Verde - acciones exitosas */
+    --error: #FF5252;
+    /* Rojo - errores */
+    --warning: #FFC107;
+    /* Ámbar - advertencias */
+
+    /* BOARD */
+    --board-light: #F0D9B5;
+    /* Cuadro claro (estándar) */
+    --board-dark: #BACA44;
+    /* Cuadro oscuro (estándar) */
+
+    /* TYPOGRAPHY */
+    --font-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Monaco', 'Courier New', monospace;
+
+    --font-size-xs: 11px;
+    /* Labels pequeños */
+    --font-size-sm: 12px;
+    /* Metadata, timestamps */
+    --font-size-base: 14px;
+    /* Body text (DEFAULT) */
+    --font-size-md: 16px;
+    /* Emphasis, inputs */
+    --font-size-lg: 18px;
+    /* Subtítulos */
+    --font-size-xl: 20px;
+    /* Títulos de sección */
+    --font-size-2xl: 24px;
+    /* Títulos principales */
+
+    --line-height-tight: 1.3;
+    /* Para headings */
+    --line-height-normal: 1.5;
+    /* Para body text */
+
+    /* SPACING (8px system) */
+    --space-xs: 4px;
+    /* Gaps mínimos */
+    --space-sm: 8px;
+    /* Padding botones pequeños */
+    --space-md: 12px;
+    /* Gap normal entre elementos */
+    --space-lg: 16px;
+    /* Padding cards, sections */
+    --space-xl: 20px;
+    /* Espacios grandes */
+    --space-2xl: 24px;
+    /* Gaps entre secciones grandes */
+    --space-3xl: 32px;
+    /* Espacios muy grandes */
+
+    /* BORDER RADIUS */
+    --radius-sm: 4px;
+    /* Inputs pequeños, badges */
+    --radius-md: 8px;
+    /* Botones, cards pequeñas */
+    --radius-lg: 12px;
+    /* Cards principales */
+    --radius-full: 9999px;
+    /* Botones circulares, pills */
+
+    /* SHADOWS */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+
+    /* TRANSITIONS */
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}

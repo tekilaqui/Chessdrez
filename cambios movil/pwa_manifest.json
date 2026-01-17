@@ -1,0 +1,154 @@
+{
+  "name": "Chess Drez - Maestro IA",
+  "short_name": "Chess Drez",
+  "description": "Plataforma de ajedrez con IA, puzzles tácticos y academia interactiva",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#32a09b",
+  "orientation": "any",
+  "scope": "/",
+  "categories": [
+    "games",
+    "education",
+    "entertainment"
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Pantalla principal"
+    },
+    {
+      "src": "/screenshots/game-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Partida en curso"
+    },
+    {
+      "src": "/screenshots/puzzles-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Puzzles tácticos"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Jugar contra IA",
+      "short_name": "Jugar",
+      "description": "Iniciar partida contra Maestro IA",
+      "url": "/?action=play",
+      "icons": [
+        {
+          "src": "/icons/shortcut-play.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Resolver Puzzles",
+      "short_name": "Puzzles",
+      "description": "Entrenar con puzzles tácticos",
+      "url": "/?action=puzzles",
+      "icons": [
+        {
+          "src": "/icons/shortcut-puzzles.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Academia",
+      "short_name": "Aprender",
+      "description": "Acceder a lecciones y cursos",
+      "url": "/?action=academy",
+      "icons": [
+        {
+          "src": "/icons/shortcut-academy.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+chessdrez",
+      "url": "/?game=%s"
+    }
+  ],
+  "related_applications": [],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}

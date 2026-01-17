@@ -1,0 +1,255 @@
+/* BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: var(--font-size-md);
+    transition: all var(--duration-normal) var(--ease);
+    user-select: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:active {
+    background-color: var(--primary-dark);
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:active {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-sm {
+    min-height: 32px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+    min-height: 56px;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+/* CARDS */
+.card {
+    background-color: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-normal) var(--ease);
+}
+
+.card:hover {
+    border-color: rgba(46, 139, 158, 0.2);
+    box-shadow: var(--shadow-md);
+}
+
+.card-header,
+.card-footer {
+    padding: var(--space-md) var(--space-lg);
+}
+
+.card-body {
+    padding: var(--space-lg);
+}
+
+/* FORMS */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    transition: all var(--duration-fast) var(--ease);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(46, 139, 158, 0.2);
+}
+
+/* MODALS */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-normal) var(--ease);
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px);
+    transition: transform var(--duration-normal) var(--ease);
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
+}
+
+/* BOTTOM NAVIGATION */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-surface);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(60px + env(safe-area-inset-bottom));
+    z-index: 100;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background: none;
+    transition: color var(--duration-fast) ease;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.nav-label {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* CHESS BOARD */
+.board-container {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    /* Maestro: 8px, using 4px for mobile */
+    overflow: hidden;
+}
+
+.square {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 10px;
+    /* For coords if needed */
+}
+
+.square.light {
+    background-color: var(--board-light, #F0D9B5);
+}
+
+.square.dark {
+    background-color: var(--board-dark, #BACA44);
+}
+
+.piece {
+    width: 100%;
+    height: 100%;
+    background-size: 85%;
+    /* Maestro spec implies filling but let's keep it tidy */
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: grab;
+    z-index: 2;
+    transition: transform 0.1s ease;
+}
+
+.piece:active,
+.piece.dragging {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: var(--primary);
+    pointer-events: none;
+}
+
+.highlight.last-move {
+    background-color: rgba(155, 199, 0, 0.41);
+}
+
+.highlight.selected {
+    background-color: rgba(20, 85, 30, 0.5);
+}

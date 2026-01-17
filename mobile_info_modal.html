@@ -1,0 +1,97 @@
+<!-- MOBILE INFO MODAL -->
+<div id="mobile-info-modal" class="mobile-modal-overlay" style="display:none;">
+    <div class="mobile-modal-container">
+        <div class="mobile-modal-header">
+            <h3>INFO PARTIDA</h3>
+            <button class="btn-close-modal" onclick="closeMobileInfo()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- TABS -->
+        <div class="mobile-modal-tabs">
+            <button class="modal-tab active" data-tab="eval" onclick="switchModalTab('eval')">EVAL</button>
+            <button class="modal-tab" data-tab="moves" onclick="switchModalTab('moves')">JUGADAS</button>
+            <button class="modal-tab" data-tab="maestro" onclick="switchModalTab('maestro')">MAESTRO</button>
+            <button class="modal-tab" data-tab="threats" onclick="switchModalTab('threats')">AMENAZAS</button>
+        </div>
+
+        <!-- TAB CONTENT -->
+        <div class="mobile-modal-content">
+            <!-- EVAL TAB -->
+            <div class="modal-tab-pane active" id="modal-tab-eval">
+                <div class="info-section">
+                    <h4>Evaluación</h4>
+                    <div class="eval-display">
+                        <div class="eval-bar-container">
+                            <div class="eval-bar-fill" id="mobile-eval-fill" style="width: 50%;"></div>
+                        </div>
+                        <div class="eval-stats">
+                            <span class="eval-value" id="mobile-eval-text-modal">0.0</span>
+                            <span class="eval-depth" id="mobile-depth-modal">Profundidad: --</span>
+                        </div>
+                    </div>
+                    <div class="accuracy-display">
+                        <span>Precisión:</span>
+                        <span class="accuracy-value" id="mobile-accuracy-modal">--%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOVES TAB -->
+            <div class="modal-tab-pane" id="modal-tab-moves">
+                <div class="info-section">
+                    <h4>Mejores Jugadas</h4>
+                    <div id="mobile-best-moves-modal" class="moves-list"></div>
+                </div>
+            </div>
+
+            <!-- MAESTRO TAB -->
+            <div class="modal-tab-pane" id="modal-tab-maestro">
+                <div class="info-section">
+                    <h4>Perspectiva del Maestro</h4>
+                    <div class="maestro-info">
+                        <div class="info-row">
+                            <span class="info-label">Apertura:</span>
+                            <span class="info-value" id="mobile-maestro-opening-modal">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Plan:</span>
+                            <span class="info-value" id="mobile-maestro-plan-modal">--</span>
+                        </div>
+                        <div id="mobile-maestro-trap-box-modal" class="trap-alert" style="display:none;">
+                            <span class="info-label">⚠️ Alerta:</span>
+                            <span class="info-value warning-text" id="mobile-maestro-trap-modal">--</span>
+                        </div>
+                    </div>
+                    <div id="mobile-maestro-stats-container-modal" class="stats-bars" style="display:none;">
+                        <div class="stat-bar">
+                            <div class="stat-fill white" id="mobile-stat-white-modal"></div>
+                            <span class="stat-text" id="mobile-txt-white-modal">50%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-fill draw" id="mobile-stat-draw-modal"></div>
+                            <span class="stat-text" id="mobile-txt-draw-modal">0%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-fill black" id="mobile-stat-black-modal"></div>
+                            <span class="stat-text" id="mobile-txt-black-modal">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THREATS TAB -->
+            <div class="modal-tab-pane" id="modal-tab-threats">
+                <div class="info-section">
+                    <h4>Amenazas Detectadas</h4>
+                    <div id="mobile-threats-list-modal" class="threats-list">Ninguna amenaza detectada</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

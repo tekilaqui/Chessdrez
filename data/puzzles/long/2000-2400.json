@@ -1,0 +1,17 @@
+[
+  {
+    "id": "005wy",
+    "fen": "1r6/pp2kpp1/2n1p1n1/3p2PQ/5P2/2PqP3/PP1N4/2KR3R w - - 3 27",
+    "solution": [
+      "h5h7",
+      "c6b4",
+      "c3b4",
+      "b8c8",
+      "d2c4",
+      "c8c4"
+    ],
+    "rating": 2062,
+    "themes": "long mate mateIn3 middlegame queensideAttack sacrifice",
+    "category": "long"
+  }
+]
