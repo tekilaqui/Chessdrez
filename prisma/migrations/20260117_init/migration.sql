@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE IF NOT EXISTS "User" (
     "id" SERIAL PRIMARY KEY,
     "username" TEXT NOT NULL UNIQUE,
     "email" TEXT NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Game" (
+CREATE TABLE IF NOT EXISTS "Game" (
     "id" TEXT PRIMARY KEY,
     "whiteId" INTEGER NOT NULL,
     "blackId" INTEGER NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE "Game" (
 );
 
 -- CreateTable
-CREATE TABLE "Puzzle" (
+CREATE TABLE IF NOT EXISTS "Puzzle" (
     "id" TEXT PRIMARY KEY,
     "fen" TEXT NOT NULL,
     "solution" TEXT NOT NULL,
