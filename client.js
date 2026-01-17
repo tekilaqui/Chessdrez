@@ -1,17 +1,19 @@
 // Load Opening Data
-const OPENINGS_DATA = (typeof OPENINGS_ENHANCED !== 'undefined') ? OPENINGS_ENHANCED : [
-    {
-        group: "Juegos Abiertos (1.e4 e5)", items: [
-            { name: "Apertura Española (Ruy Lopez)", m: ["e4", "e5", "Nf3", "Nc6", "Bb5"] },
-            { name: "Apertura Italiana", m: ["e4", "e5", "Nf3", "Nc6", "Bc4"] },
-            { name: "Defensa De los Dos Caballos", m: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6"] },
-            { name: "Apertura Escocesa", m: ["e4", "e5", "Nf3", "Nc6", "d4"] },
-            { name: "Gambito de Rey", m: ["e4", "e5", "f4"] },
-            { name: "Defensa Philidor", m: ["e4", "e5", "Nf3", "d6"] },
-            { name: "Defensa Petrov", m: ["e4", "e5", "Nf3", "Nf6"] }
-        ]
-    }
-];
+if (typeof OPENINGS_DATA === 'undefined') {
+    window.OPENINGS_DATA = (typeof OPENINGS_ENHANCED !== 'undefined') ? OPENINGS_ENHANCED : [
+        {
+            group: "Juegos Abiertos (1.e4 e5)", items: [
+                { name: "Apertura Española (Ruy Lopez)", m: ["e4", "e5", "Nf3", "Nc6", "Bb5"] },
+                { name: "Apertura Italiana", m: ["e4", "e5", "Nf3", "Nc6", "Bc4"] },
+                { name: "Defensa De los Dos Caballos", m: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6"] },
+                { name: "Apertura Escocesa", m: ["e4", "e5", "Nf3", "Nc6", "d4"] },
+                { name: "Gambito de Rey", m: ["e4", "e5", "f4"] },
+                { name: "Defensa Philidor", m: ["e4", "e5", "Nf3", "d6"] },
+                { name: "Defensa Petrov", m: ["e4", "e5", "Nf3", "Nf6"] }
+            ]
+        }
+    ];
+}
 
 
 var currentOpening = null;
@@ -70,6 +72,7 @@ var hintsActive = false; // Unified hints toggle
 var aiThinking = false;
 var opponentAutoMode = true;
 var isJ = false;
+var isDailyPuzzle = false;
 var moveQualityHistory = []; // Para el informe final
 
 var lastEv = 0; // Legacy var, prefer window.lastEval
@@ -295,14 +298,16 @@ function updateElo(opponentElo, result, isPuzzle = false) {
     const k = 32;
     const currentElo = isPuzzle ? userPuzzleElo : userElo;
     const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - currentElo) / 400));
-    const newElo = Math.round(currentElo + k * (result - expectedScore));
+    const newEloValue = Math.round(currentElo + k * (result - expectedScore));
+    const diff = newEloValue - currentElo;
 
     if (isPuzzle) {
-        userPuzzleElo = Math.max(100, newElo);
+        userPuzzleElo = Math.max(100, newEloValue);
         localStorage.setItem('chess_puz_elo', userPuzzleElo);
-        $('#header-elo-puz, #puz-elo-display').text(userPuzzleElo + (isPuzzle ? "🧩" : ""));
+        $('#header-elo-puz, #puz-elo-display').text(userPuzzleElo + "🧩");
+        if ($('#drawer-puz-elo-display').length) $('#drawer-puz-elo-display').text(userPuzzleElo + "🧩");
     } else {
-        userElo = Math.max(100, newElo);
+        userElo = Math.max(100, newEloValue);
         localStorage.setItem('chess_user_elo', userElo);
         $('#header-elo').text(userElo + " ELO");
     }
@@ -316,9 +321,29 @@ function updateElo(opponentElo, result, isPuzzle = false) {
         });
     }
 
-    if (isPuzzle && typeof renderPuzzleUI === 'function') renderPuzzleUI();
+    // Feedback Visual Animado (Maestro Style)
+    if (diff !== 0) {
+        const diffText = (diff > 0 ? '+' : '') + diff;
+        const colorClass = diff > 0 ? 'success' : 'danger';
+        const icon = diff > 0 ? '📈' : '📉';
 
-    $('#coach-txt').append(`<br><b style="color:var(--accent)">${isPuzzle ? 'Puzzle ELO' : 'ELO'}: ${newElo}</b>`);
+        // Crear elemento flotante de feedback
+        const $fb = $(`<div class="elo-feedback-popup ${colorClass}">${icon} ${diffText}</div>`);
+        $('body').append($fb);
+
+        // Animación y eliminación
+        setTimeout(() => $fb.addClass('active'), 50);
+        setTimeout(() => {
+            $fb.removeClass('active').addClass('exit');
+            setTimeout(() => $fb.remove(), 600);
+        }, 3000);
+
+        if (isPuzzle) {
+            showToast(`${diff > 0 ? '¡Excelente!' : 'Sigue intentándolo'} (Puzzle Elo: ${diffText})`, icon, colorClass);
+        }
+    }
+
+    if (isPuzzle && typeof renderPuzzleUI === 'function') renderPuzzleUI();
 }
 
 // Mobile Move Timeline - Grouped in pairs
@@ -663,7 +688,14 @@ $(document).ready(() => renderPuzzleUI());
 
 
 // Initial Load or Fallback
-var localPuzzles = (typeof LOCAL_PUZZLES_DB !== 'undefined') ? LOCAL_PUZZLES_DB : [];
+// Initial Load or Fallback
+var localPuzzles = [];
+if (typeof LOCAL_PUZZLES_DB !== 'undefined') {
+    localPuzzles = LOCAL_PUZZLES_DB;
+    console.log("✅ Base de datos de puzzles local cargada:", localPuzzles.length, "ítems");
+} else {
+    console.warn("⚠️ LOCAL_PUZZLES_DB no encontrada. Usando base vacía.");
+}
 
 async function loadRandomPuzzle(retryCount = 0) {
     const cat = $('#puz-cat-sel').val();
@@ -677,8 +709,6 @@ async function loadRandomPuzzle(retryCount = 0) {
             puzSeconds++;
             $('#puz-timer, #puz-timer-main').text(formatTime(puzSeconds));
         }, 1000);
-
-        // Limpiar feedback anterior al empezar nuevo puzzle
         renderTacticalDashboard("");
     }
 
@@ -688,15 +718,25 @@ async function loadRandomPuzzle(retryCount = 0) {
         return;
     }
 
+    // Caso especial: Problema Diario Determinado
+    if (isDailyPuzzle) {
+        const dateStr = new Date().toISOString().slice(0, 10);
+        const candidates = localPuzzles.filter(p => p.Rating > 1800);
+        if (candidates.length > 0) {
+            const seed = dateStr.split('-').reduce((acc, val) => acc + parseInt(val), 0);
+            const puzzle = candidates[seed % candidates.length];
+            configurePuzzle(puzzle);
+            return;
+        }
+        // Si no hay candidatos avanzados locales, seguimos normal (pero mantenemos isDailyPuzzle para el título)
+    }
+
     $('#puz-desc, #puz-desc-main').html("<span style='color:var(--accent)'>🧩 Cargando reto...</span>");
 
     try {
         let p = null;
-
-        // 1. Usar base de datos local (JS variable)
         if (localPuzzles && localPuzzles.length > 0) {
             let candidates = localPuzzles.filter(x => !solvedPuzzles.includes(x.PuzzleId));
-
             if (candidates.length > 0) {
                 if (cat !== 'all') {
                     const match = candidates.filter(x => (x.Themes || "").toLowerCase().includes(cat.toLowerCase()));
@@ -706,81 +746,145 @@ async function loadRandomPuzzle(retryCount = 0) {
             }
         }
 
-        // 2. Si no hay local, intentar API
         if (!p) {
-            // Si fallamos localmente y vamos a API, quizás es porque gastamos todos o no cargó el archivo JS.
-            // ... fetch API code keeps executing ...
             const baseR = 600 + (retryCount * 200);
             const r = baseR + Math.floor(Math.random() * 1000);
             let theme = cat;
             if (cat === 'all' || retryCount > 0) {
                 theme = themesPool[Math.floor(Math.random() * themesPool.length)];
             }
-
             const url = `https://chess-puzzles-api.vercel.app/puzzles?themes=${theme}&min_rating=${r}&max_rating=${r + 500}&limit=50&_t=${Date.now()}`;
-            console.log("Fetching API:", url);
-
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 6000);
-
             const response = await fetch(url, { signal: controller.signal });
             clearTimeout(timeoutId);
-
             if (!response.ok) throw new Error("API response error");
             const data = await response.json();
-
             if (data && data.length > 0) {
                 const fresh = data.filter(x => !solvedPuzzles.includes(x.PuzzleId));
                 p = fresh.length > 0 ? fresh[Math.floor(Math.random() * fresh.length)] : data[0];
             }
         }
 
-        if (!p) {
-            console.log("No puzzle found in this attempt, retrying...");
-            return loadRandomPuzzle(retryCount + 1);
-        }
-
-        // 3. Configurar el puzzle seleccionado
-        currentPuzzle = {
-            id: p.PuzzleId,
-            fen: p.FEN,
-            sol: p.Moves.split(' '),
-            rating: p.Rating,
-            themes: p.Themes || ""
-        };
-
-        puzzleStep = 0;
-        game.load(currentPuzzle.fen);
-
-        // Aplicar el primer movimiento (oponente)
-        const firstMove = currentPuzzle.sol[0];
-        const m = game.move({
-            from: firstMove.substring(0, 2),
-            to: firstMove.substring(2, 4),
-            promotion: firstMove.length > 4 ? firstMove[4] : 'q'
-        });
-
-        if (!m) throw new Error("Movimiento de puzzle inválido: " + firstMove);
-
-        puzzleStep = 1;
-        historyPositions = [game.fen()];
-        currentHistoryIndex = 0;
-        board.position(game.fen());
-        myColor = game.turn(); // El usuario siempre mueve el siguiente turno
-        board.orientation(myColor === 'w' ? 'white' : 'black');
-
-        setTimeout(syncSquaresWithData, 200); // Asegurar que las casillas tengan data-square para los puntos de ayuda
-
-        $('#puz-desc, #puz-desc-main').html(`
-            <div style="color:var(--accent); font-weight:bold; margin-bottom:4px;">Tu turno (${currentPuzzle.rating})</div>
-            <div style="color:#3b82f6; font-size:0.6rem; text-transform:uppercase; font-weight:800;">${(currentPuzzle.themes || "").split(',').slice(0, 2).map(getThemeNameES).join(', ')}</div>
-        `);
-
-        updateUI();
+        if (!p) return loadRandomPuzzle(retryCount + 1);
+        configurePuzzle(p);
 
     } catch (err) {
         console.error("🚨 Error cargando puzzle:", err);
         loadRandomPuzzle(retryCount + 1);
+    }
+}
+
+function configurePuzzle(p) {
+    if (!p) return;
+    currentPuzzle = {
+        id: p.PuzzleId,
+        fen: p.FEN,
+        sol: p.Moves.split(' '),
+        rating: p.Rating,
+        themes: p.Themes || ""
+    };
+
+    puzzleStep = 0;
+    game.load(currentPuzzle.fen);
+    const firstMove = currentPuzzle.sol[0];
+    const m = game.move({
+        from: firstMove.substring(0, 2),
+        to: firstMove.substring(2, 4),
+        promotion: firstMove.length > 4 ? firstMove[4] : 'q'
+    });
+
+    if (!m) {
+        console.error("Invalid puzzle move:", firstMove);
+        return loadRandomPuzzle();
+    }
+
+    puzzleStep = 1;
+    historyPositions = [game.fen()];
+    currentHistoryIndex = 0;
+    board.position(game.fen());
+    myColor = game.turn();
+    board.orientation(myColor === 'w' ? 'white' : 'black');
+    setTimeout(syncSquaresWithData, 200);
+
+    const titlePrefix = isDailyPuzzle ? "🏆 RETO DEL MAESTRO" : "Tu turno";
+    $('#puz-desc, #puz-desc-main').html(`
+        <div style="color:var(--accent); font-weight:bold; margin-bottom:4px;">${titlePrefix} (${currentPuzzle.rating})</div>
+        <div style="color:#3b82f6; font-size:0.6rem; text-transform:uppercase; font-weight:800;">${(currentPuzzle.themes || "").split(',').slice(0, 2).map(getThemeNameES).join(', ')}</div>
+    `);
+    updateUI();
+}
+
+window.startDailyPuzzle = function () {
+    console.log("🏆 Solicitud de Reto del Maestro recibida");
+    try {
+        isDailyPuzzle = true;
+
+        // Limpiar menús
+        if (typeof window.goBackToMenu === 'function') {
+            window.goBackToMenu();
+        } else if (typeof goBackToMenu === 'function') {
+            goBackToMenu();
+        }
+
+        // Activar modo
+        if (typeof window.setMode === 'function') {
+            window.setMode('exercises');
+        } else if (typeof setMode === 'function') {
+            setMode('exercises');
+        } else {
+            $('.mode-section').removeClass('active');
+            $('#sec-exercises').addClass('active');
+            loadRandomPuzzle();
+        }
+
+        const dateStr = new Date().toISOString().slice(0, 10);
+        const solvedToday = localStorage.getItem('chess_daily_solved_' + dateStr);
+        if (solvedToday) {
+            showToast("Ya has superado este reto hoy.", "🏆", "success");
+        } else {
+            showToast("CARGANDO EL RETO DEL MAESTRO...", "⚔️", "warning");
+        }
+    } catch (e) {
+        console.error("❌ Error en startDailyPuzzle:", e);
+        if (typeof loadRandomPuzzle === 'function') loadRandomPuzzle();
+    }
+};
+
+// Redundancia: Asegurar binding via jQuery
+$(document).ready(() => {
+    $(document).on('click', '#daily-puzzle-card', function () {
+        if (typeof window.startDailyPuzzle === 'function') window.startDailyPuzzle();
+    });
+});
+
+function checkDailyStatus() {
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const solvedToday = localStorage.getItem('chess_daily_solved_' + dateStr);
+
+    // UI Tácticas
+    const $status = $('#daily-puz-status');
+    const $card = $('#daily-puzzle-card');
+
+    // UI Dashboard
+    const $dashTitle = $('#dash-daily-puz-title');
+    const $dashReward = $('#dash-daily-puz-reward');
+    const $dashBtn = $('#dash-daily-puz-btn');
+
+    if (solvedToday) {
+        if ($status.length) $status.text("¡Completado con éxito! ✅").css('color', 'var(--success)');
+        if ($card.length) $card.addClass('solved');
+
+        if ($dashTitle.length) $dashTitle.text("RETO COMPLETADO ✅");
+        if ($dashReward.length) $dashReward.text("¡Vuelve mañana para más!");
+        if ($dashBtn.length) $dashBtn.addClass('solved');
+    } else {
+        if ($status.length) $status.text("Disponible para hoy").css('color', '');
+        if ($card.length) $card.removeClass('solved');
+
+        if ($dashTitle.length) $dashTitle.text("PROBLEMA DIARIO");
+        if ($dashReward.length) $dashReward.text("Gana +25 ELO Táctico");
+        if ($dashBtn.length) $dashBtn.removeClass('solved');
     }
 }
 
@@ -2005,7 +2109,18 @@ function handlePuzzleMove(move) {
                     renderTacticalDashboard(`<b style='color:var(--success); font-size:1.1rem;'>🏆 ¡EXCELENTE!<br><span style="font-size:0.8rem; font-weight:400; opacity:0.8;">Has completado el ejercicio.</span></b>`);
                     playSnd('end');
                     updatePuzzleStats(currentPuzzle.themes, true, currentPuzzle.rating);
-                    updateElo(currentPuzzle.rating, 1, true);
+
+                    if (isDailyPuzzle) {
+                        const dateStr = new Date().toISOString().slice(0, 10);
+                        localStorage.setItem('chess_daily_solved_' + dateStr, 'true');
+                        checkDailyStatus();
+                        updateElo(currentPuzzle.rating + 200, 1, true); // Bono extra ficticio de rating
+                        isDailyPuzzle = false;
+                        showToast("¡BONO DE MAESTRO CONSEGUIDO!", "💎", "success");
+                    } else {
+                        updateElo(currentPuzzle.rating, 1, true);
+                    }
+
                     setTimeout(loadRandomPuzzle, 2000);
                 } else {
                     playSnd('move');
@@ -2209,9 +2324,8 @@ $(document).ready(() => {
     }
 
     // Theme Handlers
-    $('#board-theme-sel, #board-theme-sel-mobile').change(function () {
+    $('#board-theme-sel').change(function () {
         const theme = $(this).val();
-        $('#board-theme-sel, #board-theme-sel-mobile').val(theme); // Sync
         localStorage.setItem('chess_board_theme', theme);
         let colors = { light: '#f0d9b5', dark: '#b58863' };
         if (theme === 'wood') colors = { light: '#eec', dark: '#8b4513' };
@@ -2222,9 +2336,8 @@ $(document).ready(() => {
         $('.black-3c85d').css('background', colors.dark);
     });
 
-    $('#piece-theme-sel, #piece-theme-sel-mobile').change(function () {
+    $('#piece-theme-sel').change(function () {
         const theme = $(this).val();
-        $('#piece-theme-sel, #piece-theme-sel-mobile').val(theme); // Sync
         localStorage.setItem('chess_piece_theme', theme);
         const currentPos = board.position();
         const orientation = board.orientation();
@@ -2265,6 +2378,9 @@ $(document).ready(() => {
     $('#piece-theme-sel').val(savedPieceTheme);
     $('#board-theme-sel').val(savedBoardTheme).trigger('change');
     if (savedPieceTheme !== 'wikipedia') $('#piece-theme-sel').trigger('change');
+
+    // Sync Daily Challenge Status
+    if (typeof checkDailyStatus === 'function') checkDailyStatus();
     if (savedPieceTheme !== 'wikipedia') $('#piece-theme-sel').trigger('change');
 
     // --- MOVED LISTENERS INSIDE READY ---
@@ -3214,8 +3330,14 @@ $('#btn-puz-hint').click(() => {
     updateElo(userPuzzleElo, 0.2, true); // Penalty for hint
 });
 
-$('#btn-next-puz').click(() => loadRandomPuzzle());
-$('#puz-cat-sel').change(() => loadRandomPuzzle());
+$('#btn-next-puz').click(() => {
+    isDailyPuzzle = false;
+    loadRandomPuzzle();
+});
+$('#puz-cat-sel').change(() => {
+    isDailyPuzzle = false;
+    loadRandomPuzzle();
+});
 $('#header-elo-puz, #puz-elo-display').text(userPuzzleElo + "🧩");
 
 // AUTH LOGIC moved to auth.js
@@ -3436,8 +3558,8 @@ function loadDashConfig() {
     // Also sync themes in settings
     const savedPieceTheme = localStorage.getItem('chess_piece_theme') || 'wikipedia';
     const savedBoardTheme = localStorage.getItem('chess_board_theme') || 'classic';
-    $('#piece-theme-sel-mobile').val(savedPieceTheme);
-    $('#board-theme-sel-mobile').val(savedBoardTheme);
+    $('#piece-theme-sel').val(savedPieceTheme);
+    $('#board-theme-sel').val(savedBoardTheme);
 }
 
 // Initial Call
@@ -4381,13 +4503,15 @@ function updateNavigationTabs(mode) {
 }
 
 // Hook into setMode to update tabs
-const originalSetMode = setMode;
-setMode = function (mode, subMode) {
-    originalSetMode(mode, subMode);
-    // Special handling for analysis vs openings view which setMode might not cover fully if subMode isn't passed
-    // We defer to updateNavigationTabs logic
-    setTimeout(() => updateNavigationTabs(currentMode), 50);
-};
+if (typeof window.setMode === 'function') {
+    const originalSetMode = window.setMode;
+    window.setMode = function (mode, subMode) {
+        originalSetMode(mode, subMode);
+        setTimeout(() => {
+            if (typeof updateNavigationTabs === 'function') updateNavigationTabs(currentMode);
+        }, 50);
+    };
+}
 
 // --- CRITICAL RESTORATION: CHESSBOARD LOGIC ---
 // Las funciones onDragStart, onDrop y onSnapEnd ya están definidas arriba con la lógica completa.

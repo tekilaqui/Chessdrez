@@ -9,10 +9,10 @@ window.userPuzzleElo = 500;
 // Socket Init
 window.socket = null;
 try {
-    const socketUrl = (window.location.protocol === 'file:')
-        ? 'http://localhost:3000'
+    const socketUrl = (window.location.protocol === 'file:') 
+        ? 'http://localhost:3000' 
         : window.location.origin;
-
+    
     if (typeof io !== 'undefined') {
         window.socket = io(socketUrl, {
             auth: { token: localStorage.getItem('chess_token') || '' },
@@ -20,7 +20,7 @@ try {
             reconnection: true,
             reconnectionDelay: 1000
         });
-
+        
         console.log("🔌 Socket initialized");
 
         window.socket.on('connect', () => {
@@ -35,13 +35,13 @@ try {
         window.socket.on('register_success', (data) => {
             console.log("✅ Registro exitoso:", data);
             alert(`¡Cuenta creada! Bienvenido ${data.username}`);
-
+            
             // Auto-login
             localStorage.setItem('chess_is_auth', 'true');
             localStorage.setItem('chess_username', data.username);
             localStorage.setItem('chess_token', data.token);
             localStorage.setItem('chess_user_elo', data.elo || 500);
-
+            
             window.updateAuthUI();
             $('#auth-modal').fadeOut();
         });
@@ -53,16 +53,16 @@ try {
 
         window.socket.on('login_success', (data) => {
             console.log("✅ Login exitoso:", data);
-
+            
             localStorage.setItem('chess_is_auth', 'true');
             localStorage.setItem('chess_username', data.username);
             localStorage.setItem('chess_token', data.token);
             localStorage.setItem('chess_user_elo', data.elo || 500);
             localStorage.setItem('chess_puz_elo', data.puzzleElo || 500);
-
+            
             window.updateAuthUI();
             $('#auth-modal').fadeOut();
-
+            
             if (typeof showToast === 'function') {
                 showToast(`¡Bienvenido ${data.username}!`, "👋", "success");
             }
@@ -76,34 +76,22 @@ try {
     } else {
         console.warn("⚠️ Socket.io no cargado");
     }
-} catch (e) {
-    console.error("Socket Init Failed:", e);
+} catch (e) { 
+    console.error("Socket Init Failed:", e); 
 }
 
 // ===== FUNCIONES GLOBALES =====
 
-window.openAuth = function () {
+window.openAuth = function() {
     console.log("🔐 Abriendo modal auth");
-    // Usar Vanilla JS para mayor fiabilidad si jQuery falla
-    const modal = document.getElementById('auth-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.style.opacity = '1';
-        modal.style.visibility = 'visible';
-        modal.style.pointerEvents = 'auto';
-
-        const card = modal.querySelector('.modal-card');
-        if (card) card.style.pointerEvents = 'auto';
-    } else {
-        console.error("❌ ERROR: No se encontró #auth-modal en el DOM");
-    }
-
+    $('#auth-modal').css('display', 'flex').hide().fadeIn(300);
+    
     // Reset form
     $('#auth-user').val('');
     $('#auth-pass').val('');
     $('#auth-email').val('');
     $('#auth-phone').val('');
-
+    
     // Check remembered user
     const remembered = localStorage.getItem('chess_remembered_user');
     if (remembered) {
@@ -112,9 +100,9 @@ window.openAuth = function () {
     }
 };
 
-window.switchAuthMode = function (mode) {
+window.switchAuthMode = function(mode) {
     console.log("🔄 Cambiando a modo:", mode);
-
+    
     $('.auth-tab-btn').removeClass('active');
 
     if (mode === 'login') {
@@ -138,10 +126,10 @@ window.switchAuthMode = function (mode) {
     }
 };
 
-window.togglePasswordVisibility = function (id) {
+window.togglePasswordVisibility = function(id) {
     const input = document.getElementById(id);
     const toggle = $(input).next('.password-toggle');
-
+    
     if (input.type === "password") {
         input.type = "text";
         toggle.text("🙈");
@@ -151,7 +139,7 @@ window.togglePasswordVisibility = function (id) {
     }
 };
 
-window.handleProfileClick = function () {
+window.handleProfileClick = function() {
     console.log("👤 Profile clicked. Auth:", window.isAuth);
     if (!window.isAuth) {
         window.openAuth();
@@ -163,13 +151,13 @@ window.handleProfileClick = function () {
     }
 };
 
-window.handleGoogleLogin = function () {
+window.handleGoogleLogin = function() {
     console.log("🔐 Google login requested");
-
+    
     if (typeof showToast === 'function') {
         showToast("Conectando con Google...", "⌛", "info");
     }
-
+    
     setTimeout(() => {
         if (typeof showToast === 'function') {
             showToast("OAuth de Google requiere configuración del servidor", "⚠️", "warning");
@@ -180,9 +168,9 @@ window.handleGoogleLogin = function () {
 };
 
 // ===== SUBMIT AUTH - FUNCIÓN PRINCIPAL =====
-window.submitAuth = function () {
+window.submitAuth = function() {
     console.log("🚀 SUBMIT AUTH INVOCADO");
-
+    
     // Validación de campos
     const name = $('#auth-user').val().trim();
     const pass = $('#auth-pass').val().trim();
@@ -191,7 +179,7 @@ window.submitAuth = function () {
 
     // Detectar modo (register si email visible)
     const isRegister = $('#group-email').is(':visible');
-
+    
     console.log("📋 Modo:", isRegister ? "REGISTRO" : "LOGIN");
     console.log("📋 Datos:", { name, pass: pass ? "***" : "", email });
 
@@ -200,7 +188,7 @@ window.submitAuth = function () {
         alert("Usuario debe tener al menos 3 caracteres");
         return;
     }
-
+    
     if (!pass || pass.length < 4) {
         alert("Contraseña debe tener al menos 4 caracteres");
         return;
@@ -212,7 +200,7 @@ window.submitAuth = function () {
             alert("Por favor introduce tu email");
             return;
         }
-
+        
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert("Email no válido");
@@ -233,7 +221,7 @@ window.submitAuth = function () {
             email: email,
             phone: phone
         });
-
+        
     } else {
         // LOGIN
         if (!window.socket || !window.socket.connected) {
@@ -243,9 +231,9 @@ window.submitAuth = function () {
         }
 
         console.log("📤 Enviando login...");
-        window.socket.emit('login', {
-            user: name,
-            pass: pass
+        window.socket.emit('login', { 
+            user: name, 
+            pass: pass 
         });
 
         // Remember me
@@ -258,9 +246,9 @@ window.submitAuth = function () {
 };
 
 // ===== UPDATE AUTH UI =====
-window.updateAuthUI = function () {
+window.updateAuthUI = function() {
     console.log("🔄 Actualizando UI de Auth");
-
+    
     // Check persistence
     const rememberedUser = localStorage.getItem('chess_remembered_user');
     if (rememberedUser && !localStorage.getItem('chess_is_auth')) {
@@ -282,23 +270,19 @@ window.updateAuthUI = function () {
         $('#my-name-display').text(window.userName);
         $('#drawer-user-name').text(window.userName);
         $('#profile-name-display').text(window.userName);
-
+        
         $('#drawer-user-elo').text(window.userElo + " ELO");
         $('#header-elo').text(window.userElo);
         $('#profile-elo-display').text(window.userElo);
-
+        
         $('#puz-elo-display').text(window.userPuzzleElo + "🧩");
-        $('#drawer-puz-elo-display').text(window.userPuzzleElo + "🧩");
         $('#dash-puz-value').text(window.userPuzzleElo + "🧩");
 
-        // Update dashboard profile card
-        $('#btn-profile-dash').removeClass('auth').addClass('settings');
-        $('#dash-profile-label').text(window.userName);
-        $('#dash-profile-status').text("Conectado").css('color', 'var(--primary)');
-
+        // Show logout buttons, hide login buttons
+        $('#btn-login-dash').hide();
         $('#btn-login-perfil').hide();
         $('#btn-logout-perfil').show();
-
+        
         // Update drawer auth button
         $('#btn-auth-drawer').text("CERRAR SESIÓN").off('click').on('click', () => {
             if (confirm("¿Seguro que quieres cerrar sesión?")) {
@@ -307,35 +291,32 @@ window.updateAuthUI = function () {
         });
     } else {
         console.log("👤 Usuario no autenticado");
-
-        // Update dashboard profile card to "Guest" state
-        $('#dash-profile-label').text("Perfil");
-        $('#dash-profile-status').text("Invitado").css('color', 'inherit');
-
-        // Show login buttons inside profile menu
+        
+        // Show login buttons
+        $('#btn-login-dash').show();
         $('#btn-login-perfil').show();
         $('#btn-logout-perfil').hide();
     }
 };
 
 // ===== LOGOUT =====
-window.logout = function () {
+window.logout = function() {
     console.log("🚪 Cerrando sesión");
-
+    
     localStorage.removeItem('chess_token');
     localStorage.removeItem('chess_is_auth');
     localStorage.removeItem('chess_username');
     localStorage.removeItem('chess_user_elo');
     localStorage.removeItem('chess_puz_elo');
-
+    
     window.isAuth = false;
     window.userName = "Invitado";
     window.userElo = 500;
-
+    
     if (typeof showToast === 'function') {
         showToast("Sesión cerrada", "👋", "info");
     }
-
+    
     setTimeout(() => {
         location.reload();
     }, 500);
@@ -345,21 +326,31 @@ window.logout = function () {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("🎬 Auth Module: DOM Ready - Inicializando...");
 
-    // ✅ DELEGACIÓN DE EVENTOS PARA EL MODAL (Más robusto)
-    $(document).on('click', '#btn-auth-submit', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("🖱️ CLICK DETECTADO en Submit Button (Delegado)");
-        window.submitAuth();
-    });
+    // ✅ ATTACH SUBMIT BUTTON (SIN CONFLICTOS)
+    const submitBtn = document.getElementById('btn-auth-submit');
+    if (submitBtn) {
+        // Remover TODOS los listeners previos clonando el nodo
+        const newBtn = submitBtn.cloneNode(true);
+        submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+        
+        // Attach nuevo listener
+        newBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("🖱️ CLICK DETECTADO en Submit Button");
+            window.submitAuth();
+        });
+        
+        console.log("✅ Submit button listener attached");
+    } else {
+        console.error("❌ Submit button NO encontrado en DOM");
+    }
 
-    $(document).on('click', '.auth-tab-btn', function (e) {
-        e.preventDefault();
+    // ✅ ATTACH AUTH TABS
+    $('.auth-tab-btn').on('click', function() {
         const isLogin = $(this).text().includes('ENTRAR');
-        console.log("🖱️ CLICK DETECTADO en Tab:", isLogin ? "LOGIN" : "REGISTER");
         window.switchAuthMode(isLogin ? 'login' : 'register');
     });
-
 
     // ✅ ATTACH PROFILE CLICK
     const profileCard = document.getElementById('drawer-user-card');
@@ -373,64 +364,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // ✅ ATTACH HEADER AUTH BUTTON
     const headerAuthBtn = document.getElementById('btn-auth-trigger');
     if (headerAuthBtn) {
-        headerAuthBtn.onclick = (e) => {
-            e.preventDefault();
+        headerAuthBtn.addEventListener('click', () => {
             console.log("🔐 Header auth button clicked");
             window.openAuth();
-        };
-    }
-
-    // ✅ ATTACH DASHBOARD PROFILE CARD
-    const dashProfileCard = document.getElementById('btn-profile-dash');
-    if (dashProfileCard) {
-        dashProfileCard.onclick = (e) => {
-            console.log("📱 Dashboard Profile card clicked");
-            if (typeof window.showSubMenu === 'function') {
-                window.showSubMenu('perfil');
-            }
-        };
-    }
-
-    // ✅ ATTACH PROFILE AUTH BUTTON (IF IN PERFIL TAB)
-    const profileLoginBtn = document.getElementById('btn-login-perfil');
-    if (profileLoginBtn) {
-        profileLoginBtn.onclick = (e) => {
-            e.preventDefault();
-            console.log("🔐 Profile login button clicked");
-            window.openAuth();
-        };
+        });
     }
 
     // ✅ ATTACH MODAL CLOSE BUTTON
-    $('.btn-ghost').on('click', function () {
+    $('.btn-ghost').on('click', function() {
         $('#auth-modal').fadeOut();
     });
 
-    // ✅ EVITAR QUE LOS CLICS EN EL MODAL PASEN AL FONDO
-    $(document).on('click', '#auth-modal .modal-card', function (e) {
-        e.stopPropagation();
-        console.log("📦 Click dentro de la tarjeta de auth (bloqueado propagación)");
+    // Close modal on overlay click
+    $('#auth-modal').on('click', function(e) {
+        if (e.target.id === 'auth-modal') {
+            $(this).fadeOut();
+        }
     });
-
-    // Delegación de eventos para el modal
-    $(document).on('click', '#btn-auth-submit', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("🚀 BOTÓN SUBMIT PULSADO");
-        window.submitAuth();
-    });
-
-    $(document).on('click', '.auth-tab-btn', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const isLogin = $(this).text().includes('ENTRAR');
-        console.log("📑 PESTAÑA PULSADA:", isLogin ? "LOGIN" : "REGISTER");
-        window.switchAuthMode(isLogin ? 'login' : 'register');
-    });
-
 
     // ✅ ENTER KEY SUBMIT
-    $('#auth-pass').on('keypress', function (e) {
+    $('#auth-pass').on('keypress', function(e) {
         if (e.which === 13) { // Enter key
             e.preventDefault();
             window.submitAuth();

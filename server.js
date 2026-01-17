@@ -56,8 +56,8 @@ app.use((req, res, next) => {
 app.use('/login', authLimiter);
 app.use('/register', authLimiter);
 
-const DB_PATH = path.join(__dirname, 'users.json');
-let users = {};
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 function sanitize(str) {
   if (typeof str !== 'string') return '';
@@ -69,27 +69,6 @@ function sanitize(str) {
     "'": '&#39;'
   })[m]);
 }
-
-function loadUsers() {
-  if (fs.existsSync(DB_PATH)) {
-    try {
-      users = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
-    } catch (e) {
-      console.error("Error cargando DB:", e);
-      users = {};
-    }
-  }
-}
-
-function saveUsers() {
-  try {
-    fs.writeFileSync(DB_PATH, JSON.stringify(users, null, 2));
-  } catch (e) {
-    console.error("Error guardando DB:", e);
-  }
-}
-
-loadUsers();
 
 function hashPassword(password, salt) {
   return crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('hex');
@@ -172,102 +151,108 @@ io.on('connection', (socket) => {
   console.log('Usuario conectado:', socket.id);
 
   // Auto-login if token was valid
-  if (socket.authenticated && users[socket.username]) {
-    const u = users[socket.username];
-    socket.emit('auth_success', {
-      user: socket.username,
-      elo: u.elo || 500, // Ensure updated to 500 default
-      puzElo: u.puzElo || 500,
-      token: socket.handshake.auth.token // Echo back
-    });
-    connectedUsers.set(socket.id, socket.username);
+  if (socket.authenticated) {
+    prisma.user.findUnique({ where: { username: socket.username } })
+      .then(u => {
+        if (u) {
+          socket.emit('login_success', {
+            username: socket.username,
+            elo: u.elo,
+            puzzleElo: u.puzElo,
+            token: socket.handshake.auth.token
+          });
+          connectedUsers.set(socket.id, socket.username);
+        }
+      });
   }
 
   socket.emit('lobby_update', Array.from(activeChallenges.values()));
 
-  socket.on('register', (data) => {
+  socket.on('register', async (data) => {
     try {
-      if (!validateUsername(data.user)) return socket.emit('auth_error', 'Usuario inválido');
-      if (!validatePassword(data.pass)) return socket.emit('auth_error', 'Contraseña inválida');
-      if (!validateEmail(data.email)) return socket.emit('auth_error', 'Email inválido');
-      if (!validatePhone(data.phone)) return socket.emit('auth_error', 'Teléfono inválido');
-      if (users[data.user]) return socket.emit('auth_error', 'El usuario ya existe');
+      if (!validateUsername(data.user)) return socket.emit('register_error', { message: 'Usuario inválido' });
+      if (!validatePassword(data.pass)) return socket.emit('register_error', { message: 'Contraseña inválida' });
+      if (!validateEmail(data.email)) return socket.emit('register_error', { message: 'Email inválido' });
+      if (!validatePhone(data.phone)) return socket.emit('register_error', { message: 'Teléfono inválido' });
 
-      // Verificar si el email ya está en uso
-      if (Object.values(users).some(u => u.email === data.email)) {
-        return socket.emit('auth_error', 'El email ya está registrado');
+      const existingUser = await prisma.user.findFirst({
+        where: { OR: [{ username: data.user }, { email: data.email }] }
+      });
+
+      if (existingUser) {
+        return socket.emit('register_error', { message: 'El usuario o email ya existe' });
       }
 
       const salt = crypto.randomBytes(32).toString('hex');
       const hash = hashPassword(data.pass, salt);
 
-      users[data.user] = {
-        hash, salt, email: data.email,
-        phone: data.phone || '',
-        elo: 500, puzElo: 500,
-        createdAt: new Date().toISOString(),
-        stats: { wins: 0, losses: 0, draws: 0 }
-      };
+      await prisma.user.create({
+        data: {
+          username: data.user,
+          email: data.email,
+          hash,
+          salt,
+          elo: 500,
+          puzElo: 500
+        }
+      });
 
-      saveUsers();
       const token = generateToken(data.user);
       socket.username = data.user;
       socket.authenticated = true;
       connectedUsers.set(socket.id, data.user);
 
-      socket.emit('auth_success', { user: data.user, elo: 1200, puzElo: 1200, token });
+      socket.emit('register_success', { username: data.user, elo: 500, puzzleElo: 500, token });
     } catch (error) {
       console.error('Error en registro:', error);
-      socket.emit('auth_error', 'Error en el servidor');
+      socket.emit('register_error', { message: 'Error en el servidor' });
     }
   });
 
-  socket.on('login', (data) => {
+  socket.on('login', async (data) => {
     try {
-      if (!data.user || !validatePassword(data.pass)) return socket.emit('auth_error', 'Credenciales inválidas');
+      if (!data.user || !validatePassword(data.pass)) return socket.emit('login_error', { message: 'Credenciales inválidas' });
 
-      // Buscar usuario por nombre o por email
-      let userEntry = users[data.user];
-      let finalUsername = data.user;
+      const userEntry = await prisma.user.findFirst({
+        where: { OR: [{ username: data.user }, { email: data.user }] }
+      });
 
-      if (!userEntry) {
-        const found = Object.entries(users).find(([name, u]) => u.email === data.user);
-        if (found) {
-          finalUsername = found[0];
-          userEntry = found[1];
-        }
-      }
-
-      if (!userEntry) return socket.emit('auth_error', 'Usuario no encontrado');
+      if (!userEntry) return socket.emit('login_error', { message: 'Usuario no encontrado' });
 
       const inputHash = hashPassword(data.pass, userEntry.salt);
       if (inputHash === userEntry.hash) {
-        const token = generateToken(finalUsername);
-        socket.username = finalUsername;
+        const token = generateToken(userEntry.username);
+        socket.username = userEntry.username;
         socket.authenticated = true;
-        connectedUsers.set(socket.id, finalUsername);
-        socket.emit('auth_success', {
-          user: finalUsername,
+        connectedUsers.set(socket.id, userEntry.username);
+        socket.emit('login_success', {
+          username: userEntry.username,
           elo: userEntry.elo,
-          puzElo: userEntry.puzElo,
+          puzzleElo: userEntry.puzElo,
           token,
-          stats: userEntry.stats || {}
+          stats: { wins: userEntry.wins, losses: userEntry.losses, draws: userEntry.draws }
         });
       } else {
-        socket.emit('auth_error', 'Credenciales incorrectas');
+        socket.emit('login_error', { message: 'Credenciales incorrectas' });
       }
     } catch (error) {
       console.error('Error en login:', error);
-      socket.emit('auth_error', 'Error en el servidor');
+      socket.emit('login_error', { message: 'Error en el servidor' });
     }
   });
 
-  socket.on('update_elo', (data) => {
+  socket.on('update_elo', async (data) => {
     if (!socket.authenticated || socket.username !== data.user) return;
-    if (users[data.user]) {
-      users[data.user].elo = Math.max(0, Math.min(3000, data.elo));
-      users[data.user].puzElo = Math.max(0, Math.min(3000, data.puzElo));
-      saveUsers();
+    try {
+      await prisma.user.update({
+        where: { username: data.user },
+        data: {
+          elo: Math.max(0, Math.min(3000, data.elo)),
+          puzElo: Math.max(0, Math.min(3000, data.puzElo))
+        }
+      });
+    } catch (e) {
+      console.error("Error updating ELO:", e);
     }
   });
 
@@ -406,13 +391,14 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('resign_game', (data) => {
+  socket.on('resign_game', async (data) => {
     if (!socket.authenticated) return;
     const game = activeGames[data.gameId];
     if (game) {
-      if (users[game.white]) users[game.white].stats.wins++;
-      if (users[game.black]) users[game.black].stats.losses++;
-      saveUsers();
+      try {
+        await prisma.user.update({ where: { username: game.white }, data: { wins: { increment: 1 } } });
+        await prisma.user.update({ where: { username: game.black }, data: { losses: { increment: 1 } } });
+      } catch (e) { console.error("Error updating stats:", e); }
       delete activeGames[data.gameId];
       saveGames();
     }
@@ -436,12 +422,22 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('get_leaderboard', () => {
-    const top10 = Object.keys(users)
-      .map(u => ({ user: u, elo: users[u].elo, stats: users[u].stats || {} }))
-      .sort((a, b) => b.elo - a.elo)
-      .slice(0, 10);
-    socket.emit('leaderboard_data', top10);
+  socket.on('get_leaderboard', async () => {
+    try {
+      const topUsers = await prisma.user.findMany({
+        orderBy: { elo: 'desc' },
+        take: 10,
+        select: { username: true, elo: true, wins: true, losses: true, draws: true }
+      });
+      const top10 = topUsers.map(u => ({
+        user: u.username,
+        elo: u.elo,
+        stats: { wins: u.wins, losses: u.losses, draws: u.draws }
+      }));
+      socket.emit('leaderboard_data', top10);
+    } catch (e) {
+      console.error("Error getting leaderboard:", e);
+    }
   });
 
   // AI GATEWAY VIA SOCKETS (CORS-FREE)

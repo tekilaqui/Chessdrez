@@ -31,6 +31,12 @@ const MAESTRO_KNOWLEDGE = {
             plan: "Asegura el centro antes de buscar ganar material 'gratis'."
         },
         {
+            name: "Mate de Legal (Estructura)",
+            severity: 10,
+            elo_range: [800, 1400],
+            fun_fact: "Sacrificio de dama para dar mate con piezas menores"
+        },
+        {
             name: "Mate del Pastor",
             fen_part: "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR",
             warning: "⚠️ ¡CUIDADO! Amenaza de Mate del Pastor en f7.",
@@ -59,6 +65,10 @@ const MAESTRO_KNOWLEDGE = {
             ideas: "Esquema sólido 'a prueba de balas'.",
             plans: ["Controlar la casilla e5 con el caballo.", "Ataque en el flanco de rey con h4-h5.", "Estructura de peones en triángulo (c3-d4-e3)."],
             traps: ["Ataque temprano ...Qb6"]
+        },
+        "Defensa India de Rey": {
+            ideas: ["Fianchetto de rey", "Contrajuego central"],
+            plans: ["...e5 central", "Ataque en f4-f5", "...c5 Benoni"]
         }
     },
 
@@ -73,7 +83,7 @@ const MAESTRO_KNOWLEDGE = {
         "d4 d5": "Gambito de Dama / Otros",
         "d4 Nf6": "Defensas Indias",
         "c4": "Apertura Inglesa",
-        "Nf3": "Apertura Reti"
+        "Nf3": "Apertura Real"
     }
 };
 
