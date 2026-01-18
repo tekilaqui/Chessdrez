@@ -4299,8 +4299,24 @@ window.goBackToMenu = () => {
     showSubMenu('home');
 };
 
-$('#btn-mobile-menu-back').click(function () {
-    goBackToMenu();
+// ✅ DELEGACIÓN DE EVENTOS PARA NAVEGACIÓN (Bypass CSP onclick issue)
+$(document).on('click', '.btn-back-arrow, #btn-mobile-menu-back', function (e) {
+    e.preventDefault();
+    console.log("🔙 Back navigation triggered");
+    window.goBackToMenu();
+});
+
+$(document).on('click', '.bottom-nav-item', function (e) {
+    const onclickAttr = $(this).attr('onclick');
+    if (onclickAttr && onclickAttr.includes('showSubMenu')) {
+        e.preventDefault();
+        const mode = onclickAttr.match(/'([^']+)'/)[1];
+        console.log("🧭 Navigating to:", mode);
+        window.showSubMenu(mode);
+    } else if (onclickAttr && onclickAttr.includes('goBackToMenu')) {
+        e.preventDefault();
+        window.goBackToMenu();
+    }
 });
 
 $('#hamburger-menu').click(function () {

@@ -32,6 +32,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "http:", "blob:"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https:", "http:"],
       imgSrc: ["'self'", "data:", "https:", "http:", "ui-avatars.com", "cdn-icons-png.flaticon.com"],
       connectSrc: ["'self'", "wss:", "https:", "http:"],
