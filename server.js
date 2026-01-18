@@ -214,10 +214,17 @@ io.on('connection', (socket) => {
 
       socket.emit('register_success', { username: data.user, elo: 500, puzzleElo: 500, token });
     } catch (error) {
-      console.error('❌ Error en registro:', error.message);
-      console.error('Stack:', error.stack);
+      console.error('❌ ERROR CRÍTICO EN REGISTRO:', error.message);
+      console.error('Prisma Error Code:', error.code);
+      console.error('Stack Trace:', error.stack);
+
+      let clientMessage = 'Error en el servidor';
+      if (error.message.includes('User')) {
+        clientMessage = 'Error de base de datos: Las tablas no existen. Ejecuta las migraciones.';
+      }
+
       socket.emit('register_error', {
-        message: 'Error en el servidor',
+        message: clientMessage,
         details: process.env.NODE_ENV !== 'production' ? error.message : undefined
       });
     }
