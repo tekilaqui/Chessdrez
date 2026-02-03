@@ -1,0 +1,314 @@
+/* --- CLASES DE UTILIDAD MÓVIL (Breakpoint 900px) --- */
+.mobile-only {
+    display: none;
+}
+
+.mobile-only-flex {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .mobile-only {
+        display: block;
+    }
+
+    .mobile-only-flex {
+        display: flex;
+    }
+}
+
+/* --- REESTRUCTURACIÓN DE DISEÑO MÓVIL --- */
+@media (max-width: 900px) {
+    .side-widgets-column {
+        display: none !important;
+    }
+
+    .board-wrapper {
+        position: relative !important;
+        padding-top: 80px !important;
+        /* Bajamos el tablero */
+    }
+
+    .mobile-top-tabs {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        padding: 5px !important;
+        z-index: 1500 !important;
+        background: transparent !important;
+    }
+
+    .board-relative {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* RESALTADOS "CIRCULARES DIFUMINADOS" */
+    .square-55d63.highlight-last-move,
+    .square-55d63.highlight-selected,
+    .square-55d63.highlight-hint {
+        box-shadow: none !important;
+        position: relative;
+    }
+
+    .square-55d63.highlight-last-move::after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        border: 2px solid rgba(0, 255, 209, 0.5);
+        box-shadow: 0 0 15px 2px rgba(0, 255, 209, 0.3), inset 0 0 8px rgba(0, 255, 209, 0.2);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .square-55d63.highlight-selected::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        bottom: 3px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 0 12px 1px rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .square-55d63.highlight-hint::after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        border: 2px solid rgba(255, 255, 0, 0.4);
+        box-shadow: 0 0 12px rgba(255, 255, 0, 0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    /* REPOSICIONAMIENTO DE COMENTARIOS (Hueco SUPERIOR entre tablero y pestañas) */
+    .maestro-edu-box {
+        position: absolute !important;
+        bottom: 100% !important;
+        /* Justo encima del tablero */
+        left: 0 !important;
+        right: 0 !important;
+        margin-bottom: 25px !important;
+        /* Espacio con el tablero */
+        background: rgba(13, 13, 13, 0.95) !important;
+        border: 1px solid rgba(0, 255, 209, 0.4) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+        z-index: 1600 !important;
+        width: 100% !important;
+        backdrop-filter: blur(12px) !important;
+    }
+
+    /* PERSPECTIVA (Hueco INFERIOR) */
+    .perspective-box {
+        position: relative !important;
+        top: 0 !important;
+        margin-top: 15px !important;
+        margin-bottom: 10px !important;
+        display: block !important;
+    }
+
+    .maestro-edu-header {
+        padding: 5px 12px;
+        border-bottom: 1px solid rgba(0, 255, 209, 0.2);
+        font-size: 0.7rem;
+        color: var(--accent);
+        font-weight: 800;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .maestro-edu-content {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+
+    .insight-row-mobile {
+        margin-bottom: 4px;
+        display: flex;
+        gap: 8px;
+    }
+
+    .insight-row-mobile .lbl {
+        color: var(--text-dim);
+        font-weight: 800;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    .trap-alert-mini {
+        background: rgba(255, 77, 77, 0.15);
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 77, 77, 0.3);
+        margin-top: 5px;
+        animation: pulse-red 2s infinite;
+    }
+
+    @keyframes pulse-red {
+        0% {
+            border-color: rgba(255, 77, 77, 0.3);
+        }
+
+        50% {
+            border-color: rgba(255, 77, 77, 0.6);
+        }
+
+        100% {
+            border-color: rgba(255, 77, 77, 0.3);
+        }
+    }
+
+    /* COMPACTACIÓN DE CONTROLES INFERIORES */
+    .player-bottom {
+        padding: 2px 0 !important;
+    }
+
+    .nav-controls {
+        margin-top: 4px !important;
+        gap: 6px !important;
+    }
+
+    .ctrl-btn {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 6px !important;
+    }
+
+    .puzzle-controls {
+        margin-top: 5px !important;
+        padding: 8px !important;
+    }
+}
+
+/* Botones de Pestaña */
+.top-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 8px;
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 255, 209, 0.25);
+    color: var(--accent);
+    border-radius: 8px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+    flex: 1;
+    max-width: 100px;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.top-tab-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+/* Ticker de Logs Estático */
+.mobile-logs-ticker {
+    width: 100%;
+    background: rgba(13, 13, 13, 0.98);
+    border: 1px solid rgba(0, 255, 209, 0.4);
+    border-radius: 6px;
+    margin: 8px 0;
+    overflow: hidden;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* Modales e Info Partida */
+.mobile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.96);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+}
+
+.mobile-modal-overlay.active {
+    display: flex !important;
+}
+
+.mobile-modal-container {
+    background: #0a0a0a;
+    border: 1px solid rgba(0, 255, 209, 0.4);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #fff;
+    margin: auto;
+}
+
+.mobile-modal-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-modal-content.unified-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-section {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.info-section h4 {
+    margin: 0 0 8px 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+}

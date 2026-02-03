@@ -1,0 +1,427 @@
+/* BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: var(--font-size-md);
+    transition: all var(--duration-normal) var(--ease);
+    user-select: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+    border: none;
+    font-weight: 800;
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 229, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:active {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-sm {
+    min-height: 32px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+    min-height: 56px;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+/* CARDS */
+.card {
+    background: linear-gradient(135deg, var(--bg-surface), var(--bg-main));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all var(--duration-normal) var(--ease);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 15px 40px rgba(0, 229, 255, 0.15);
+}
+
+.card-header,
+.card-footer {
+    padding: var(--space-md) var(--space-lg);
+}
+
+.card-body {
+    padding: var(--space-lg);
+}
+
+/* FORMS */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    transition: all var(--duration-fast) var(--ease);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(46, 139, 158, 0.2);
+}
+
+/* MODALS */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-normal) var(--ease);
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    transform: translateY(20px);
+    transition: transform var(--duration-normal) var(--ease);
+    border: 1px solid var(--border);
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
+}
+
+/* BOTTOM NAVIGATION */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-surface);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(60px + env(safe-area-inset-bottom));
+    z-index: 100;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background: none;
+    transition: color var(--duration-fast) ease;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.nav-label {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* CHESS BOARD */
+.board-container {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    /* Maestro: 8px, using 4px for mobile */
+    overflow: hidden;
+}
+
+.square {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 10px;
+    /* For coords if needed */
+}
+
+.square.light {
+    background-color: var(--board-light, #F0D9B5);
+}
+
+.square.dark {
+    background-color: var(--board-dark, #BACA44);
+}
+
+.piece {
+    width: 100%;
+    height: 100%;
+    background-size: 85%;
+    /* Maestro spec implies filling but let's keep it tidy */
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: grab;
+    z-index: 2;
+    transition: transform 0.1s ease;
+}
+
+.piece:active,
+.piece.dragging {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: var(--primary);
+    pointer-events: none;
+}
+
+.highlight.last-move {
+    background-color: rgba(155, 199, 0, 0.41);
+}
+
+.highlight.selected {
+    background-color: rgba(20, 85, 30, 0.5);
+}
+
+/* Position Editor Modal */
+.position-editor-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.position-editor-content {
+    background: var(--bg-panel, #262421);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+    /* Limit max size but allow growing */
+    width: 1000px;
+    max-width: 95vw;
+    height: 80vh;
+    /* Fixed height to force layout */
+    max-height: 900px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+    .position-editor-content {
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 15px;
+        gap: 15px;
+        overflow-y: auto;
+    }
+}
+
+.editor-board-section {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    /* Fill parent */
+}
+
+/* Ensure board takes max space but keeps aspect ratio */
+.editor-board-section .chess-board {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1;
+    display: grid;
+    /* Restore grid */
+    object-fit: contain;
+}
+
+.editor-controls {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.editor-controls h2 {
+    color: var(--primary);
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+.piece-palette {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.palette-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.palette-piece {
+    width: 35px;
+    height: 35px;
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.palette-piece:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.palette-piece.selected {
+    background-color: var(--primary);
+    box-shadow: 0 0 5px var(--primary);
+}
+
+.palette-piece.trash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-left: auto;
+}
+
+.fen-container input {
+    width: 100%;
+    background: #111;
+    border: 1px solid #444;
+    color: #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.editor-actions-row {
+    display: flex;
+    gap: 10px;
+}
+
+.editor-actions-row button {
+    flex: 1;
+    font-size: 12px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.chess-board.editable .square {
+    cursor: pointer;
+}
+
+.chess-board.editable .square:hover {
+    box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+/* End Position Editor Styles */

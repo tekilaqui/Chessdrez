@@ -1,0 +1,17 @@
+[
+  {
+    "id": "00Ac7",
+    "fen": "8/2p1pk1p/Pp4p1/8/p1P2P2/3r2P1/3PR2P/3K4 b - - 1 33",
+    "solution": [
+      "a4a3",
+      "a6a7",
+      "d3d8",
+      "e2e3",
+      "a3a2",
+      "e3a3"
+    ],
+    "rating": 2362,
+    "themes": "advancedPawn advantage endgame long rookEndgame",
+    "category": "advancedpawn"
+  }
+]

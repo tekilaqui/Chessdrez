@@ -1,0 +1,60 @@
+/* 
+  VISIBILITY FIXES - UNIFIED WITH board-active
+  Ensures board only shows when body has .board-active class.
+*/
+
+/* HIDE BY DEFAULT */
+body:not(.board-active) #board-layout,
+body:not(.board-active) #board-container-wrapper,
+body:not(.board-active) .analysis-right-panel,
+body:not(.board-active) .opening-wiki-panel,
+body:not(.board-active) .board-wrapper {
+    display: none !important;
+}
+
+/* SHOW IN GAME MODE */
+body.board-active #board-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    visibility: visible !important;
+    min-height: 100vh;
+    padding-bottom: 80px !important;
+    /* Margen extra para que nada se corte */
+    overflow-y: auto !important;
+    /* Permitir scroll vertical */
+}
+
+body.board-active #board-container-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+}
+
+body.board-active .player-top,
+body.board-active .player-bottom,
+body.board-active .nav-controls,
+body.board-active .board-container {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 5px 0 !important;
+}
+
+body.board-active #myBoard {
+    width: 100% !important;
+    aspect-ratio: 1/1 !important;
+}
+
+/* Hide side panels on PC for clean view */
+@media (min-width: 992px) {
+
+    body.board-active .analysis-right-panel,
+    body.board-active .opening-wiki-panel {
+        display: none !important;
+    }
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "006NL",
+    "fen": "1r6/k2qn1b1/p1b1p1p1/2PpPpN1/2nN1P1P/p4B2/1PP2Q2/1K1R3R w - - 0 32",
+    "solution": [
+      "d4c6",
+      "e7c6",
+      "b2b3",
+      "a3a2",
+      "b1a1",
+      "c4e5",
+      "f4e5",
+      "g7e5",
+      "a1a2",
+      "b8b5"
+    ],
+    "rating": 2543,
+    "themes": "advancedPawn advantage middlegame pin veryLong",
+    "category": "advancedpawn"
+  }
+]

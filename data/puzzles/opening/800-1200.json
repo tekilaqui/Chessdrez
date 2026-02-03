@@ -1,0 +1,13 @@
+[
+  {
+    "id": "017Lc",
+    "fen": "r1b2rk1/pp3ppp/2p1pn2/8/2P5/n5Q1/PP1BN1PP/Kq1R1B1R w - - 10 22",
+    "solution": [
+      "d1b1",
+      "a3c2"
+    ],
+    "rating": 1068,
+    "themes": "opening",
+    "category": "opening"
+  }
+]

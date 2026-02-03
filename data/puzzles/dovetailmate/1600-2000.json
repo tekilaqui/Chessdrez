@@ -1,0 +1,13 @@
+[
+  {
+    "id": "00j1r",
+    "fen": "8/2rkb3/1p6/6P1/5q2/3R4/Q1P1K3/8 b - - 4 37",
+    "solution": [
+      "d7c6",
+      "a2d5"
+    ],
+    "rating": 1641,
+    "themes": "dovetailMate endgame mate mateIn1 oneMove",
+    "category": "dovetailmate"
+  }
+]

@@ -1,0 +1,763 @@
+/**
+ * enhanced_analysis.css
+ * Estilos estilo Lichess para el sistema de análisis
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT PRINCIPAL (GRID 3 COLUMNAS)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Desktop: Grid de 3 columnas estricto */
+@media (min-width: 992px) {
+    #board-layout.active-layout {
+        /* display: grid !important; */
+        /* grid-template-columns: minmax(260px, 300px) minmax(auto, 80vh) minmax(300px, 400px) !important; */
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        grid-template-rows: 1fr;
+        gap: 0 !important;
+        align-items: start;
+        justify-content: center;
+        height: calc(100vh - 60px);
+        /* Ajustar según header */
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-top: 10px;
+    }
+
+    /* Columnas específicas */
+    .opening-wiki-panel {
+        grid-column: 1;
+        height: 100%;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #board-container-wrapper {
+        /* Wrapper del tablero si existe */
+        grid-column: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Tablero mismo */
+    .board-container,
+    #board {
+        width: 100%;
+        max-width: 80vh;
+        /* Mantener cuadrado */
+        aspect-ratio: 1/1;
+    }
+
+    /* Panel derecho (Análisis/Motor) */
+    .analysis-right-panel {
+        grid-column: 3;
+        height: 100%;
+        display: flex !important;
+        /* Forzar display en desktop */
+        flex-direction: column;
+        background: #262421;
+        /* Color Lichess Dark */
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
+
+    /* Ocultar elementos móviles */
+    .analysis-tabs-mobile,
+    .analysis-panels-mobile {
+        display: none !important;
+    }
+}
+
+/* Mobile: Stack vertical */
+@media (max-width: 991px) {
+    #board-layout.active-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        height: auto;
+    }
+
+    .opening-wiki-panel {
+        display: none !important;
+        /* Panel lateral oculto en móvil */
+    }
+
+    .analysis-right-panel {
+        display: none !important;
+        /* Panel derecho oculto, usamos los móviles */
+    }
+
+    .analysis-tabs-mobile {
+        display: flex !important;
+    }
+
+    .analysis-panels-mobile {
+        display: flex !important;
+    }
+
+    #board {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PANEL IZQUIERDO: WIKIBOOK / APERTURAS
+   ═══════════════════════════════════════════════════════════════ */
+
+.opening-wiki-panel {
+    background: #262421;
+    /* Color fondo Lichess */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.owp-header {
+    background: #302e2c;
+    border-bottom: 1px solid #404040;
+    padding: 10px 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.owp-title {
+    color: #bababa;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.owp-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    color: #bababa;
+}
+
+.owp-opening-name {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.owp-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PANEL DERECHO: MOTOR Y MOVIMIENTOS (Desktop)
+   ═══════════════════════════════════════════════════════════════ */
+
+.arp-header {
+    background: #302e2c;
+    border-bottom: 1px solid #404040;
+    padding: 8px 15px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.arp-eval-box {
+    background: #3c3b39;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #fff;
+    font-weight: bold;
+}
+
+.arp-moves-container {
+    flex: 1;
+    overflow-y: auto;
+    background: #262421;
+    display: flex;
+    flex-wrap: wrap;
+    /* Estilo tabla de movimientos */
+    align-content: flex-start;
+}
+
+.arp-move-row {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #302e2c;
+}
+
+.arp-move-num {
+    background: #302e2c;
+    color: #808080;
+    padding: 5px 10px;
+    width: 50px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arp-move-cell {
+    flex: 1;
+    padding: 5px 10px;
+    color: #bababa;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.arp-move-cell:hover {
+    background: #363431;
+    color: #fff;
+}
+
+.arp-move-cell.active {
+    background: #1b78d6;
+    /* Azul highlight Lichess */
+    color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MÓVIL: PESTAÑAS Y PANELES
+   ═══════════════════════════════════════════════════════════════ */
+
+.analysis-tabs-mobile {
+    background: #262421;
+    display: flex;
+    border-bottom: 1px solid #404040;
+}
+
+.atm-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px 0;
+    color: #8a8a8a;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+}
+
+.atm-tab.active {
+    color: #629924;
+    /* Verde Lichess */
+    border-bottom-color: #629924;
+    background: #302e2c;
+}
+
+.analysis-panels-mobile {
+    background: #262421;
+    flex: 1;
+    /* Ocupar resto de pantalla en móvil */
+    overflow-y: auto;
+}
+
+.apm-panel {
+    display: none;
+    padding: 15px;
+}
+
+.apm-panel.visible {
+    display: block;
+}
+
+/* Estilos de Motor/Barras (Common) */
+.eval-bar-container {
+    height: 10px;
+    background: #555;
+    border-radius: 2px;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.eval-bar-fill {
+    height: 100%;
+    background: #fff;
+    /* Ojo: invertir si es blancas/negras logic */
+    width: 50%;
+    transition: width 0.5s ease;
+}
+
+/* Scrollbars Lichess-like */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #262421;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #505050;
+}
+
+.opening-wiki-panel {
+    width: 280px;
+    min-width: 250px;
+    max-width: 300px;
+    background: linear-gradient(180deg, rgba(40, 44, 52, 0.98) 0%, rgba(30, 33, 40, 0.98) 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.owp-header {
+    background: rgba(78, 205, 199, 0.1);
+    border-bottom: 1px solid rgba(78, 205, 199, 0.2);
+    padding: 10px 12px;
+}
+
+.owp-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent, #4ecdc7);
+}
+
+.owp-icon {
+    font-size: 1rem;
+}
+
+.owp-title {
+    flex: 1;
+}
+
+.owp-arrow {
+    font-size: 0.6rem;
+    opacity: 0.7;
+}
+
+.owp-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.owp-opening-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2196F3;
+    margin: 0 0 12px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.owp-description {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.owp-description p {
+    margin: 0 0 12px 0;
+}
+
+.owp-description p:last-child {
+    margin-bottom: 0;
+}
+
+.owp-tip {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PESTAÑAS MÓVILES ESTILO LICHESS
+   ═══════════════════════════════════════════════════════════════ */
+
+.analysis-tabs-mobile {
+    display: flex;
+    justify-content: space-around;
+    background: linear-gradient(180deg, rgba(40, 44, 52, 0.95) 0%, rgba(35, 38, 45, 0.95) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 4px;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.atm-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.65rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.atm-tab:hover {
+    background: rgba(78, 205, 199, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.atm-tab.active {
+    background: rgba(78, 205, 199, 0.2);
+    border-color: var(--accent, #4ecdc7);
+    color: var(--accent, #4ecdc7);
+}
+
+.atm-tab.has-alert::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+.atm-icon {
+    font-size: 1rem;
+}
+
+.atm-label {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PANELES MÓVILES COLAPSABLES
+   ═══════════════════════════════════════════════════════════════ */
+
+.analysis-panels-mobile {
+    display: flex;
+    flex-direction: column;
+}
+
+.apm-panel {
+    display: none;
+    background: linear-gradient(180deg, rgba(35, 38, 45, 0.95) 0%, rgba(30, 33, 40, 0.95) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    animation: slideDown 0.2s ease;
+}
+
+.apm-panel.visible {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.apm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.apm-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2196F3;
+}
+
+.apm-content {
+    padding: 12px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Panel Motor */
+.apm-engine-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.apm-engine-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent, #4ecdc7);
+    background: rgba(78, 205, 199, 0.15);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.apm-engine-depth {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.apm-eval-bar {
+    position: relative;
+    height: 24px;
+    background: linear-gradient(90deg, #333 0%, #333 50%, #e0e0e0 50%, #e0e0e0 100%);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.apm-eval-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #333 0%, #555 100%);
+    transition: width 0.3s ease;
+    width: 50%;
+}
+
+.apm-eval-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.apm-best-line {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* Panel Mejores Jugadas */
+.apm-moves-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.apm-move-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.apm-move-item:hover {
+    background: rgba(78, 205, 199, 0.15);
+    transform: translateX(3px);
+}
+
+.apm-move-item.loading {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    cursor: default;
+}
+
+.apm-move-item.loading:hover {
+    transform: none;
+}
+
+.apm-move-san {
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.apm-move-score {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Panel Trampas */
+.apm-traps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.apm-no-traps {
+    text-align: center;
+    padding: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+}
+
+.apm-trap-item {
+    padding: 10px;
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.apm-trap-item:hover {
+    background: rgba(255, 107, 107, 0.2);
+    transform: translateX(3px);
+}
+
+.apm-trap-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ff6b6b;
+    margin-bottom: 6px;
+}
+
+.apm-trap-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.apm-trap-next {
+    font-family: monospace;
+    color: var(--accent, #4ecdc7);
+}
+
+.apm-trap-remaining {
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT AJUSTES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* En PC: board-layout incluye el panel de apertura */
+@media (min-width: 992px) {
+    /* Flex layout override removed to fix Desktop Grid */
+
+    .opening-wiki-panel {
+        display: flex;
+        height: 100%;
+    }
+
+    /* Ocultar elementos móviles en desktop */
+    .analysis-tabs-mobile,
+    .analysis-panels-mobile {
+        display: none !important;
+    }
+}
+
+/* En móvil: ocultar panel de apertura */
+@media (max-width: 991px) {
+    .opening-wiki-panel {
+        display: none !important;
+    }
+
+    .analysis-tabs-mobile {
+        display: flex !important;
+    }
+}
+
+/* Tablet ajustes */
+@media (min-width: 768px) and (max-width: 991px) {
+    .owp-content {
+        padding: 10px;
+    }
+
+    .owp-opening-name {
+        font-size: 0.9rem;
+    }
+
+    .owp-description {
+        font-size: 0.8rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMACIONES EXTRA
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Efecto hover en el panel de apertura */
+.owp-opening-name {
+    transition: color 0.2s ease;
+}
+
+.opening-wiki-panel:hover .owp-opening-name {
+    color: #64B5F6;
+}
+
+/* Scrollbar personalizada */
+.owp-content::-webkit-scrollbar,
+.apm-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.owp-content::-webkit-scrollbar-track,
+.apm-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.owp-content::-webkit-scrollbar-thumb,
+.apm-content::-webkit-scrollbar-thumb {
+    background: rgba(78, 205, 199, 0.3);
+    border-radius: 3px;
+}
+
+.owp-content::-webkit-scrollbar-thumb:hover,
+.apm-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 205, 199, 0.5);
+}

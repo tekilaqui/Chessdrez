@@ -1,0 +1,80 @@
+[
+  {
+    "id": "001Wz",
+    "fen": "4r1k1/5ppp/r1p5/p1n1RP2/8/2P2N1P/2P3P1/3R2K1 b - - 0 21",
+    "solution": [
+      "e8e5",
+      "d1d8",
+      "e5e8",
+      "d8e8"
+    ],
+    "rating": 1127,
+    "themes": "backRankMate endgame mate mateIn2 short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00MS3",
+    "fen": "rn1qr1k1/1p2bppp/2p2B2/p2p4/3P4/2N2N2/PPP1QPPP/2KRR3 b - - 0 12",
+    "solution": [
+      "e7f6",
+      "e2e8",
+      "d8e8",
+      "e1e8"
+    ],
+    "rating": 824,
+    "themes": "backRankMate mate mateIn2 middlegame short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00NOI",
+    "fen": "3r4/2k2p1p/pp2pp2/2p5/3nN3/6P1/PPP2PRP/2K5 w - - 2 23",
+    "solution": [
+      "e4f6",
+      "d4e2",
+      "c1b1",
+      "d8d1"
+    ],
+    "rating": 966,
+    "themes": "backRankMate endgame mate mateIn2 short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00RYH",
+    "fen": "1k5r/ppp1R2p/3r1p2/5Q2/3p4/2qP4/2P2PPP/2K1R3 b - - 5 26",
+    "solution": [
+      "d6a6",
+      "e7e8",
+      "h8e8",
+      "e1e8"
+    ],
+    "rating": 1031,
+    "themes": "backRankMate endgame mate mateIn2 short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00ZKw",
+    "fen": "rn1q1r1k/ppp5/1b2ppQ1/6B1/8/2P5/PP4PP/RN3R1K w - - 2 18",
+    "solution": [
+      "f1f6",
+      "d8d1",
+      "f6f1",
+      "f8f1"
+    ],
+    "rating": 1017,
+    "themes": "backRankMate mate mateIn2 middlegame short",
+    "category": "backrankmate"
+  },
+  {
+    "id": "00aBq",
+    "fen": "r2r2k1/pp3ppp/1qn2b2/3R4/4QB2/1P3N2/P4PPP/4R1K1 b - - 0 18",
+    "solution": [
+      "d8d5",
+      "e4e8",
+      "a8e8",
+      "e1e8"
+    ],
+    "rating": 910,
+    "themes": "backRankMate mate mateIn2 middlegame sacrifice short",
+    "category": "backrankmate"
+  }
+]

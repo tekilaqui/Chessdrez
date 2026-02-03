@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.sqlite
+*.db
+.prisma/
+
+# Old/Deprecated
+version anterior/
+cambios movil/
+
+# Temporary files
+*.tmp
+trace_*.txt
+error.txt
+syntax_error.txt
+trace_output*.txt
+count_*.py
+counter*.py
+find_*.py
+fix_*.py
+rebalance_*.py
+restructure_*.py
+clean_*.py
+
+# Artifacts
+*.zip
+chess_hero_preview.png

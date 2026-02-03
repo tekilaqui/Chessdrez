@@ -1,0 +1,15 @@
+[
+  {
+    "id": "015Di",
+    "fen": "r2k1bnr/p1pp1Bpp/1p3q2/4N1B1/3p4/2P5/PP2QPbP/RN2K2R b KQ - 2 10",
+    "solution": [
+      "f6g5",
+      "e5c6",
+      "g2c6",
+      "e2e8"
+    ],
+    "rating": 1631,
+    "themes": "clearance mate mateIn2 opening sacrifice short",
+    "category": "clearance"
+  }
+]

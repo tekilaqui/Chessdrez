@@ -1,0 +1,28 @@
+[
+  {
+    "id": "00KhM",
+    "fen": "5rk1/5ppp/1R6/3Qp3/2B1P3/2q3P1/3R1PKP/1r6 b - - 0 27",
+    "solution": [
+      "b1b6",
+      "d5f7",
+      "f8f7",
+      "d2d8"
+    ],
+    "rating": 1360,
+    "themes": "clearance endgame mate mateIn2 pin sacrifice short",
+    "category": "clearance"
+  },
+  {
+    "id": "01EUl",
+    "fen": "r2qk2r/ppp2pp1/2p2n2/7p/3bP1b1/2N3Q1/PPP2PPP/R1B1KB1R w KQkq - 0 9",
+    "solution": [
+      "h2h3",
+      "d4c3",
+      "g3c3",
+      "d8d1"
+    ],
+    "rating": 1319,
+    "themes": "clearance mate mateIn2 opening short",
+    "category": "clearance"
+  }
+]
