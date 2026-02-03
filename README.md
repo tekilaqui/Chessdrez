@@ -86,16 +86,14 @@ chesstricks/
 - ✅ Sanitización de HTML
 - ⚠️ Dotfiles protegidos (`.env` nunca expuesto)
 
-## 🚀 Deployment
+Configurado para **Render.com** mediante **Blueprints** (Recomendado):
 
-Configurado para **Render.com**:
+1. En el panel de Render, pulsa **"+ New"** -> **"Blueprint"**.
+2. Conecta tu repositorio.
+3. Render configurará la base de datos PostgreSQL, `DATABASE_URL` y `JWT_SECRET` automáticamente.
 
-```bash
-npm run build    # Prisma migrations + prepare
-npm start        # Start server
-```
-
-Variables de entorno requeridas en Render:
+### Despliegue Manual (Alternativo)
+Variables de entorno requeridas en Render si no usas Blueprints:
 - `DATABASE_URL`: PostgreSQL connection string
 - `JWT_SECRET`: Clave secreta para JWT (cambiar en producción)
 - `NODE_ENV`: "production"
