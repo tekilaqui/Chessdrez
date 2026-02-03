@@ -1,4 +1,4 @@
-# ♟️ Chess Tricks - Maestro IA & Ajedrez Online
+# ♟️ Chessdrez - Maestro IA & Ajedrez Online (Sync: 2026-02-04)
 
 Una plataforma web moderna de ajedrez con IA, juego online, análisis avanzado y sistema de puzzles tácticos.
 
