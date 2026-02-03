@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: chesstricks
+    runtime: node
+    plan: free
+    buildCommand: npx prisma generate
+    startCommand: npx prisma migrate deploy && node server.js
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chesstricks-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: chesstricks-db
+    plan: free
+    region: oregon
