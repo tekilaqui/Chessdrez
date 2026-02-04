@@ -97,8 +97,15 @@ export default class Home {
             btn.onclick = () => {
                 if (act.action === 'kids') {
                     window.location.href = 'kids/kids.html'; // Direct link for now
-                } else if (['academy', 'openings'].includes(act.action)) {
+                } else if (act.action === 'academy') {
                     alert(`Sección ${act.label} en construcción`);
+                } else if (act.action === 'openings') {
+                    // Call legacy openings system
+                    if (typeof showSubMenu === 'function') {
+                        showSubMenu('aperturas');
+                    } else {
+                        alert('Sistema de aperturas no disponible');
+                    }
                 } else {
                     if (window.chessApp) window.chessApp.navigateTo(act.action);
                 }
