@@ -99,12 +99,14 @@ export default class Home {
                     window.location.href = 'kids/kids.html'; // Direct link for now
                 } else if (act.action === 'academy') {
                     alert(`Sección ${act.label} en construcción`);
-                } else if (act.action === 'openings') {
-                    // Call legacy openings system
+                } else if (act.action === 'openings' || act.action === 'analysis') {
+                    // Call legacy system
+                    const legacyId = act.action === 'openings' ? 'aperturas' : 'analisis';
+
                     if (typeof showSubMenu === 'function') {
-                        showSubMenu('aperturas');
+                        showSubMenu(legacyId);
                     } else {
-                        alert('Sistema de aperturas no disponible');
+                        alert('Sistema no disponible');
                     }
                 } else {
                     if (window.chessApp) window.chessApp.navigateTo(act.action);
