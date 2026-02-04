@@ -98,6 +98,27 @@ Variables de entorno requeridas en Render si no usas Blueprints:
 - `JWT_SECRET`: Clave secreta para JWT (cambiar en producción)
 - `NODE_ENV`: "production"
 
+### Troubleshooting Deployment
+
+#### Error: "Can't reach database server"
+Si ves este error en los logs de Render:
+1. **Espera a que la BD esté aprovisionada**: La base de datos puede tardar 2-3 minutos en estar lista
+2. **Verifica las variables de entorno**: Asegúrate de que `DATABASE_URL` esté configurada correctamente
+3. **Reintentos automáticos**: El servidor ahora reintenta la conexión 5 veces con backoff exponencial
+4. **Manual Deploy**: Si persiste, haz un "Manual Deploy" desde el dashboard de Render
+
+#### Migraciones fallidas
+Si las migraciones fallan durante el build:
+```bash
+# Accede al Shell de Render y ejecuta:
+npx prisma migrate deploy
+```
+
+#### Verificar salud del servicio
+Una vez desplegado, visita: `https://chessdrez.onrender.com/health`
+Debería devolver: `{"status":"ok","timestamp":"..."}`
+
+
 ## 🐛 Estado Actual & Mejoras Pendientes
 
 ### En Progreso

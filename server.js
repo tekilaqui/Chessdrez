@@ -66,13 +66,27 @@ const prisma = new PrismaClient({
   log: process.env.NODE_ENV === 'production' ? ['error'] : ['query', 'error', 'warn'],
 });
 
-// Verificar conexión a la base de datos al iniciar
-prisma.$connect()
-  .then(() => console.log('✅ Prisma conectado correctamente'))
-  .catch((err) => {
-    console.error('❌ Error conectando Prisma:', err);
-    process.exit(1);
-  });
+// Verificar conexión a la base de datos con reintentos
+async function connectWithRetry(retries = 5, delay = 2000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await prisma.$connect();
+      console.log('✅ Prisma conectado correctamente');
+      return true;
+    } catch (err) {
+      console.warn(`⚠️  Intento ${i + 1}/${retries} - Error conectando Prisma:`, err.message);
+      if (i < retries - 1) {
+        await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+      }
+    }
+  }
+  console.error('❌ No se pudo conectar a Prisma después de varios intentos');
+  console.error('⚠️  El servidor continuará pero las operaciones de BD fallarán');
+  return false;
+}
+
+// Intentar conectar pero no bloquear el inicio del servidor
+connectWithRetry().catch(console.error);
 
 function sanitize(str) {
   if (typeof str !== 'string') return '';
