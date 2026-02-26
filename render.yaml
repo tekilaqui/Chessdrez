@@ -2,7 +2,7 @@ services:
   - type: web
     name: chessdrez-api
     runtime: node
-    buildCommand: npm install -g pnpm@9 && pnpm install && pnpm --filter api run build
+    buildCommand: npm install -g pnpm@9 && pnpm install && pnpm --filter @chess-platform/shared run build && pnpm --filter api run build
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
