@@ -602,24 +602,14 @@ const PlayPage: React.FC = () => {
                                 const meta = fullHistory?.[i + 1];
                                 const comment = meta?.comment;
                                 return (
-                                    <div key={i} className="py-2 px-3 rounded-2xl bg-white/5 border border-white/5">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-[9px] opacity-20">{i + 1}</span>
-                                                <span className="uppercase text-white/90 font-bold">{move}</span>
-                                            </div>
-                                            {comment && (
-                                                <div className="text-[10px] font-black" style={{ color: getCategoryColor(comment.category) }}>{getCategoryLabel(comment.category)}</div>
-                                            )}
+                                    <div key={i} className="flex items-center justify-between py-1 px-2 mb-1 rounded bg-white/5 border border-white/5 text-xs">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] text-white/30">{i + 1}.</span>
+                                            <span className="font-bold text-white/90 uppercase">{move}</span>
                                         </div>
-
-                                        {comment && (
-                                            <div className="mt-2 text-xs text-white/80 whitespace-pre-line">
-                                                {comment.heuristics && comment.heuristics.length > 0 ? (
-                                                    <div>{formatMoveCommentText(comment)}</div>
-                                                ) : (
-                                                    <div>{formatMoveCommentText(comment)}</div>
-                                                )}
+                                        {comment && comment.category && (
+                                            <div className="text-[10px] font-black uppercase" style={{ color: getCategoryColor(comment.category) }}>
+                                                {comment.category}
                                             </div>
                                         )}
                                     </div>
