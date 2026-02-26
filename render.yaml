@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: chessdrez-api
+    runtime: node
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm --filter api run build
+    startCommand: pnpm --filter api run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
