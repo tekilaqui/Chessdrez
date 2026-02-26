@@ -164,7 +164,8 @@ class EngineManager {
     public getBestMoveOnce(fen: string, level: number = 20): Promise<string | null> {
         const callBackend = async (): Promise<string | null> => {
             try {
-                const url = (typeof window !== 'undefined') ? `${window.location.origin}/api/engine/bestmove` : `/api/engine/bestmove`;
+                const apiBase = (typeof window !== 'undefined' && (window as any).VITE_API_URL) || 'http://localhost:3000';
+                const url = `${apiBase}/engine/bestmove`;
                 const resp = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -278,7 +279,7 @@ class EngineManager {
 
             // Log subscription events to help debug engine stalls
             const debugOnEval = (ev: EngineEvaluation) => {
-                console.log('[EngineManager DEBUG] eval update', { score: ev.score, bestMove: ev.bestMove, multipv: ev.multipv?.slice(0,3) });
+                console.log('[EngineManager DEBUG] eval update', { score: ev.score, bestMove: ev.bestMove, multipv: ev.multipv?.slice(0, 3) });
             };
 
             this.analyze(fen, `depth ${depth} movetime ${softTimeoutMs}`);

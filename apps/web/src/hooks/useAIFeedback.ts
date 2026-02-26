@@ -17,7 +17,8 @@ export function useAIFeedback() {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('/api/ai/explain', {
+            const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await fetch(`${apiBase}/ai/explain`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

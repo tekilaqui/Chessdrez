@@ -10,8 +10,6 @@ process.env.JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key-change-in-pro
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
         transform: true,
     }));
     app.enableCors();
