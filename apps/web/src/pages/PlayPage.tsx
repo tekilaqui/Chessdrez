@@ -579,25 +579,7 @@ const PlayPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Debug: show history lengths to diagnose missing historial */}
-                    <div className="mt-4 bg-black/20 p-3 rounded-xl border border-white/5 text-[9px] text-white/60">
-                        <div className="flex items-center justify-between">
-                            <div>Historial: <strong className="text-white">{history.length}</strong></div>
-                            <div>UCI: <strong className="text-white">{uciHistory.length}</strong></div>
-                            <div>Full: <strong className="text-white">{fullHistory.length}</strong></div>
-                        </div>
-                        <div className="mt-2 text-xs text-white/50">
-                            Preview: {fullHistory.slice(0, 3).map((f, i) => (f?.san || f?.uci || f?.fen || '').toString()).join(' | ') || '—'}
-                        </div>
-                    </div>
-                    {/* Debug overlay toggle */}
-                    <div className="mt-3 flex items-center gap-2">
-                        <label className="text-xs text-white/40">Debug overlay:</label>
-                        <input type="checkbox" checked={!!localStorage.getItem('debug_overlay')} onChange={(e) => {
-                            try { if (e.target.checked) localStorage.setItem('debug_overlay', '1'); else localStorage.removeItem('debug_overlay'); } catch { };
-                            window.location.reload();
-                        }} />
-                    </div>
+
                 </div>
 
                 <div className="flex-1 bg-[#1a1c24] rounded-3xl border border-white/5 p-6 shadow-2xl flex flex-col min-h-0">
@@ -608,23 +590,7 @@ const PlayPage: React.FC = () => {
                         </button>
                     </div>
 
-                    {/* Debug overlay (enabled via localStorage debug_overlay) */}
-                    {typeof window !== 'undefined' && localStorage.getItem('debug_overlay') && (
-                        <div className="absolute top-6 left-6 z-50 max-w-md p-3 bg-black/60 text-xs text-white rounded-md border border-white/10 glass-card overflow-auto" style={{ maxHeight: '60vh' }}>
-                            <div className="font-bold mb-1">LIVE DEBUG</div>
-                            <div className="mb-2"><strong>timeW:</strong> {timeW} <strong>timeB:</strong> {timeB}</div>
-                            <div className="mb-2"><strong>engine eval:</strong> {evaluation.score !== null ? evaluation.score.toFixed(2) : 'null'} best: {evaluation.bestMove || '-'}</div>
-                            <div className="mb-2"><strong>history ({history.length}):</strong>
-                                <div className="text-[11px] mt-1 whitespace-pre-wrap">{JSON.stringify(history.slice(-10), null, 0)}</div>
-                            </div>
-                            <div className="mb-2"><strong>uciHistory ({uciHistory.length}):</strong>
-                                <div className="text-[11px] mt-1 whitespace-pre-wrap">{JSON.stringify(uciHistory.slice(-10), null, 0)}</div>
-                            </div>
-                            <div className="mb-2"><strong>fullHistory ({fullHistory.length}):</strong>
-                                <div className="text-[11px] mt-1 whitespace-pre-wrap">{JSON.stringify(fullHistory.slice(-10).map(f => ({ san: f.san, uci: f.uci, commentCategory: f.comment?.category, eval: f.evaluation?.score })), null, 0)}</div>
-                            </div>
-                        </div>
-                    )}
+
 
                     <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-2 content-start custom-scrollbar">
                         {(() => {
