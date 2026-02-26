@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  password       String
+  name           String?
+  elo            Int             @default(500)
+  puzzleRating   Int             @default(500)
+  puzzleStreak   Int             @default(0)
+  puzzleSolved   Int             @default(0)
+  puzzleFailed   Int             @default(0)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  gamesAsBlack     Game[]            @relation("BlackPlayer")
+  gamesAsWhite     Game[]            @relation("WhitePlayer")
+  puzzleAttempts   PuzzleAttempt[]
+  openingProgress  OpeningProgress[]
+  repertoire       UserRepertoire[]
+
+  @@index([createdAt])
+}
+
+model PuzzleAttempt {
+  id        String   @id @default(uuid())
+  userId    String
+  puzzleId  String
+  success   Boolean
+  rating    Int      // User rating at the time of attempt
+  delta     Int      // Rating change
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  puzzle    Puzzle   @relation(fields: [puzzleId], references: [id])
+
+  @@index([userId])
+  @@index([puzzleId])
+  @@index([userId, createdAt])
+}
+
+model Puzzle {
+  id              String          @id // Lichess PuzzleId
+  fen             String
+  solution        String          // UCI moves joined by space
+  rating          Int
+  ratingDeviation Int
+  themes          String          // Themes joined by space
+  createdAt       DateTime        @default(now())
+  attempts        PuzzleAttempt[]
+
+  @@index([rating])
+}
+
+model Game {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  whitePlayerId String?
+  blackPlayerId String?
+  pgn           String?
+  fen           String
+  result        String?
+  status        String
+  source        String?  // e.g. 'ai', 'pvp', 'puzzle'
+  aiLevel       Int?
+  timeControl   String?  // e.g. '10+0', '3+2', null for unlimited
+  blackPlayer   User?    @relation("BlackPlayer", fields: [blackPlayerId], references: [id])
+  whitePlayer   User?    @relation("WhitePlayer", fields: [whitePlayerId], references: [id])
+  moves         GameMove[]
+}
+
+model GameMove {
+  id             String   @id @default(uuid())
+  gameId         String
+  ply            Int
+  fen            String
+  san            String?
+  uci            String?
+  eval_before    Float?
+  eval_after     Float?
+  delta          Float?
+  classification String?
+  createdAt      DateTime @default(now())
+  game           Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
+  @@index([gameId, ply])
+  @@map("game_moves")
+}
+
+model Opening {
+  eco       String            @id
+  name      String
+  fenRoot   String
+  dataJson  String            // Store the opening tree/stats dynamically
+  progress  OpeningProgress[]
+  repertoire UserRepertoire[]
+}
+
+model OpeningProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  eco       String
+  progress  Float    // Score/percentage
+  history   String?  // JSON string of training history
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  opening   Opening  @relation(fields: [eco], references: [eco])
+
+  @@unique([userId, eco])
+}
+
+model UserRepertoire {
+  id        String   @id @default(uuid())
+  userId    String
+  eco       String
+  side      String   // 'white' or 'black'
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  opening   Opening  @relation(fields: [eco], references: [eco])
+
+  @@unique([userId, eco])
+}

@@ -1,0 +1,20 @@
+{
+    "name": "worker",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node-dev src/index.ts"
+    },
+    "dependencies": {
+        "@chess-platform/shared": "workspace:*",
+        "bullmq": "^5.8.0"
+    },
+    "devDependencies": {
+        "@chess-platform/tsconfig": "workspace:*",
+        "ioredis-mock": "^8.13.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.4.5"
+    }
+}

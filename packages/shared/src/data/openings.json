@@ -1,0 +1,932 @@
+[
+    {
+        "group": "Aperturas de Peón de Rey (1.e4 e5)",
+        "items": [
+            {
+                "name": "Apertura Española (Ruy Lopez)",
+                "tag": "Ruy_Lopez",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "g1f3",
+                    "b8c6",
+                    "f1b5",
+                    "a7a6",
+                    "b5a4",
+                    "g8f6",
+                    "e1g1",
+                    "f8e7",
+                    "f1e1",
+                    "b7b5",
+                    "a4b3",
+                    "d7d6",
+                    "c2c3",
+                    "e1g1",
+                    "h2h3"
+                ],
+                "steps": [
+                    {
+                        "comment": "El blanco toma el centro.",
+                        "marks": [
+                            "e2e4-green"
+                        ]
+                    },
+                    {
+                        "comment": "El negro responde simétricamente."
+                    },
+                    {
+                        "comment": "Desarrollo y ataque a e5.",
+                        "marks": [
+                            "f3e5-yellow"
+                        ]
+                    },
+                    {
+                        "comment": "Desarrollo típico defendiendo e5."
+                    },
+                    {
+                        "comment": "Define la Española: presiona el caballo defensor.",
+                        "marks": [
+                            "b5c6-green"
+                        ]
+                    },
+                    {
+                        "comment": "Defensa Morphy: pregunta intenciones al alfil."
+                    },
+                    {
+                        "comment": "El alfil se retira manteniendo la presión."
+                    },
+                    {
+                        "comment": "Contrataque sobre el peón de e4."
+                    },
+                    {
+                        "comment": "El blanco pone a su rey a salvo.",
+                        "marks": [
+                            "g1g8-blue"
+                        ]
+                    },
+                    {
+                        "comment": "Desarrollo sólido preparando el enroque."
+                    },
+                    {
+                        "comment": "Defensa indirecta de e4."
+                    },
+                    {
+                        "comment": "Expulsa al alfil de la clavada molesta."
+                    },
+                    {
+                        "comment": "El alfil se mantiene en la gran diagonal."
+                    },
+                    {
+                        "comment": "Consolidación central negra."
+                    },
+                    {
+                        "comment": "Prepara el gran centro con d4.",
+                        "marks": [
+                            "c3d4-green"
+                        ]
+                    },
+                    {
+                        "comment": "Las negras también se enrocan."
+                    },
+                    {
+                        "comment": "Evita clavadas con Ag4 antes de avanzar d4.",
+                        "marks": [
+                            "h3g4-blue"
+                        ]
+                    }
+                ],
+                "variants": [
+                    {
+                        "name": "Variante del Cambio",
+                        "moves": [
+                            "e2e4",
+                            "e7e5",
+                            "g1f3",
+                            "b8c6",
+                            "f1b5",
+                            "a7a6",
+                            "b5c6",
+                            "d7c6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "1.e4 peón de rey.",
+                                "marks": [
+                                    "e2e4-green"
+                                ]
+                            },
+                            {
+                                "comment": "Respuesta simétrica.",
+                                "marks": [
+                                    "e7e5-green"
+                                ]
+                            },
+                            {
+                                "comment": "Ataque a e5.",
+                                "marks": [
+                                    "f3e5-yellow"
+                                ]
+                            },
+                            {
+                                "comment": "Defensa de e5.",
+                                "marks": [
+                                    "c6e5-blue"
+                                ]
+                            },
+                            {
+                                "comment": "Presión sobre el caballo.",
+                                "marks": [
+                                    "b5c6-green"
+                                ]
+                            },
+                            {
+                                "comment": "Defensa Morphy.",
+                                "marks": [
+                                    "a6b5-yellow"
+                                ]
+                            },
+                            {
+                                "comment": "¡Cambio! Blanco da el alfil por el caballo para doblar peones.",
+                                "marks": [
+                                    "b5c6-red"
+                                ]
+                            },
+                            {
+                                "comment": "Negro retoma abriendo diagonales para sus alfiles."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Defensa Berlín",
+                        "moves": [
+                            "e2e4",
+                            "e7e5",
+                            "g1f3",
+                            "b8c6",
+                            "f1b5",
+                            "g8f6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "1.e4."
+                            },
+                            {
+                                "comment": "1...e5."
+                            },
+                            {
+                                "comment": "2.Nf3.",
+                                "marks": [
+                                    "f3e5-yellow"
+                                ]
+                            },
+                            {
+                                "comment": "2...Nc6."
+                            },
+                            {
+                                "comment": "3.Bb5 Española.",
+                                "marks": [
+                                    "b5c6-green"
+                                ]
+                            },
+                            {
+                                "comment": "Contrataque inmediato sobre e4. El 'muro de Berlín'.",
+                                "marks": [
+                                    "f6e4-green"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Apertura Italiana",
+                "tag": "Italian_Game",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "g1f3",
+                    "b8c6",
+                    "f1c4",
+                    "f8c5",
+                    "c2c3",
+                    "g8f6",
+                    "d2d4",
+                    "e5d4",
+                    "c3d4",
+                    "c5b4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Control central."
+                    },
+                    {
+                        "comment": "Respuesta clásica."
+                    },
+                    {
+                        "comment": "Desarrollo y ataque."
+                    },
+                    {
+                        "comment": "Defensa natural."
+                    },
+                    {
+                        "comment": "Apunta al punto débil f7.",
+                        "marks": [
+                            "c4f7-red"
+                        ]
+                    },
+                    {
+                        "comment": "Giuoco Piano: desarrollo activo.",
+                        "marks": [
+                            "c5f2-red"
+                        ]
+                    },
+                    {
+                        "comment": "Preparando d4.",
+                        "marks": [
+                            "c3d4-green"
+                        ]
+                    },
+                    {
+                        "comment": "Contrataque sobre e4."
+                    },
+                    {
+                        "comment": "¡Choque central!",
+                        "marks": [
+                            "d4e5-green"
+                        ]
+                    },
+                    {
+                        "comment": "Intercambio en d4."
+                    },
+                    {
+                        "comment": "El blanco domina el centro.",
+                        "marks": [
+                            "cxd4-green"
+                        ]
+                    },
+                    {
+                        "comment": "Jaque para frenar la iniciativa blanca.",
+                        "marks": [
+                            "b4d2-yellow"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Apertura Escocesa",
+                "tag": "Scotch_Game",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "g1f3",
+                    "b8c6",
+                    "d2d4",
+                    "e5d4",
+                    "f3d4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Peón de rey.",
+                        "marks": [
+                            "e2e4-green"
+                        ]
+                    },
+                    {
+                        "comment": "E5 estándar."
+                    },
+                    {
+                        "comment": "Ataque a e5."
+                    },
+                    {
+                        "comment": "Defensa de e5.",
+                        "marks": [
+                            "c6e5-blue"
+                        ]
+                    },
+                    {
+                        "comment": "Ataque central inmediato.",
+                        "marks": [
+                            "d2d4-green"
+                        ]
+                    },
+                    {
+                        "comment": "Intercambio forzado para las negras.",
+                        "marks": [
+                            "d4e5-yellow"
+                        ]
+                    },
+                    {
+                        "comment": "El blanco recupera con centralización.",
+                        "marks": [
+                            "d4e5-blue"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Gambito de Rey",
+                "tag": "Kings_Gambit",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "f2f4",
+                    "e5f4",
+                    "g1f3"
+                ],
+                "steps": [
+                    {
+                        "comment": "Inicio clásico."
+                    },
+                    {
+                        "comment": "Respuesta central."
+                    },
+                    {
+                        "comment": "¡Gambito! Desvía el peón de e5 para dominar el centro.",
+                        "marks": [
+                            "f2f4-red"
+                        ]
+                    },
+                    {
+                        "comment": "El negro acepta el reto.",
+                        "marks": [
+                            "f4e5-green"
+                        ]
+                    },
+                    {
+                        "comment": "Evita el jaque de dama en h4 y desarrolla.",
+                        "marks": [
+                            "f3h4-yellow"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "Defensas contra 1.e4",
+        "items": [
+            {
+                "name": "Defensa Siciliana",
+                "tag": "Sicilian_Defense",
+                "moves": [
+                    "e2e4",
+                    "c7c5"
+                ],
+                "steps": [
+                    {
+                        "comment": "Control asimétrico del centro. La defensa más popular contra e4."
+                    }
+                ],
+                "variants": [
+                    {
+                        "name": "Variante Najdorf",
+                        "moves": [
+                            "e2e4",
+                            "c7c5",
+                            "g1f3",
+                            "d7d6",
+                            "d2d4",
+                            "c5d4",
+                            "f3d4",
+                            "g8f6",
+                            "b1c3",
+                            "a7a6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "La 'Cadillac' de las aperturas. Muy técnica y agresiva."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Najdorf: Prepara e5 o b5 y evita saltos de pieza a b5."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Variante del Dragón",
+                        "moves": [
+                            "e2e4",
+                            "c7c5",
+                            "g1f3",
+                            "d7d6",
+                            "d2d4",
+                            "c5d4",
+                            "f3d4",
+                            "g8f6",
+                            "b1c3",
+                            "g7g6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Dragón: Fianchetto del alfil de rey. Una línea extremadamente aguda."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Variante Scheveningen",
+                        "moves": [
+                            "e2e4",
+                            "c7c5",
+                            "g1f3",
+                            "d7d6",
+                            "d2d4",
+                            "c5d4",
+                            "f3d4",
+                            "g8f6",
+                            "b1c3",
+                            "e7e6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Scheveningen: Estructura sólida con d6-e6, el 'pequeño centro'."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Defensa Francesa",
+                "tag": "French_Defense",
+                "moves": [
+                    "e2e4",
+                    "e7e6",
+                    "d2d4",
+                    "d7d5"
+                ],
+                "steps": [
+                    {
+                        "comment": "Defensa sólida que busca contraatacar en el centro más tarde."
+                    }
+                ],
+                "variants": [
+                    {
+                        "name": "Variante del Avance",
+                        "moves": [
+                            "e2e4",
+                            "e7e6",
+                            "d2d4",
+                            "d7d5",
+                            "e4e5"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Blanco cierra el centro y gana espacio."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Variante Tarrasch",
+                        "moves": [
+                            "e2e4",
+                            "e7e6",
+                            "d2d4",
+                            "d7d5",
+                            "b1d2"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Tarrasch: Evita la clavada en b4 y mantiene flexibilidad."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Defensa Caro-Kann",
+                "tag": "Caro_Kann",
+                "moves": [
+                    "e2e4",
+                    "c7c6",
+                    "d2d4",
+                    "d7d5"
+                ],
+                "steps": [
+                    {
+                        "comment": "La 'Defensa de Hierro'. Muy sólida y difícil de quebrar."
+                    }
+                ],
+                "variants": [
+                    {
+                        "name": "Variante del Avance",
+                        "moves": [
+                            "e2e4",
+                            "c7c6",
+                            "d2d4",
+                            "d7d5",
+                            "e4e5",
+                            "c8f5"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Caro-Kann Avance: El negro saca su alfil antes de cerrar la cadena."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "Aperturas de Peón de Dama (1.d4)",
+        "items": [
+            {
+                "name": "Gambito de Dama",
+                "tag": "Queens_Gambit",
+                "moves": [
+                    "d2d4",
+                    "d7d5",
+                    "c2c4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Control central luchando por la iniciativa."
+                    }
+                ],
+                "variants": [
+                    {
+                        "name": "Gambito de Dama Declinado",
+                        "moves": [
+                            "d2d4",
+                            "d7d5",
+                            "c2c4",
+                            "e7e6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Clásico y ultra sólido."
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Defensa Eslava",
+                        "moves": [
+                            "d2d4",
+                            "d7d5",
+                            "c2c4",
+                            "c7c6"
+                        ],
+                        "steps": [
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "..."
+                            },
+                            {
+                                "comment": "Eslava: Refuerza d5 sin bloquear al alfil."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Defensa India de Rey",
+                "tag": "Kings_Indian",
+                "moves": [
+                    "d2d4",
+                    "g8f6",
+                    "c2c4",
+                    "g7g6",
+                    "b1c3",
+                    "f8g7",
+                    "e2e4",
+                    "d7d6"
+                ],
+                "steps": [
+                    {
+                        "comment": "Defensa hipermoderna. El negro invita al blanco al centro para luego atacarlo."
+                    }
+                ]
+            },
+            {
+                "name": "Defensa Nimzo-India",
+                "tag": "Nimzo_Indian",
+                "moves": [
+                    "d2d4",
+                    "g8f6",
+                    "c2c4",
+                    "e7e6",
+                    "b1c3",
+                    "f8b4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Clava el caballo de c3 para controlar la casilla e4."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "Sistemas de Flanco y Otros",
+        "items": [
+            {
+                "name": "Apertura Inglesa",
+                "tag": "English_Opening",
+                "moves": [
+                    "c2c4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Control central desde el flanco. Muy flexible."
+                    }
+                ]
+            },
+            {
+                "name": "Apertura Reti",
+                "tag": "Reti_Opening",
+                "moves": [
+                    "g1f3"
+                ],
+                "steps": [
+                    {
+                        "comment": "Desarrollo flexible evitando comprometer peones centrales pronto."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "group": "Mates, Trampas y Trucos",
+        "items": [
+            {
+                "name": "Mate del Pastor",
+                "tag": "Scholars_Mate",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "d1h5",
+                    "b8c6",
+                    "f1c4",
+                    "g8f6",
+                    "h5f7"
+                ],
+                "steps": [
+                    {
+                        "comment": "E4 estándar."
+                    },
+                    {
+                        "comment": "E5 estándar."
+                    },
+                    {
+                        "comment": "Ataque prematuro de dama. Apunta a f7.",
+                        "marks": [
+                            "h5f7-red"
+                        ]
+                    },
+                    {
+                        "comment": "Defensa de e5.",
+                        "marks": [
+                            "c6e5-blue"
+                        ]
+                    },
+                    {
+                        "comment": "Desarrollo coordinado sobre el punto f7.",
+                        "marks": [
+                            "c4f7-red"
+                        ]
+                    },
+                    {
+                        "comment": "¡Error fatal! El negro ignora el mate.",
+                        "marks": [
+                            "f6h5-red"
+                        ]
+                    },
+                    {
+                        "comment": "¡Jaque Mate! Nunca olvides proteger el punto f7.",
+                        "marks": [
+                            "f7f7-green"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Trampa de Noah's Ark",
+                "tag": "Noahs_Ark_Trap",
+                "moves": [
+                    "e2e4",
+                    "e7e5",
+                    "g1f3",
+                    "b8c6",
+                    "f1b5",
+                    "a7a6",
+                    "b5a4",
+                    "d7d6",
+                    "d2d4",
+                    "b7b5",
+                    "a4b3",
+                    "c6d4",
+                    "f3d4",
+                    "e5d4",
+                    "d1d4",
+                    "c7c5",
+                    "d1d5",
+                    "c8e6",
+                    "d5c6",
+                    "e6d7",
+                    "c6d5",
+                    "c5c4"
+                ],
+                "steps": [
+                    {
+                        "comment": "Entrando en la Española."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "Steinitz diferida."
+                    },
+                    {
+                        "comment": "Ruptura central."
+                    },
+                    {
+                        "comment": "Expulsa al alfil."
+                    },
+                    {
+                        "comment": "Retirada obligada."
+                    },
+                    {
+                        "comment": "Cambio de caballos."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "Peón de ventaja central... aparentemente."
+                    },
+                    {
+                        "comment": "¡La trampa! Ataca la dama y prepara la encerrona.",
+                        "marks": [
+                            "c7d4-yellow"
+                        ]
+                    },
+                    {
+                        "comment": "La dama ataca r8."
+                    },
+                    {
+                        "comment": "Defensa."
+                    },
+                    {
+                        "comment": "Dama bajo presión."
+                    },
+                    {
+                        "comment": "Alfil y dama atacados."
+                    },
+                    {
+                        "comment": "..."
+                    },
+                    {
+                        "comment": "¡Atrapado! El peón c4 encierra al alfil de b3.",
+                        "marks": [
+                            "c4b3-green"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
