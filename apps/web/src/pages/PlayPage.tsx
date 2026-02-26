@@ -356,19 +356,19 @@ const PlayPage: React.FC = () => {
                 {/* Status Bar - Enriched with Expert Tools */}
                 <div className="flex items-center justify-between px-2">
                     <div className="flex items-center gap-3">
-                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-widest ${isEngineReady
-                            ? 'bg-[var(--primary-bright)]/10 border-[var(--primary-bright)]/20 text-[var(--primary-bright)]'
-                            : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-widest transition-colors ${!isEngineReady
+                            ? 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                            : (showLiveAnalysis || engineActive)
+                                ? 'bg-[var(--primary-bright)]/10 border-[var(--primary-bright)]/20 text-[var(--primary-bright)]'
+                                : 'bg-white/5 border-white/5 text-white/30'
                             }`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${isEngineReady ? 'bg-[var(--primary-bright)]' : 'bg-amber-400 animate-pulse'}`} />
-                            <span>{isEngineReady ? 'Motor IA Listo' : 'Cargando Motor...'}</span>
-                        </div>
-
-                        {/* Debug: show current engine evaluation */}
-                        <div className="ml-3 px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[11px] text-white/80">
-                            <div style={{ fontSize: '10px', opacity: 0.8 }}>Eval: {evaluation.score !== null ? evaluation.score.toFixed(2) : 'null'}</div>
-                            <div style={{ fontSize: '10px', opacity: 0.8 }}>Best: {evaluation.bestMove || '-'}</div>
-                            <div style={{ fontSize: '10px', opacity: 0.6 }}>MPV: {evaluation.multipv?.map(m => m.move).filter(Boolean).slice(0, 3).join(', ') || '-'}</div>
+                            <div className={`w-1.5 h-1.5 rounded-full ${!isEngineReady
+                                ? 'bg-amber-400 animate-pulse'
+                                : (showLiveAnalysis || engineActive)
+                                    ? 'bg-[var(--primary-bright)] shadow-[0_0_8px_var(--primary-glow)] animate-pulse'
+                                    : 'bg-white/20'
+                                }`} />
+                            <span>{!isEngineReady ? 'Cargando Motor...' : (showLiveAnalysis || engineActive ? 'Motor IA Activo' : 'IA Inactiva')}</span>
                         </div>
 
                         {/* Coach AI Insight */}
