@@ -118,10 +118,10 @@ export function useGameLogic() {
             setStatus(nextTurn === playerColor ? 'TU TURNO' : 'IA PENSANDO...');
         }
 
-        return { newFen, moveUci, moveNumber: hist.length };
-    }, [playerColor]);
+        return { newFen, moveUci, moveNumber: hist.length, san };
+    }, [playerColor, uciHistory]);
 
-    const handlePlayerMove = useCallback((move: { from: string; to: string; promotion?: string }): { newFen: string; moveUci: string; moveNumber: number } | null => {
+    const handlePlayerMove = useCallback((move: { from: string; to: string; promotion?: string }): { newFen: string; moveUci: string; moveNumber: number; san: string } | null => {
         if (surrendered || isGameOver || cpuThinkingRef.current) return null;
 
         const uci = `${move.from}${move.to}${move.promotion || ''}`;
@@ -145,7 +145,7 @@ export function useGameLogic() {
         engineManager.stop();
     }, []);
 
-    const triggerCpuMove = useCallback(async (): Promise<{ newFen: string; moveUci: string; moveNumber: number } | null> => {
+    const triggerCpuMove = useCallback(async (): Promise<{ newFen: string; moveUci: string; moveNumber: number; san: string } | null> => {
         if (isGameOver || surrendered || !isEngineReady || turn === playerColor || cpuThinkingRef.current) {
             return null;
         }

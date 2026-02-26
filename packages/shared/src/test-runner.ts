@@ -1,6 +1,7 @@
 import { parseEngineInfo } from './engine-utils';
+import { EngineEvaluation } from './domain-types';
 
-function assert(condition, message) {
+function assert(condition: any, message: string) {
     if (!condition) {
         throw new Error('Assertion failed: ' + message);
     }
@@ -26,7 +27,7 @@ assert(res3.isMate === true, 'Should detect mate');
 assert(res3.mateMoves === 5, 'Mate in 5');
 
 // Test 4: Accumulation
-let evalu = { score: null, isMate: false, mateMoves: null, bestMove: null, multipv: [] };
+let evalu: EngineEvaluation = { score: null, isMate: false, mateMoves: null, bestMove: null, multipv: [] };
 evalu = parseEngineInfo('info multipv 1 score cp 10 pv e2e4', 'w', evalu);
 evalu = parseEngineInfo('info multipv 2 score cp -50 pv d2d4', 'w', evalu);
 assert(evalu.multipv.length === 2, 'Should have 2 moves in multipv');

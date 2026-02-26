@@ -237,6 +237,12 @@ const PlayPage: React.FC = () => {
         const res = handlePlayerMove(move);
         if (res && gameId) {
             api.put(`/games/${gameId}`, { fen: res.newFen }).catch(() => { });
+            api.post(`/games/${gameId}/moves`, {
+                moveNumber: res.moveNumber,
+                fen: res.newFen,
+                san: res.san,
+                uci: res.moveUci
+            }).catch(() => { });
         }
     };
 
@@ -252,6 +258,12 @@ const PlayPage: React.FC = () => {
             if (res && gameId) {
                 console.log('[PlayPage] CPU move processed, updating backend:', res.newFen);
                 api.put(`/games/${gameId}`, { fen: res.newFen }).catch(() => { });
+                api.post(`/games/${gameId}/moves`, {
+                    moveNumber: res.moveNumber,
+                    fen: res.newFen,
+                    san: res.san,
+                    uci: res.moveUci
+                }).catch(() => { });
             } else {
                 console.log('[PlayPage] CPU move failed or gameId missing:', { res, gameId });
             }

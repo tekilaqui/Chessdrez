@@ -15,7 +15,7 @@ export function checkHangingPiece(fenBefore: string, fenAfter: string): Heuristi
         for (let f = 0; f < row.length; f++) {
             const piece = row[f];
             if (piece && piece.color === sideJustMoved && piece.type !== 'k') {
-                const square = `${files[f]}${rank}`;
+                const square = `${files[f]}${rank}` as Square;
 
                 if (isHanging(chess, square)) {
                     return {

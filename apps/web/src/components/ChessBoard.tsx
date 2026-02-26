@@ -136,11 +136,9 @@ const ChessBoard: React.FC<ChessBoardProps> = React.memo(({
     }, []);
 
     // Arrows memoized
-    const v5Arrows = useMemo(() => customArrows.map(([startSquare, endSquare, color]) => ({
-        startSquare: startSquare as string,
-        endSquare: endSquare as string,
-        color: color ?? 'rgba(0,128,0,0.7)',
-    })), [customArrows]);
+    const mappedArrows = useMemo(() => customArrows.map(([startSquare, endSquare, color]) => (
+        [startSquare, endSquare, color ?? 'rgba(0,128,0,0.7)']
+    )) as any, [customArrows]);
 
     return (
         <div ref={containerRef} className="w-full h-full flex items-center justify-center p-2 animate-in fade-in duration-700 overflow-hidden select-none">
@@ -150,21 +148,19 @@ const ChessBoard: React.FC<ChessBoardProps> = React.memo(({
             >
                 <div className="absolute inset-0 pointer-events-none z-10 border border-white/10 rounded-[8px]" />
                 <Chessboard
-                    options={{
-                        position: fen,
-                        boardOrientation: orientation,
-                        allowDragging: draggable,
-                        animationDurationInMs: 200,
-                        darkSquareStyle: { backgroundColor: settings.boardTheme.dark },
-                        lightSquareStyle: { backgroundColor: settings.boardTheme.light },
-                        squareStyles: {
-                            ...customSquareStyles,
-                            ...optionSquares,
-                        },
-                        arrows: v5Arrows,
-                        onSquareClick: (args: any) => handleSquareClick({ square: args.square, piece: args.piece }),
-                        onPieceDrop: (args: any) => handlePieceDrop({ sourceSquare: args.sourceSquare, targetSquare: args.targetSquare })
+                    position={fen}
+                    boardOrientation={orientation}
+                    arePiecesDraggable={draggable}
+                    animationDuration={200}
+                    customDarkSquareStyle={{ backgroundColor: settings.boardTheme.dark }}
+                    customLightSquareStyle={{ backgroundColor: settings.boardTheme.light }}
+                    customSquareStyles={{
+                        ...customSquareStyles,
+                        ...optionSquares,
                     }}
+                    customArrows={mappedArrows}
+                    onSquareClick={(square: string) => handleSquareClick({ square, piece: null })}
+                    onPieceDrop={(sourceSquare: string, targetSquare: string) => handlePieceDrop({ sourceSquare, targetSquare })}
                 />
             </div>
         </div>
